@@ -1,0 +1,468 @@
+naftiko: "1.0.0-alpha1"
+
+info:
+  label: "Toro Horizon360"
+  description: "Business management API for landscape contractors including customer management, job scheduling, crew management, invoicing, equipment tracking, and payment processing."
+  tags:
+    - Landscaping
+    - Business Management
+    - Scheduling
+    - Invoicing
+    - Equipment
+  created: "2026-05-03"
+  modified: "2026-05-03"
+
+binds:
+  - namespace: env
+    keys:
+      HORIZON360_API_KEY: HORIZON360_API_KEY
+
+capability:
+  consumes:
+    - type: http
+      namespace: horizon360
+      baseUri: https://api.horizon360.toro.com/v1
+      description: "Toro Horizon360 business management API for landscape contractors"
+      authentication:
+        type: bearer
+        token: "{{HORIZON360_API_KEY}}"
+      resources:
+        - name: customers
+          path: /customers
+          description: "Customer account management"
+          operations:
+            - name: list-customers
+              method: GET
+              description: "List all customers for the account"
+              inputParameters:
+                - name: page
+                  in: query
+                  type: integer
+                  required: false
+                  description: "Page number"
+                - name: limit
+                  in: query
+                  type: integer
+                  required: false
+                  description: "Records per page"
+                - name: search
+                  in: query
+                  type: string
+                  required: false
+                  description: "Search by name, email, or phone"
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+            - name: create-customer
+              method: POST
+              description: "Create a new customer record"
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+              body:
+                type: json
+                data:
+                  name: "{{tools.name}}"
+                  email: "{{tools.email}}"
+                  phone: "{{tools.phone}}"
+        - name: customer
+          path: /customers/{customerId}
+          description: "Individual customer operations"
+          operations:
+            - name: get-customer
+              method: GET
+              description: "Retrieve a specific customer by ID"
+              inputParameters:
+                - name: customerId
+                  in: path
+                  type: string
+                  required: true
+                  description: "Customer identifier"
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+        - name: jobs
+          path: /jobs
+          description: "Landscaping job and work order management"
+          operations:
+            - name: list-jobs
+              method: GET
+              description: "List jobs and work orders"
+              inputParameters:
+                - name: status
+                  in: query
+                  type: string
+                  required: false
+                  description: "Filter by job status"
+                - name: customerId
+                  in: query
+                  type: string
+                  required: false
+                  description: "Filter by customer"
+                - name: startDate
+                  in: query
+                  type: string
+                  required: false
+                  description: "Filter from date"
+                - name: endDate
+                  in: query
+                  type: string
+                  required: false
+                  description: "Filter to date"
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+            - name: create-job
+              method: POST
+              description: "Create a new landscaping job"
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+              body:
+                type: json
+                data:
+                  customerId: "{{tools.customerId}}"
+                  title: "{{tools.title}}"
+                  jobType: "{{tools.jobType}}"
+                  scheduledDate: "{{tools.scheduledDate}}"
+        - name: job
+          path: /jobs/{jobId}
+          description: "Individual job operations"
+          operations:
+            - name: get-job
+              method: GET
+              description: "Retrieve a specific job by ID"
+              inputParameters:
+                - name: jobId
+                  in: path
+                  type: string
+                  required: true
+                  description: "Job identifier"
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+        - name: schedules
+          path: /schedules
+          description: "Job and crew scheduling"
+          operations:
+            - name: list-schedules
+              method: GET
+              description: "List scheduled jobs for a date range"
+              inputParameters:
+                - name: startDate
+                  in: query
+                  type: string
+                  required: true
+                  description: "Start date"
+                - name: endDate
+                  in: query
+                  type: string
+                  required: true
+                  description: "End date"
+                - name: crewId
+                  in: query
+                  type: string
+                  required: false
+                  description: "Filter by crew"
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+            - name: create-schedule-entry
+              method: POST
+              description: "Schedule a job for a crew"
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+              body:
+                type: json
+                data:
+                  jobId: "{{tools.jobId}}"
+                  crewId: "{{tools.crewId}}"
+                  scheduledDate: "{{tools.scheduledDate}}"
+        - name: crews
+          path: /crews
+          description: "Crew management"
+          operations:
+            - name: list-crews
+              method: GET
+              description: "List all crews and members"
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+        - name: invoices
+          path: /invoices
+          description: "Invoice management"
+          operations:
+            - name: list-invoices
+              method: GET
+              description: "List invoices"
+              inputParameters:
+                - name: status
+                  in: query
+                  type: string
+                  required: false
+                  description: "Filter by invoice status"
+                - name: customerId
+                  in: query
+                  type: string
+                  required: false
+                  description: "Filter by customer"
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+            - name: create-invoice
+              method: POST
+              description: "Create a new invoice"
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+              body:
+                type: json
+                data:
+                  customerId: "{{tools.customerId}}"
+                  jobId: "{{tools.jobId}}"
+                  dueDate: "{{tools.dueDate}}"
+        - name: equipment
+          path: /equipment
+          description: "Equipment fleet management"
+          operations:
+            - name: list-equipment
+              method: GET
+              description: "List fleet equipment"
+              inputParameters:
+                - name: status
+                  in: query
+                  type: string
+                  required: false
+                  description: "Filter by equipment status"
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+        - name: payments
+          path: /payments
+          description: "Payment processing"
+          operations:
+            - name: list-payments
+              method: GET
+              description: "List payment transactions"
+              inputParameters:
+                - name: status
+                  in: query
+                  type: string
+                  required: false
+                  description: "Filter by payment status"
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+            - name: process-payment
+              method: POST
+              description: "Process a customer payment"
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+              body:
+                type: json
+                data:
+                  invoiceId: "{{tools.invoiceId}}"
+                  amount: "{{tools.amount}}"
+                  paymentMethod: "{{tools.paymentMethod}}"
+
+  exposes:
+    - type: rest
+      port: 8100
+      namespace: horizon360-api
+      resources:
+        - path: /v1/customers
+          name: customers
+          description: "Customer management"
+          operations:
+            - method: GET
+              name: list-customers
+              description: "List all customers"
+              call: "horizon360.list-customers"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+            - method: POST
+              name: create-customer
+              description: "Create customer"
+              call: "horizon360.create-customer"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/customers/{customerId}
+          name: customer
+          description: "Individual customer"
+          operations:
+            - method: GET
+              name: get-customer
+              description: "Get customer by ID"
+              call: "horizon360.get-customer"
+              with:
+                customerId: "rest.customerId"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/jobs
+          name: jobs
+          description: "Job management"
+          operations:
+            - method: GET
+              name: list-jobs
+              description: "List jobs"
+              call: "horizon360.list-jobs"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+            - method: POST
+              name: create-job
+              description: "Create job"
+              call: "horizon360.create-job"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/schedules
+          name: schedules
+          description: "Schedule management"
+          operations:
+            - method: GET
+              name: list-schedules
+              description: "List schedules"
+              call: "horizon360.list-schedules"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/invoices
+          name: invoices
+          description: "Invoice management"
+          operations:
+            - method: GET
+              name: list-invoices
+              description: "List invoices"
+              call: "horizon360.list-invoices"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+    - type: mcp
+      port: 9100
+      namespace: horizon360-mcp
+      transport: http
+      tools:
+        - name: list-customers
+          description: "List all landscape customers"
+          hints:
+            readOnly: true
+            openWorld: true
+          call: "horizon360.list-customers"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: create-customer
+          description: "Create a new customer record"
+          hints:
+            readOnly: false
+          call: "horizon360.create-customer"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: get-customer
+          description: "Get a specific customer by ID"
+          hints:
+            readOnly: true
+            idempotent: true
+          call: "horizon360.get-customer"
+          with:
+            customerId: "tools.customerId"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: list-jobs
+          description: "List landscaping jobs and work orders"
+          hints:
+            readOnly: true
+            openWorld: true
+          call: "horizon360.list-jobs"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: create-job
+          description: "Create a new landscaping job"
+          hints:
+            readOnly: false
+          call: "horizon360.create-job"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: list-schedules
+          description: "List crew and job schedules"
+          hints:
+            readOnly: true
+            openWorld: true
+          call: "horizon360.list-schedules"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: list-invoices
+          description: "List customer invoices"
+          hints:
+            readOnly: true
+            openWorld: true
+          call: "horizon360.list-invoices"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: create-invoice
+          description: "Create a new customer invoice"
+          hints:
+            readOnly: false
+          call: "horizon360.create-invoice"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: list-equipment
+          description: "List landscaping equipment fleet"
+          hints:
+            readOnly: true
+            openWorld: true
+          call: "horizon360.list-equipment"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: process-payment
+          description: "Process a customer payment"
+          hints:
+            readOnly: false
+            destructive: false
+          call: "horizon360.process-payment"
+          outputParameters:
+            - type: object
+              mapping: "$."

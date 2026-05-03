@@ -1,0 +1,563 @@
+openapi: 3.0.3
+info:
+  title: Toro IntelliDash
+  description: >-
+    Toro IntelliDash is an irrigation and fleet management platform for golf courses
+    and sports facilities. The API provides access to real-time irrigation control,
+    equipment fleet tracking, agronomic data, and operational monitoring for
+    golf course superintendents and sports turf managers.
+  version: 1.0.0
+  contact:
+    name: Toro Company
+    url: https://www.toro.com/en/product/IntelliDash
+servers:
+  - url: https://api.intellidash.toro.com/v1
+    description: IntelliDash Production API
+tags:
+  - name: Irrigation
+    description: Control and monitor irrigation systems
+  - name: Equipment
+    description: Fleet equipment tracking and health monitoring
+  - name: Sensors
+    description: Environmental and soil sensor data
+  - name: Reports
+    description: Agronomic and operational reports
+  - name: Zones
+    description: Irrigation zone management
+paths:
+  /irrigation/status:
+    get:
+      operationId: getIrrigationStatus
+      summary: Get Irrigation Status
+      description: Returns the current status of all irrigation systems and controllers.
+      tags:
+        - Irrigation
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IrrigationStatus'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /irrigation/zones:
+    get:
+      operationId: listIrrigationZones
+      summary: List Irrigation Zones
+      description: Returns all defined irrigation zones and their current configuration.
+      tags:
+        - Zones
+        - Irrigation
+      parameters:
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum: [active, inactive, watering]
+          description: Filter zones by status
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ZoneList'
+  /irrigation/zones/{zoneId}:
+    get:
+      operationId: getIrrigationZone
+      summary: Get Irrigation Zone
+      description: Returns details for a specific irrigation zone.
+      tags:
+        - Zones
+        - Irrigation
+      parameters:
+        - name: zoneId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Zone'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /irrigation/zones/{zoneId}/start:
+    post:
+      operationId: startIrrigation
+      summary: Start Irrigation
+      description: Manually start irrigation for a specific zone.
+      tags:
+        - Irrigation
+        - Zones
+      parameters:
+        - name: zoneId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                duration:
+                  type: integer
+                  description: Duration in minutes
+                  minimum: 1
+                  maximum: 120
+      responses:
+        '200':
+          description: Irrigation started
+  /irrigation/zones/{zoneId}/stop:
+    post:
+      operationId: stopIrrigation
+      summary: Stop Irrigation
+      description: Stop active irrigation for a specific zone.
+      tags:
+        - Irrigation
+        - Zones
+      parameters:
+        - name: zoneId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Irrigation stopped
+  /equipment:
+    get:
+      operationId: listFleetEquipment
+      summary: List Fleet Equipment
+      description: Returns all equipment in the golf course fleet with health and location data.
+      tags:
+        - Equipment
+      parameters:
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum: [active, maintenance, offline]
+        - name: type
+          in: query
+          schema:
+            type: string
+          description: Filter by equipment type (mower, utility, irrigation, etc.)
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FleetEquipmentList'
+  /equipment/{equipmentId}:
+    get:
+      operationId: getFleetEquipment
+      summary: Get Fleet Equipment
+      description: Returns detailed information and health data for a specific piece of equipment.
+      tags:
+        - Equipment
+      parameters:
+        - name: equipmentId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FleetEquipment'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /equipment/{equipmentId}/location:
+    get:
+      operationId: getEquipmentLocation
+      summary: Get Equipment Location
+      description: Returns the current GPS location of a specific piece of equipment.
+      tags:
+        - Equipment
+      parameters:
+        - name: equipmentId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EquipmentLocation'
+  /sensors:
+    get:
+      operationId: listSensors
+      summary: List Sensors
+      description: Returns all environmental and soil sensors and their latest readings.
+      tags:
+        - Sensors
+      parameters:
+        - name: type
+          in: query
+          schema:
+            type: string
+            enum: [soil_moisture, weather, temperature, light]
+          description: Filter by sensor type
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SensorList'
+  /sensors/{sensorId}/readings:
+    get:
+      operationId: getSensorReadings
+      summary: Get Sensor Readings
+      description: Returns historical readings for a specific sensor.
+      tags:
+        - Sensors
+      parameters:
+        - name: sensorId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: startDate
+          in: query
+          required: true
+          schema:
+            type: string
+            format: date-time
+        - name: endDate
+          in: query
+          required: true
+          schema:
+            type: string
+            format: date-time
+        - name: interval
+          in: query
+          schema:
+            type: string
+            enum: [15min, 1hour, 1day]
+            default: 1hour
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SensorReadingList'
+  /reports/water-usage:
+    get:
+      operationId: getWaterUsageReport
+      summary: Get Water Usage Report
+      description: Returns a water usage summary report for a given date range.
+      tags:
+        - Reports
+      parameters:
+        - name: startDate
+          in: query
+          required: true
+          schema:
+            type: string
+            format: date
+        - name: endDate
+          in: query
+          required: true
+          schema:
+            type: string
+            format: date
+        - name: groupBy
+          in: query
+          schema:
+            type: string
+            enum: [day, week, month, zone]
+            default: day
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WaterUsageReport'
+  /reports/equipment-health:
+    get:
+      operationId: getEquipmentHealthReport
+      summary: Get Equipment Health Report
+      description: Returns a fleet equipment health summary and maintenance status report.
+      tags:
+        - Reports
+      parameters:
+        - name: asOf
+          in: query
+          schema:
+            type: string
+            format: date
+          description: Report date (defaults to today)
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EquipmentHealthReport'
+components:
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+  responses:
+    Unauthorized:
+      description: Authentication required
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  schemas:
+    Error:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+    IrrigationStatus:
+      type: object
+      properties:
+        systemStatus:
+          type: string
+          enum: [normal, watering, suspended, fault]
+        activeZones:
+          type: integer
+        totalZones:
+          type: integer
+        weatherHold:
+          type: boolean
+        lastUpdated:
+          type: string
+          format: date-time
+    Zone:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        status:
+          type: string
+          enum: [active, inactive, watering]
+        wateringDurationMinutes:
+          type: integer
+        lastWateredAt:
+          type: string
+          format: date-time
+        nextScheduledAt:
+          type: string
+          format: date-time
+        soilMoisture:
+          type: number
+          description: Soil moisture percentage
+        flowRateGpm:
+          type: number
+          description: Flow rate in gallons per minute
+    ZoneList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Zone'
+        total:
+          type: integer
+    FleetEquipment:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        type:
+          type: string
+        model:
+          type: string
+        serialNumber:
+          type: string
+        status:
+          type: string
+          enum: [active, maintenance, offline]
+        engineHours:
+          type: number
+        lastServiceHours:
+          type: number
+        nextServiceHours:
+          type: number
+        batteryLevel:
+          type: integer
+          description: Battery percentage for electric equipment
+        fuelLevel:
+          type: integer
+          description: Fuel percentage
+        location:
+          $ref: '#/components/schemas/GeoLocation'
+        alerts:
+          type: array
+          items:
+            $ref: '#/components/schemas/Alert'
+    FleetEquipmentList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/FleetEquipment'
+        total:
+          type: integer
+    EquipmentLocation:
+      type: object
+      properties:
+        equipmentId:
+          type: string
+        location:
+          $ref: '#/components/schemas/GeoLocation'
+        speed:
+          type: number
+          description: Current speed in mph
+        heading:
+          type: integer
+          description: Heading in degrees
+        timestamp:
+          type: string
+          format: date-time
+    GeoLocation:
+      type: object
+      properties:
+        latitude:
+          type: number
+          format: double
+        longitude:
+          type: number
+          format: double
+        altitude:
+          type: number
+    Alert:
+      type: object
+      properties:
+        type:
+          type: string
+        severity:
+          type: string
+          enum: [info, warning, critical]
+        message:
+          type: string
+        timestamp:
+          type: string
+          format: date-time
+    Sensor:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        type:
+          type: string
+          enum: [soil_moisture, weather, temperature, light]
+        location:
+          $ref: '#/components/schemas/GeoLocation'
+        status:
+          type: string
+          enum: [active, offline, fault]
+        lastReading:
+          $ref: '#/components/schemas/SensorReading'
+    SensorList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Sensor'
+    SensorReading:
+      type: object
+      properties:
+        timestamp:
+          type: string
+          format: date-time
+        value:
+          type: number
+        unit:
+          type: string
+    SensorReadingList:
+      type: object
+      properties:
+        sensorId:
+          type: string
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/SensorReading'
+    WaterUsageReport:
+      type: object
+      properties:
+        startDate:
+          type: string
+          format: date
+        endDate:
+          type: string
+          format: date
+        totalGallons:
+          type: number
+        periods:
+          type: array
+          items:
+            type: object
+            properties:
+              period:
+                type: string
+              gallons:
+                type: number
+    EquipmentHealthReport:
+      type: object
+      properties:
+        asOf:
+          type: string
+          format: date
+        totalEquipment:
+          type: integer
+        activeEquipment:
+          type: integer
+        equipmentInMaintenance:
+          type: integer
+        alerts:
+          type: array
+          items:
+            type: object
+            properties:
+              equipmentId:
+                type: string
+              equipmentName:
+                type: string
+              alertType:
+                type: string
+              severity:
+                type: string
+security:
+  - apiKeyAuth: []

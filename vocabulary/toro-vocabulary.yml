@@ -1,0 +1,171 @@
+vocabulary:
+  name: Toro
+  description: >-
+    Vocabulary for The Toro Company's landscape management, irrigation, and
+    golf course operations APIs including Horizon360 and IntelliDash platforms.
+  version: 1.0.0
+  created: '2026-05-03'
+  modified: '2026-05-03'
+
+terms:
+  - term: Horizon360
+    definition: >-
+      All-in-one business management software for landscape contractors enabling
+      crew scheduling, job tracking, invoicing, and payment processing.
+    domain: Business Management
+    tags:
+      - Software Platform
+      - Landscaping
+
+  - term: IntelliDash
+    definition: >-
+      Irrigation and fleet management platform for golf courses that integrates
+      data from Lynx Central Control, myTurf Pro, and environmental sensors.
+    domain: Golf Course Management
+    tags:
+      - Software Platform
+      - Irrigation
+      - Golf
+
+  - term: Lynx Central Control
+    definition: >-
+      Toro's irrigation control system that provides centralized management of
+      irrigation programs for golf courses with remote access capabilities.
+    domain: Irrigation
+    tags:
+      - Irrigation
+      - Control Systems
+
+  - term: myTurf Pro
+    definition: >-
+      Equipment management solution providing fleet tracking, maintenance
+      scheduling, work orders, and parts management for golf and sports turf.
+    domain: Equipment Management
+    tags:
+      - Fleet Management
+      - Equipment
+      - Maintenance
+
+  - term: IntelliDash Alliance
+    definition: >-
+      Partnership ecosystem integrated with IntelliDash including taskTracker,
+      ezLocator, Playbooks, Perry Weather, Soil Scout, Pogo, and GCSAA.
+    domain: Ecosystem
+    tags:
+      - Integration
+      - Partnership
+
+  - term: Irrigation Zone
+    definition: >-
+      A defined section of turf or landscape that is watered by a dedicated
+      irrigation circuit, independently controllable via IntelliDash.
+    domain: Irrigation
+    tags:
+      - Irrigation
+
+  - term: Turf Guard
+    definition: >-
+      Wireless soil sensors that measure soil moisture, temperature, and
+      salinity to optimize irrigation scheduling and turf health management.
+    domain: Sensors
+    tags:
+      - Sensors
+      - Agronomics
+
+  - term: Superintendent
+    definition: >-
+      Golf course superintendent: the professional responsible for maintaining
+      the quality and health of golf course turf, including irrigation management.
+    domain: Personnel
+    tags:
+      - Golf
+      - Personnel
+
+  - term: Work Order
+    definition: >-
+      A specific task or set of tasks assigned to a crew for completion,
+      tracked within Horizon360 from creation through completion and billing.
+    domain: Business Operations
+    tags:
+      - Job Management
+
+  - term: Fleet
+    definition: >-
+      The collection of equipment owned and operated by a landscape contractor
+      or golf course, tracked and managed through myTurf Pro or IntelliDash.
+    domain: Equipment
+    tags:
+      - Equipment
+      - Fleet Management
+
+  - term: Engine Hours
+    definition: >-
+      The total operating hours accumulated by a piece of equipment, used to
+      determine maintenance intervals and equipment lifecycle planning.
+    domain: Equipment
+    tags:
+      - Equipment
+      - Maintenance
+
+  - term: Flow Rate
+    definition: >-
+      The volume of water delivered through an irrigation zone per unit of time,
+      measured in gallons per minute (GPM).
+    domain: Irrigation
+    tags:
+      - Irrigation
+      - Water Management
+
+  - term: Soil Moisture
+    definition: >-
+      The amount of water present in the soil, expressed as a percentage of
+      field capacity, used to determine irrigation need and scheduling.
+    domain: Agronomics
+    tags:
+      - Agronomics
+      - Sensors
+
+  - term: Weather Hold
+    definition: >-
+      A system state that suspends automatic irrigation programs due to detected
+      or forecast rainfall, preventing overwatering.
+    domain: Irrigation
+    tags:
+      - Irrigation
+      - Weather
+
+  - term: Agronomics
+    definition: >-
+      The science of soil management and crop production applied to golf course
+      and landscape turf management to optimize plant health and appearance.
+    domain: Science
+    tags:
+      - Golf
+      - Turf Management
+
+categories:
+  - name: Business Management
+    description: Operations for managing landscape contractor business processes
+    terms:
+      - Horizon360
+      - Work Order
+  - name: Irrigation Management
+    description: Concepts related to turf and landscape irrigation systems
+    terms:
+      - IntelliDash
+      - Lynx Central Control
+      - Irrigation Zone
+      - Flow Rate
+      - Weather Hold
+  - name: Equipment Management
+    description: Fleet and equipment tracking and maintenance
+    terms:
+      - myTurf Pro
+      - Fleet
+      - Engine Hours
+  - name: Agronomic Science
+    description: Scientific concepts for turf health management
+    terms:
+      - Turf Guard
+      - Soil Moisture
+      - Agronomics

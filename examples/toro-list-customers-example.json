@@ -1,0 +1,52 @@
+{
+  "request": {
+    "method": "GET",
+    "url": "https://api.horizon360.toro.com/v1/customers?page=1&limit=25",
+    "headers": {
+      "Authorization": "Bearer {token}",
+      "Accept": "application/json"
+    }
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "data": [
+        {
+          "id": "cust_abc123",
+          "name": "Green Valley Golf Club",
+          "email": "maintenance@greenvalleygolf.com",
+          "phone": "555-234-5678",
+          "address": {
+            "street": "1200 Fairway Drive",
+            "city": "Scottsdale",
+            "state": "AZ",
+            "zip": "85258",
+            "country": "US"
+          },
+          "notes": "Premium account - annual contract",
+          "createdAt": "2025-03-15T09:00:00Z",
+          "updatedAt": "2026-01-10T14:30:00Z"
+        },
+        {
+          "id": "cust_def456",
+          "name": "Riverside Estates HOA",
+          "email": "manager@riversideestates.com",
+          "phone": "555-345-6789",
+          "address": {
+            "street": "500 Riverside Blvd",
+            "city": "Phoenix",
+            "state": "AZ",
+            "zip": "85001",
+            "country": "US"
+          },
+          "notes": "Monthly maintenance contract",
+          "createdAt": "2025-06-01T11:00:00Z",
+          "updatedAt": "2026-02-15T09:15:00Z"
+        }
+      ],
+      "total": 47,
+      "page": 1,
+      "limit": 25
+    }
+  }
+}

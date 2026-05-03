@@ -1,0 +1,271 @@
+naftiko: "1.0.0-alpha1"
+
+info:
+  label: "Toro Landscape Operations"
+  description: "Unified workflow capability for landscape contractors combining Horizon360 business management with IntelliDash irrigation and fleet monitoring. Enables end-to-end operations from customer management and job scheduling through crew dispatch, equipment tracking, and invoicing."
+  tags:
+    - Landscaping
+    - Business Management
+    - Operations
+    - Scheduling
+    - Invoicing
+  created: "2026-05-03"
+  modified: "2026-05-03"
+
+binds:
+  - namespace: env
+    keys:
+      HORIZON360_API_KEY: HORIZON360_API_KEY
+      INTELLIDASH_API_KEY: INTELLIDASH_API_KEY
+
+capability:
+  consumes:
+    - import: horizon360
+      location: ./shared/horizon360.yaml
+    - import: intellidash
+      location: ./shared/intellidash.yaml
+
+  exposes:
+    - type: rest
+      port: 8080
+      namespace: toro-landscape-api
+      description: "Unified REST API for landscape business operations management."
+      resources:
+        - path: /v1/customers
+          name: customers
+          description: "Customer account management"
+          operations:
+            - method: GET
+              name: list-customers
+              description: "List all customers"
+              call: "horizon360.list-customers"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+            - method: POST
+              name: create-customer
+              description: "Create a new customer"
+              call: "horizon360.create-customer"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/customers/{customerId}
+          name: customer
+          description: "Individual customer management"
+          operations:
+            - method: GET
+              name: get-customer
+              description: "Get a customer by ID"
+              call: "horizon360.get-customer"
+              with:
+                customerId: "rest.customerId"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/jobs
+          name: jobs
+          description: "Landscaping job management"
+          operations:
+            - method: GET
+              name: list-jobs
+              description: "List landscaping jobs"
+              call: "horizon360.list-jobs"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+            - method: POST
+              name: create-job
+              description: "Create a new landscaping job"
+              call: "horizon360.create-job"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/schedules
+          name: schedules
+          description: "Crew and job scheduling"
+          operations:
+            - method: GET
+              name: list-schedules
+              description: "List job schedules"
+              call: "horizon360.list-schedules"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+            - method: POST
+              name: create-schedule-entry
+              description: "Schedule a job for a crew"
+              call: "horizon360.create-schedule-entry"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/crews
+          name: crews
+          description: "Crew management"
+          operations:
+            - method: GET
+              name: list-crews
+              description: "List all crews"
+              call: "horizon360.list-crews"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/invoices
+          name: invoices
+          description: "Invoice management"
+          operations:
+            - method: GET
+              name: list-invoices
+              description: "List invoices"
+              call: "horizon360.list-invoices"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+            - method: POST
+              name: create-invoice
+              description: "Create a new invoice"
+              call: "horizon360.create-invoice"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/equipment
+          name: equipment
+          description: "Equipment fleet tracking"
+          operations:
+            - method: GET
+              name: list-equipment
+              description: "List landscaping equipment"
+              call: "horizon360.list-equipment"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/payments
+          name: payments
+          description: "Payment processing"
+          operations:
+            - method: GET
+              name: list-payments
+              description: "List payments"
+              call: "horizon360.list-payments"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+            - method: POST
+              name: process-payment
+              description: "Process a payment"
+              call: "horizon360.process-payment"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+    - type: mcp
+      port: 9090
+      namespace: toro-landscape-mcp
+      transport: http
+      description: "MCP server for AI-assisted landscape business operations management."
+      tools:
+        - name: list-customers
+          description: "List all landscape contractor customers"
+          hints:
+            readOnly: true
+            openWorld: true
+          call: "horizon360.list-customers"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: create-customer
+          description: "Create a new customer record for a landscape contractor"
+          hints:
+            readOnly: false
+          call: "horizon360.create-customer"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: get-customer
+          description: "Get details for a specific customer"
+          hints:
+            readOnly: true
+            idempotent: true
+          call: "horizon360.get-customer"
+          with:
+            customerId: "tools.customerId"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: list-jobs
+          description: "List landscaping jobs and work orders with optional status and date filters"
+          hints:
+            readOnly: true
+            openWorld: true
+          call: "horizon360.list-jobs"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: create-job
+          description: "Create a new landscaping job for a customer"
+          hints:
+            readOnly: false
+          call: "horizon360.create-job"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: list-schedules
+          description: "List crew and job schedules for a date range"
+          hints:
+            readOnly: true
+            openWorld: true
+          call: "horizon360.list-schedules"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: schedule-job
+          description: "Assign a job to a crew on a specific date"
+          hints:
+            readOnly: false
+          call: "horizon360.create-schedule-entry"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: list-crews
+          description: "List all crews and their members"
+          hints:
+            readOnly: true
+            openWorld: true
+          call: "horizon360.list-crews"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: list-invoices
+          description: "List customer invoices with optional status filter"
+          hints:
+            readOnly: true
+            openWorld: true
+          call: "horizon360.list-invoices"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: create-invoice
+          description: "Create a new invoice for a customer or completed job"
+          hints:
+            readOnly: false
+          call: "horizon360.create-invoice"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: list-equipment
+          description: "List all landscaping equipment in the fleet"
+          hints:
+            readOnly: true
+            openWorld: true
+          call: "horizon360.list-equipment"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: process-payment
+          description: "Process a customer payment for an invoice"
+          hints:
+            readOnly: false
+            destructive: false
+          call: "horizon360.process-payment"
+          outputParameters:
+            - type: object
+              mapping: "$."

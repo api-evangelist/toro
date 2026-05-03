@@ -1,0 +1,1032 @@
+openapi: 3.0.3
+info:
+  title: Toro Horizon360
+  description: >-
+    Toro Horizon360 is an all-in-one business management software for landscape
+    contractors. The API provides endpoints for managing crews, schedules, jobs,
+    customers, invoices, equipment, and payments for landscaping businesses.
+  version: 1.0.0
+  contact:
+    name: Toro Company
+    url: https://horizon360.toro.com/
+  x-logo:
+    url: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+servers:
+  - url: https://api.horizon360.toro.com/v1
+    description: Horizon360 Production API
+tags:
+  - name: Customers
+    description: Manage customer accounts and contacts
+  - name: Jobs
+    description: Create and track landscaping jobs and work orders
+  - name: Schedules
+    description: Manage crew and job scheduling
+  - name: Crews
+    description: Manage crew members and assignments
+  - name: Invoices
+    description: Generate and manage customer invoices
+  - name: Equipment
+    description: Track and manage landscaping equipment
+  - name: Payments
+    description: Process and manage customer payments
+paths:
+  /customers:
+    get:
+      operationId: listCustomers
+      summary: List Customers
+      description: Returns a paginated list of all customers for the account.
+      tags:
+        - Customers
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 1
+          description: Page number for pagination
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 25
+            maximum: 100
+          description: Number of records per page
+        - name: search
+          in: query
+          schema:
+            type: string
+          description: Search customers by name, email, or phone
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomerList'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      operationId: createCustomer
+      summary: Create Customer
+      description: Create a new customer record.
+      tags:
+        - Customers
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomerInput'
+      responses:
+        '201':
+          description: Customer created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /customers/{customerId}:
+    get:
+      operationId: getCustomer
+      summary: Get Customer
+      description: Retrieve a specific customer by ID.
+      tags:
+        - Customers
+      parameters:
+        - name: customerId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Unique customer identifier
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    put:
+      operationId: updateCustomer
+      summary: Update Customer
+      description: Update an existing customer record.
+      tags:
+        - Customers
+      parameters:
+        - name: customerId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomerInput'
+      responses:
+        '200':
+          description: Customer updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    delete:
+      operationId: deleteCustomer
+      summary: Delete Customer
+      description: Delete a customer record.
+      tags:
+        - Customers
+      parameters:
+        - name: customerId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Customer deleted
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /jobs:
+    get:
+      operationId: listJobs
+      summary: List Jobs
+      description: Returns a paginated list of jobs and work orders.
+      tags:
+        - Jobs
+      parameters:
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum: [pending, scheduled, in_progress, completed, invoiced]
+          description: Filter by job status
+        - name: customerId
+          in: query
+          schema:
+            type: string
+          description: Filter by customer ID
+        - name: startDate
+          in: query
+          schema:
+            type: string
+            format: date
+          description: Filter jobs on or after this date
+        - name: endDate
+          in: query
+          schema:
+            type: string
+            format: date
+          description: Filter jobs on or before this date
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 1
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 25
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JobList'
+    post:
+      operationId: createJob
+      summary: Create Job
+      description: Create a new landscaping job or work order.
+      tags:
+        - Jobs
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/JobInput'
+      responses:
+        '201':
+          description: Job created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Job'
+  /jobs/{jobId}:
+    get:
+      operationId: getJob
+      summary: Get Job
+      description: Retrieve a specific job by ID.
+      tags:
+        - Jobs
+      parameters:
+        - name: jobId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Job'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    put:
+      operationId: updateJob
+      summary: Update Job
+      description: Update an existing job record.
+      tags:
+        - Jobs
+      parameters:
+        - name: jobId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/JobInput'
+      responses:
+        '200':
+          description: Job updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Job'
+  /schedules:
+    get:
+      operationId: listSchedules
+      summary: List Schedules
+      description: Returns scheduled jobs and crew assignments for a date range.
+      tags:
+        - Schedules
+      parameters:
+        - name: startDate
+          in: query
+          required: true
+          schema:
+            type: string
+            format: date
+          description: Start of the date range
+        - name: endDate
+          in: query
+          required: true
+          schema:
+            type: string
+            format: date
+          description: End of the date range
+        - name: crewId
+          in: query
+          schema:
+            type: string
+          description: Filter by crew ID
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ScheduleList'
+    post:
+      operationId: createScheduleEntry
+      summary: Create Schedule Entry
+      description: Schedule a job for a specific crew and date.
+      tags:
+        - Schedules
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ScheduleInput'
+      responses:
+        '201':
+          description: Schedule entry created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Schedule'
+  /crews:
+    get:
+      operationId: listCrews
+      summary: List Crews
+      description: Returns a list of all crews and their members.
+      tags:
+        - Crews
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CrewList'
+    post:
+      operationId: createCrew
+      summary: Create Crew
+      description: Create a new crew.
+      tags:
+        - Crews
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CrewInput'
+      responses:
+        '201':
+          description: Crew created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Crew'
+  /invoices:
+    get:
+      operationId: listInvoices
+      summary: List Invoices
+      description: Returns a paginated list of invoices.
+      tags:
+        - Invoices
+      parameters:
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum: [draft, sent, paid, overdue, void]
+        - name: customerId
+          in: query
+          schema:
+            type: string
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 1
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 25
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InvoiceList'
+    post:
+      operationId: createInvoice
+      summary: Create Invoice
+      description: Create a new invoice for a customer or job.
+      tags:
+        - Invoices
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InvoiceInput'
+      responses:
+        '201':
+          description: Invoice created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Invoice'
+  /invoices/{invoiceId}:
+    get:
+      operationId: getInvoice
+      summary: Get Invoice
+      description: Retrieve a specific invoice by ID.
+      tags:
+        - Invoices
+      parameters:
+        - name: invoiceId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Invoice'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /invoices/{invoiceId}/send:
+    post:
+      operationId: sendInvoice
+      summary: Send Invoice
+      description: Send an invoice to the customer via email.
+      tags:
+        - Invoices
+      parameters:
+        - name: invoiceId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Invoice sent successfully
+  /equipment:
+    get:
+      operationId: listEquipment
+      summary: List Equipment
+      description: Returns a paginated list of equipment in the fleet.
+      tags:
+        - Equipment
+      parameters:
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum: [active, maintenance, retired]
+        - name: type
+          in: query
+          schema:
+            type: string
+          description: Filter by equipment type
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 1
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 25
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EquipmentList'
+    post:
+      operationId: addEquipment
+      summary: Add Equipment
+      description: Add a new piece of equipment to the fleet.
+      tags:
+        - Equipment
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EquipmentInput'
+      responses:
+        '201':
+          description: Equipment added
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Equipment'
+  /equipment/{equipmentId}:
+    get:
+      operationId: getEquipment
+      summary: Get Equipment
+      description: Retrieve details for a specific piece of equipment.
+      tags:
+        - Equipment
+      parameters:
+        - name: equipmentId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Equipment'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /payments:
+    get:
+      operationId: listPayments
+      summary: List Payments
+      description: Returns a list of payment transactions.
+      tags:
+        - Payments
+      parameters:
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum: [pending, completed, failed, refunded]
+        - name: customerId
+          in: query
+          schema:
+            type: string
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 1
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 25
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaymentList'
+    post:
+      operationId: processPayment
+      summary: Process Payment
+      description: Process a customer payment for an invoice.
+      tags:
+        - Payments
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PaymentInput'
+      responses:
+        '201':
+          description: Payment processed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Payment'
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  responses:
+    Unauthorized:
+      description: Authentication required
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    BadRequest:
+      description: Invalid request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  schemas:
+    Error:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+    Customer:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        email:
+          type: string
+          format: email
+        phone:
+          type: string
+        address:
+          $ref: '#/components/schemas/Address'
+        notes:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+    CustomerInput:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+          format: email
+        phone:
+          type: string
+        address:
+          $ref: '#/components/schemas/Address'
+        notes:
+          type: string
+    CustomerList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Customer'
+        total:
+          type: integer
+        page:
+          type: integer
+        limit:
+          type: integer
+    Address:
+      type: object
+      properties:
+        street:
+          type: string
+        city:
+          type: string
+        state:
+          type: string
+        zip:
+          type: string
+        country:
+          type: string
+    Job:
+      type: object
+      properties:
+        id:
+          type: string
+        customerId:
+          type: string
+        title:
+          type: string
+        description:
+          type: string
+        status:
+          type: string
+          enum: [pending, scheduled, in_progress, completed, invoiced]
+        jobType:
+          type: string
+        serviceAddress:
+          $ref: '#/components/schemas/Address'
+        estimatedHours:
+          type: number
+        actualHours:
+          type: number
+        scheduledDate:
+          type: string
+          format: date
+        completedDate:
+          type: string
+          format: date
+        crewId:
+          type: string
+        notes:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+    JobInput:
+      type: object
+      required:
+        - customerId
+        - title
+        - jobType
+      properties:
+        customerId:
+          type: string
+        title:
+          type: string
+        description:
+          type: string
+        jobType:
+          type: string
+        serviceAddress:
+          $ref: '#/components/schemas/Address'
+        estimatedHours:
+          type: number
+        scheduledDate:
+          type: string
+          format: date
+        crewId:
+          type: string
+        notes:
+          type: string
+    JobList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Job'
+        total:
+          type: integer
+        page:
+          type: integer
+        limit:
+          type: integer
+    Schedule:
+      type: object
+      properties:
+        id:
+          type: string
+        jobId:
+          type: string
+        crewId:
+          type: string
+        scheduledDate:
+          type: string
+          format: date
+        startTime:
+          type: string
+          format: time
+        endTime:
+          type: string
+          format: time
+        status:
+          type: string
+    ScheduleInput:
+      type: object
+      required:
+        - jobId
+        - crewId
+        - scheduledDate
+      properties:
+        jobId:
+          type: string
+        crewId:
+          type: string
+        scheduledDate:
+          type: string
+          format: date
+        startTime:
+          type: string
+          format: time
+        endTime:
+          type: string
+          format: time
+    ScheduleList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Schedule'
+    Crew:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        members:
+          type: array
+          items:
+            $ref: '#/components/schemas/CrewMember'
+        status:
+          type: string
+          enum: [active, inactive]
+    CrewInput:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+        memberIds:
+          type: array
+          items:
+            type: string
+    CrewMember:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        role:
+          type: string
+    CrewList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Crew'
+    Invoice:
+      type: object
+      properties:
+        id:
+          type: string
+        invoiceNumber:
+          type: string
+        customerId:
+          type: string
+        jobId:
+          type: string
+        status:
+          type: string
+          enum: [draft, sent, paid, overdue, void]
+        lineItems:
+          type: array
+          items:
+            $ref: '#/components/schemas/LineItem'
+        subtotal:
+          type: number
+          format: float
+        tax:
+          type: number
+          format: float
+        total:
+          type: number
+          format: float
+        dueDate:
+          type: string
+          format: date
+        createdAt:
+          type: string
+          format: date-time
+    InvoiceInput:
+      type: object
+      required:
+        - customerId
+      properties:
+        customerId:
+          type: string
+        jobId:
+          type: string
+        lineItems:
+          type: array
+          items:
+            $ref: '#/components/schemas/LineItem'
+        dueDate:
+          type: string
+          format: date
+        notes:
+          type: string
+    InvoiceList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Invoice'
+        total:
+          type: integer
+        page:
+          type: integer
+        limit:
+          type: integer
+    LineItem:
+      type: object
+      properties:
+        description:
+          type: string
+        quantity:
+          type: number
+        unitPrice:
+          type: number
+          format: float
+        total:
+          type: number
+          format: float
+    Equipment:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        type:
+          type: string
+        brand:
+          type: string
+        model:
+          type: string
+        serialNumber:
+          type: string
+        status:
+          type: string
+          enum: [active, maintenance, retired]
+        purchaseDate:
+          type: string
+          format: date
+        lastServiceDate:
+          type: string
+          format: date
+        nextServiceDate:
+          type: string
+          format: date
+        hoursUsed:
+          type: number
+    EquipmentInput:
+      type: object
+      required:
+        - name
+        - type
+      properties:
+        name:
+          type: string
+        type:
+          type: string
+        brand:
+          type: string
+        model:
+          type: string
+        serialNumber:
+          type: string
+        purchaseDate:
+          type: string
+          format: date
+    EquipmentList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Equipment'
+        total:
+          type: integer
+        page:
+          type: integer
+        limit:
+          type: integer
+    Payment:
+      type: object
+      properties:
+        id:
+          type: string
+        invoiceId:
+          type: string
+        customerId:
+          type: string
+        amount:
+          type: number
+          format: float
+        currency:
+          type: string
+          default: USD
+        status:
+          type: string
+          enum: [pending, completed, failed, refunded]
+        paymentMethod:
+          type: string
+          enum: [credit_card, ach, check, cash]
+        transactionId:
+          type: string
+        processedAt:
+          type: string
+          format: date-time
+    PaymentInput:
+      type: object
+      required:
+        - invoiceId
+        - amount
+        - paymentMethod
+      properties:
+        invoiceId:
+          type: string
+        amount:
+          type: number
+          format: float
+        paymentMethod:
+          type: string
+          enum: [credit_card, ach, check, cash]
+        paymentToken:
+          type: string
+    PaymentList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Payment'
+        total:
+          type: integer
+        page:
+          type: integer
+        limit:
+          type: integer
+security:
+  - bearerAuth: []

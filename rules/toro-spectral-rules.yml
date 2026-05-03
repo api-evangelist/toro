@@ -1,0 +1,93 @@
+rules:
+  toro-operation-id-camel-case:
+    description: Operation IDs must use camelCase
+    severity: warn
+    given: "$.paths[*][*].operationId"
+    then:
+      function: pattern
+      functionOptions:
+        match: "^[a-z][a-zA-Z0-9]*$"
+
+  toro-operation-summary-title-case:
+    description: Operation summaries must use Title Case
+    severity: warn
+    given: "$.paths[*][*].summary"
+    then:
+      function: pattern
+      functionOptions:
+        match: "^[A-Z][a-zA-Z0-9 ]*$"
+
+  toro-paths-kebab-case:
+    description: API paths must use kebab-case for path segments
+    severity: warn
+    given: "$.paths[*]~"
+    then:
+      function: pattern
+      functionOptions:
+        match: "^(/[a-z0-9-]+|/\\{[a-zA-Z0-9]+\\})*$"
+
+  toro-must-have-tags:
+    description: All operations must have at least one tag
+    severity: error
+    given: "$.paths[*][get,post,put,patch,delete]"
+    then:
+      field: tags
+      function: truthy
+
+  toro-responses-must-have-description:
+    description: All responses must have a description
+    severity: error
+    given: "$.paths[*][*].responses[*]"
+    then:
+      field: description
+      function: truthy
+
+  toro-must-have-200-or-201:
+    description: All operations must define a success response (200 or 201)
+    severity: error
+    given: "$.paths[*][get,post,put,patch,delete].responses"
+    then:
+      function: schema
+      functionOptions:
+        schema:
+          anyOf:
+            - required: ["200"]
+            - required: ["201"]
+
+  toro-parameters-must-have-description:
+    description: All parameters must have descriptions
+    severity: warn
+    given: "$.paths[*][*].parameters[*]"
+    then:
+      field: description
+      function: truthy
+
+  toro-request-body-content-type:
+    description: Request bodies should use application/json content type
+    severity: warn
+    given: "$.paths[*][post,put,patch].requestBody.content"
+    then:
+      function: schema
+      functionOptions:
+        schema:
+          required: ["application/json"]
+
+  toro-error-response-schema:
+    description: Error responses (4xx, 5xx) should reference a schema
+    severity: warn
+    given: "$.paths[*][*].responses[4xx,5xx]"
+    then:
+      function: schema
+      functionOptions:
+        schema:
+          properties:
+            content:
+              type: object
+
+  toro-list-operations-must-support-pagination:
+    description: List operations should support pagination parameters
+    severity: warn
+    given: "$.paths[*][get][?(@.operationId =~ /^list/)]"
+    then:
+      field: parameters
+      function: truthy
