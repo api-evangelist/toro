@@ -1,303 +1,552 @@
-naftiko: "1.0.0-alpha1"
-
+naftiko: 1.0.0-alpha2
 info:
-  label: "Toro Golf Course Management"
-  description: "Workflow capability for golf course superintendents combining IntelliDash irrigation control with fleet equipment monitoring. Enables real-time irrigation management, equipment health tracking, environmental sensor monitoring, and agronomic reporting to optimize course conditions."
+  label: Toro Golf Course Management
+  description: Workflow capability for golf course superintendents combining IntelliDash irrigation control with fleet equipment
+    monitoring. Enables real-time irrigation management, equipment health tracking, environmental sensor monitoring, and agronomic
+    reporting to optimize course conditions.
   tags:
-    - Golf
-    - Irrigation
-    - Fleet Management
-    - Turf Management
-    - Agronomics
-  created: "2026-05-03"
-  modified: "2026-05-03"
-
+  - Golf
+  - Irrigation
+  - Fleet Management
+  - Turf Management
+  - Agronomics
+  created: '2026-05-03'
+  modified: '2026-05-06'
 binds:
-  - namespace: env
-    keys:
-      INTELLIDASH_API_KEY: INTELLIDASH_API_KEY
-
+- namespace: env
+  keys:
+    INTELLIDASH_API_KEY: INTELLIDASH_API_KEY
 capability:
   consumes:
-    - import: intellidash
-      location: ./shared/intellidash.yaml
-
+  - type: http
+    namespace: intellidash
+    baseUri: https://api.intellidash.toro.com/v1
+    description: Toro IntelliDash irrigation and fleet management API
+    authentication:
+      type: apikey
+      key: X-API-Key
+      value: '{{INTELLIDASH_API_KEY}}'
+      placement: header
+    resources:
+    - name: irrigation-status
+      path: /irrigation/status
+      description: Irrigation system status
+      operations:
+      - name: get-irrigation-status
+        method: GET
+        description: Get current status of all irrigation systems
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: irrigation-zones
+      path: /irrigation/zones
+      description: Irrigation zone management
+      operations:
+      - name: list-irrigation-zones
+        method: GET
+        description: List all irrigation zones
+        inputParameters:
+        - name: status
+          in: query
+          type: string
+          required: false
+          description: Filter by zone status
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: irrigation-zone
+      path: /irrigation/zones/{zoneId}
+      description: Individual zone operations
+      operations:
+      - name: get-irrigation-zone
+        method: GET
+        description: Get a specific irrigation zone
+        inputParameters:
+        - name: zoneId
+          in: path
+          type: string
+          required: true
+          description: Zone identifier
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: start-zone-irrigation
+      path: /irrigation/zones/{zoneId}/start
+      description: Start irrigation for a zone
+      operations:
+      - name: start-irrigation
+        method: POST
+        description: Start manual irrigation for a zone
+        inputParameters:
+        - name: zoneId
+          in: path
+          type: string
+          required: true
+          description: Zone identifier
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        body:
+          type: json
+          data:
+            duration: '{{tools.duration}}'
+    - name: stop-zone-irrigation
+      path: /irrigation/zones/{zoneId}/stop
+      description: Stop irrigation for a zone
+      operations:
+      - name: stop-irrigation
+        method: POST
+        description: Stop active irrigation for a zone
+        inputParameters:
+        - name: zoneId
+          in: path
+          type: string
+          required: true
+          description: Zone identifier
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: equipment
+      path: /equipment
+      description: Fleet equipment tracking
+      operations:
+      - name: list-fleet-equipment
+        method: GET
+        description: List all fleet equipment with health data
+        inputParameters:
+        - name: status
+          in: query
+          type: string
+          required: false
+          description: Filter by equipment status
+        - name: type
+          in: query
+          type: string
+          required: false
+          description: Filter by equipment type
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: equipment-item
+      path: /equipment/{equipmentId}
+      description: Individual equipment details
+      operations:
+      - name: get-fleet-equipment
+        method: GET
+        description: Get equipment health and details
+        inputParameters:
+        - name: equipmentId
+          in: path
+          type: string
+          required: true
+          description: Equipment identifier
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: equipment-location
+      path: /equipment/{equipmentId}/location
+      description: Equipment GPS location
+      operations:
+      - name: get-equipment-location
+        method: GET
+        description: Get current GPS location of equipment
+        inputParameters:
+        - name: equipmentId
+          in: path
+          type: string
+          required: true
+          description: Equipment identifier
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: sensors
+      path: /sensors
+      description: Environmental and soil sensor monitoring
+      operations:
+      - name: list-sensors
+        method: GET
+        description: List all sensors and latest readings
+        inputParameters:
+        - name: type
+          in: query
+          type: string
+          required: false
+          description: Filter by sensor type
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: sensor-readings
+      path: /sensors/{sensorId}/readings
+      description: Historical sensor data
+      operations:
+      - name: get-sensor-readings
+        method: GET
+        description: Get historical sensor readings
+        inputParameters:
+        - name: sensorId
+          in: path
+          type: string
+          required: true
+          description: Sensor identifier
+        - name: startDate
+          in: query
+          type: string
+          required: true
+          description: Start of the time range
+        - name: endDate
+          in: query
+          type: string
+          required: true
+          description: End of the time range
+        - name: interval
+          in: query
+          type: string
+          required: false
+          description: Data interval (15min, 1hour, 1day)
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: water-usage-report
+      path: /reports/water-usage
+      description: Water usage reporting
+      operations:
+      - name: get-water-usage-report
+        method: GET
+        description: Get water usage summary report
+        inputParameters:
+        - name: startDate
+          in: query
+          type: string
+          required: true
+          description: Start date
+        - name: endDate
+          in: query
+          type: string
+          required: true
+          description: End date
+        - name: groupBy
+          in: query
+          type: string
+          required: false
+          description: Group results by day, week, month, or zone
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: equipment-health-report
+      path: /reports/equipment-health
+      description: Equipment health reporting
+      operations:
+      - name: get-equipment-health-report
+        method: GET
+        description: Get fleet equipment health summary
+        inputParameters:
+        - name: asOf
+          in: query
+          type: string
+          required: false
+          description: Report date
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
   exposes:
-    - type: rest
-      port: 8081
-      namespace: toro-golf-api
-      description: "Unified REST API for golf course irrigation and fleet management."
-      resources:
-        - path: /v1/irrigation/status
-          name: irrigation-status
-          description: "Real-time irrigation system status"
-          operations:
-            - method: GET
-              name: get-irrigation-status
-              description: "Get current irrigation system status"
-              call: "intellidash.get-irrigation-status"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-        - path: /v1/irrigation/zones
-          name: irrigation-zones
-          description: "Irrigation zone management"
-          operations:
-            - method: GET
-              name: list-irrigation-zones
-              description: "List all irrigation zones"
-              call: "intellidash.list-irrigation-zones"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-        - path: /v1/irrigation/zones/{zoneId}
-          name: irrigation-zone
-          description: "Individual irrigation zone"
-          operations:
-            - method: GET
-              name: get-irrigation-zone
-              description: "Get zone details"
-              call: "intellidash.get-irrigation-zone"
-              with:
-                zoneId: "rest.zoneId"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-        - path: /v1/irrigation/zones/{zoneId}/start
-          name: start-irrigation
-          description: "Start zone irrigation"
-          operations:
-            - method: POST
-              name: start-irrigation
-              description: "Start irrigation for a zone"
-              call: "intellidash.start-irrigation"
-              with:
-                zoneId: "rest.zoneId"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-        - path: /v1/irrigation/zones/{zoneId}/stop
-          name: stop-irrigation
-          description: "Stop zone irrigation"
-          operations:
-            - method: POST
-              name: stop-irrigation
-              description: "Stop active irrigation"
-              call: "intellidash.stop-irrigation"
-              with:
-                zoneId: "rest.zoneId"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-        - path: /v1/equipment
-          name: equipment
-          description: "Golf course fleet equipment"
-          operations:
-            - method: GET
-              name: list-fleet-equipment
-              description: "List fleet equipment with health data"
-              call: "intellidash.list-fleet-equipment"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-        - path: /v1/equipment/{equipmentId}
-          name: equipment-item
-          description: "Individual equipment details"
-          operations:
-            - method: GET
-              name: get-fleet-equipment
-              description: "Get equipment details and health"
-              call: "intellidash.get-fleet-equipment"
-              with:
-                equipmentId: "rest.equipmentId"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-        - path: /v1/equipment/{equipmentId}/location
-          name: equipment-location
-          description: "Equipment GPS location"
-          operations:
-            - method: GET
-              name: get-equipment-location
-              description: "Get equipment current location"
-              call: "intellidash.get-equipment-location"
-              with:
-                equipmentId: "rest.equipmentId"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-        - path: /v1/sensors
-          name: sensors
-          description: "Environmental and soil sensors"
-          operations:
-            - method: GET
-              name: list-sensors
-              description: "List all sensors with latest readings"
-              call: "intellidash.list-sensors"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-        - path: /v1/sensors/{sensorId}/readings
-          name: sensor-readings
-          description: "Historical sensor data"
-          operations:
-            - method: GET
-              name: get-sensor-readings
-              description: "Get sensor historical readings"
-              call: "intellidash.get-sensor-readings"
-              with:
-                sensorId: "rest.sensorId"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-        - path: /v1/reports/water-usage
-          name: water-usage-report
-          description: "Water usage reporting"
-          operations:
-            - method: GET
-              name: get-water-usage-report
-              description: "Get water usage report"
-              call: "intellidash.get-water-usage-report"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-        - path: /v1/reports/equipment-health
-          name: equipment-health-report
-          description: "Equipment health reporting"
-          operations:
-            - method: GET
-              name: get-equipment-health-report
-              description: "Get equipment health report"
-              call: "intellidash.get-equipment-health-report"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-
-    - type: mcp
-      port: 9091
-      namespace: toro-golf-mcp
-      transport: http
-      description: "MCP server for AI-assisted golf course irrigation and fleet management."
-      tools:
-        - name: get-irrigation-status
-          description: "Get the current status of the golf course irrigation system"
-          hints:
-            readOnly: true
-            idempotent: true
-          call: "intellidash.get-irrigation-status"
-          outputParameters:
-            - type: object
-              mapping: "$."
-        - name: list-irrigation-zones
-          description: "List all golf course irrigation zones and their current state"
-          hints:
-            readOnly: true
-            openWorld: true
-          call: "intellidash.list-irrigation-zones"
-          outputParameters:
-            - type: object
-              mapping: "$."
-        - name: get-irrigation-zone
-          description: "Get detailed information for a specific irrigation zone"
-          hints:
-            readOnly: true
-            idempotent: true
-          call: "intellidash.get-irrigation-zone"
-          with:
-            zoneId: "tools.zoneId"
-          outputParameters:
-            - type: object
-              mapping: "$."
-        - name: start-zone-irrigation
-          description: "Manually start irrigation for a specific zone with optional duration"
-          hints:
-            readOnly: false
-            destructive: false
-          call: "intellidash.start-irrigation"
-          with:
-            zoneId: "tools.zoneId"
-          outputParameters:
-            - type: object
-              mapping: "$."
-        - name: stop-zone-irrigation
-          description: "Stop active irrigation for a specific zone"
-          hints:
-            readOnly: false
-            destructive: false
-          call: "intellidash.stop-irrigation"
-          with:
-            zoneId: "tools.zoneId"
-          outputParameters:
-            - type: object
-              mapping: "$."
-        - name: list-fleet-equipment
-          description: "List all golf course fleet equipment with health and status data"
-          hints:
-            readOnly: true
-            openWorld: true
-          call: "intellidash.list-fleet-equipment"
-          outputParameters:
-            - type: object
-              mapping: "$."
-        - name: get-fleet-equipment
-          description: "Get detailed health information for a specific piece of equipment"
-          hints:
-            readOnly: true
-            idempotent: true
-          call: "intellidash.get-fleet-equipment"
-          with:
-            equipmentId: "tools.equipmentId"
-          outputParameters:
-            - type: object
-              mapping: "$."
-        - name: get-equipment-location
-          description: "Get the current GPS location of a specific piece of equipment"
-          hints:
-            readOnly: true
-            idempotent: true
-          call: "intellidash.get-equipment-location"
-          with:
-            equipmentId: "tools.equipmentId"
-          outputParameters:
-            - type: object
-              mapping: "$."
-        - name: list-sensors
-          description: "List all environmental and soil moisture sensors with latest readings"
-          hints:
-            readOnly: true
-            openWorld: true
-          call: "intellidash.list-sensors"
-          outputParameters:
-            - type: object
-              mapping: "$."
-        - name: get-sensor-readings
-          description: "Get historical readings for a sensor over a specified time range"
-          hints:
-            readOnly: true
-            idempotent: true
-          call: "intellidash.get-sensor-readings"
-          with:
-            sensorId: "tools.sensorId"
-            startDate: "tools.startDate"
-            endDate: "tools.endDate"
-          outputParameters:
-            - type: object
-              mapping: "$."
-        - name: get-water-usage-report
-          description: "Get a water usage summary report for a date range to track irrigation efficiency"
-          hints:
-            readOnly: true
-            idempotent: true
-          call: "intellidash.get-water-usage-report"
-          outputParameters:
-            - type: object
-              mapping: "$."
-        - name: get-equipment-health-report
-          description: "Get a fleet equipment health summary report showing maintenance status"
-          hints:
-            readOnly: true
-            idempotent: true
-          call: "intellidash.get-equipment-health-report"
-          outputParameters:
-            - type: object
-              mapping: "$."
+  - type: rest
+    port: 8081
+    namespace: toro-golf-api
+    description: Unified REST API for golf course irrigation and fleet management.
+    resources:
+    - path: /v1/irrigation/status
+      name: irrigation-status
+      description: Real-time irrigation system status
+      operations:
+      - method: GET
+        name: get-irrigation-status
+        description: Get current irrigation system status
+        call: intellidash.get-irrigation-status
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/irrigation/zones
+      name: irrigation-zones
+      description: Irrigation zone management
+      operations:
+      - method: GET
+        name: list-irrigation-zones
+        description: List all irrigation zones
+        call: intellidash.list-irrigation-zones
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/irrigation/zones/{zoneId}
+      name: irrigation-zone
+      description: Individual irrigation zone
+      operations:
+      - method: GET
+        name: get-irrigation-zone
+        description: Get zone details
+        call: intellidash.get-irrigation-zone
+        with:
+          zoneId: rest.zoneId
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/irrigation/zones/{zoneId}/start
+      name: start-irrigation
+      description: Start zone irrigation
+      operations:
+      - method: POST
+        name: start-irrigation
+        description: Start irrigation for a zone
+        call: intellidash.start-irrigation
+        with:
+          zoneId: rest.zoneId
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/irrigation/zones/{zoneId}/stop
+      name: stop-irrigation
+      description: Stop zone irrigation
+      operations:
+      - method: POST
+        name: stop-irrigation
+        description: Stop active irrigation
+        call: intellidash.stop-irrigation
+        with:
+          zoneId: rest.zoneId
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/equipment
+      name: equipment
+      description: Golf course fleet equipment
+      operations:
+      - method: GET
+        name: list-fleet-equipment
+        description: List fleet equipment with health data
+        call: intellidash.list-fleet-equipment
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/equipment/{equipmentId}
+      name: equipment-item
+      description: Individual equipment details
+      operations:
+      - method: GET
+        name: get-fleet-equipment
+        description: Get equipment details and health
+        call: intellidash.get-fleet-equipment
+        with:
+          equipmentId: rest.equipmentId
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/equipment/{equipmentId}/location
+      name: equipment-location
+      description: Equipment GPS location
+      operations:
+      - method: GET
+        name: get-equipment-location
+        description: Get equipment current location
+        call: intellidash.get-equipment-location
+        with:
+          equipmentId: rest.equipmentId
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/sensors
+      name: sensors
+      description: Environmental and soil sensors
+      operations:
+      - method: GET
+        name: list-sensors
+        description: List all sensors with latest readings
+        call: intellidash.list-sensors
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/sensors/{sensorId}/readings
+      name: sensor-readings
+      description: Historical sensor data
+      operations:
+      - method: GET
+        name: get-sensor-readings
+        description: Get sensor historical readings
+        call: intellidash.get-sensor-readings
+        with:
+          sensorId: rest.sensorId
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/reports/water-usage
+      name: water-usage-report
+      description: Water usage reporting
+      operations:
+      - method: GET
+        name: get-water-usage-report
+        description: Get water usage report
+        call: intellidash.get-water-usage-report
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/reports/equipment-health
+      name: equipment-health-report
+      description: Equipment health reporting
+      operations:
+      - method: GET
+        name: get-equipment-health-report
+        description: Get equipment health report
+        call: intellidash.get-equipment-health-report
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    port: 9091
+    namespace: toro-golf-mcp
+    transport: http
+    description: MCP server for AI-assisted golf course irrigation and fleet management.
+    tools:
+    - name: get-irrigation-status
+      description: Get the current status of the golf course irrigation system
+      hints:
+        readOnly: true
+        idempotent: true
+      call: intellidash.get-irrigation-status
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: list-irrigation-zones
+      description: List all golf course irrigation zones and their current state
+      hints:
+        readOnly: true
+        openWorld: true
+      call: intellidash.list-irrigation-zones
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-irrigation-zone
+      description: Get detailed information for a specific irrigation zone
+      hints:
+        readOnly: true
+        idempotent: true
+      call: intellidash.get-irrigation-zone
+      with:
+        zoneId: tools.zoneId
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: start-zone-irrigation
+      description: Manually start irrigation for a specific zone with optional duration
+      hints:
+        readOnly: false
+        destructive: false
+      call: intellidash.start-irrigation
+      with:
+        zoneId: tools.zoneId
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: stop-zone-irrigation
+      description: Stop active irrigation for a specific zone
+      hints:
+        readOnly: false
+        destructive: false
+      call: intellidash.stop-irrigation
+      with:
+        zoneId: tools.zoneId
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: list-fleet-equipment
+      description: List all golf course fleet equipment with health and status data
+      hints:
+        readOnly: true
+        openWorld: true
+      call: intellidash.list-fleet-equipment
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-fleet-equipment
+      description: Get detailed health information for a specific piece of equipment
+      hints:
+        readOnly: true
+        idempotent: true
+      call: intellidash.get-fleet-equipment
+      with:
+        equipmentId: tools.equipmentId
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-equipment-location
+      description: Get the current GPS location of a specific piece of equipment
+      hints:
+        readOnly: true
+        idempotent: true
+      call: intellidash.get-equipment-location
+      with:
+        equipmentId: tools.equipmentId
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: list-sensors
+      description: List all environmental and soil moisture sensors with latest readings
+      hints:
+        readOnly: true
+        openWorld: true
+      call: intellidash.list-sensors
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-sensor-readings
+      description: Get historical readings for a sensor over a specified time range
+      hints:
+        readOnly: true
+        idempotent: true
+      call: intellidash.get-sensor-readings
+      with:
+        sensorId: tools.sensorId
+        startDate: tools.startDate
+        endDate: tools.endDate
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-water-usage-report
+      description: Get a water usage summary report for a date range to track irrigation efficiency
+      hints:
+        readOnly: true
+        idempotent: true
+      call: intellidash.get-water-usage-report
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-equipment-health-report
+      description: Get a fleet equipment health summary report showing maintenance status
+      hints:
+        readOnly: true
+        idempotent: true
+      call: intellidash.get-equipment-health-report
+      outputParameters:
+      - type: object
+        mapping: $.

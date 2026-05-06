@@ -1,271 +1,793 @@
-naftiko: "1.0.0-alpha1"
-
+naftiko: 1.0.0-alpha2
 info:
-  label: "Toro Landscape Operations"
-  description: "Unified workflow capability for landscape contractors combining Horizon360 business management with IntelliDash irrigation and fleet monitoring. Enables end-to-end operations from customer management and job scheduling through crew dispatch, equipment tracking, and invoicing."
+  label: Toro Landscape Operations
+  description: Unified workflow capability for landscape contractors combining Horizon360 business management with IntelliDash
+    irrigation and fleet monitoring. Enables end-to-end operations from customer management and job scheduling through crew
+    dispatch, equipment tracking, and invoicing.
   tags:
-    - Landscaping
-    - Business Management
-    - Operations
-    - Scheduling
-    - Invoicing
-  created: "2026-05-03"
-  modified: "2026-05-03"
-
+  - Landscaping
+  - Business Management
+  - Operations
+  - Scheduling
+  - Invoicing
+  created: '2026-05-03'
+  modified: '2026-05-06'
 binds:
-  - namespace: env
-    keys:
-      HORIZON360_API_KEY: HORIZON360_API_KEY
-      INTELLIDASH_API_KEY: INTELLIDASH_API_KEY
-
+- namespace: env
+  keys:
+    HORIZON360_API_KEY: HORIZON360_API_KEY
+    INTELLIDASH_API_KEY: INTELLIDASH_API_KEY
 capability:
   consumes:
-    - import: horizon360
-      location: ./shared/horizon360.yaml
-    - import: intellidash
-      location: ./shared/intellidash.yaml
-
+  - type: http
+    namespace: horizon360
+    baseUri: https://api.horizon360.toro.com/v1
+    description: Toro Horizon360 business management API for landscape contractors
+    authentication:
+      type: bearer
+      token: '{{HORIZON360_API_KEY}}'
+    resources:
+    - name: customers
+      path: /customers
+      description: Customer account management
+      operations:
+      - name: list-customers
+        method: GET
+        description: List all customers for the account
+        inputParameters:
+        - name: page
+          in: query
+          type: integer
+          required: false
+          description: Page number
+        - name: limit
+          in: query
+          type: integer
+          required: false
+          description: Records per page
+        - name: search
+          in: query
+          type: string
+          required: false
+          description: Search by name, email, or phone
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: create-customer
+        method: POST
+        description: Create a new customer record
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        body:
+          type: json
+          data:
+            name: '{{tools.name}}'
+            email: '{{tools.email}}'
+            phone: '{{tools.phone}}'
+    - name: customer
+      path: /customers/{customerId}
+      description: Individual customer operations
+      operations:
+      - name: get-customer
+        method: GET
+        description: Retrieve a specific customer by ID
+        inputParameters:
+        - name: customerId
+          in: path
+          type: string
+          required: true
+          description: Customer identifier
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: jobs
+      path: /jobs
+      description: Landscaping job and work order management
+      operations:
+      - name: list-jobs
+        method: GET
+        description: List jobs and work orders
+        inputParameters:
+        - name: status
+          in: query
+          type: string
+          required: false
+          description: Filter by job status
+        - name: customerId
+          in: query
+          type: string
+          required: false
+          description: Filter by customer
+        - name: startDate
+          in: query
+          type: string
+          required: false
+          description: Filter from date
+        - name: endDate
+          in: query
+          type: string
+          required: false
+          description: Filter to date
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: create-job
+        method: POST
+        description: Create a new landscaping job
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        body:
+          type: json
+          data:
+            customerId: '{{tools.customerId}}'
+            title: '{{tools.title}}'
+            jobType: '{{tools.jobType}}'
+            scheduledDate: '{{tools.scheduledDate}}'
+    - name: job
+      path: /jobs/{jobId}
+      description: Individual job operations
+      operations:
+      - name: get-job
+        method: GET
+        description: Retrieve a specific job by ID
+        inputParameters:
+        - name: jobId
+          in: path
+          type: string
+          required: true
+          description: Job identifier
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: schedules
+      path: /schedules
+      description: Job and crew scheduling
+      operations:
+      - name: list-schedules
+        method: GET
+        description: List scheduled jobs for a date range
+        inputParameters:
+        - name: startDate
+          in: query
+          type: string
+          required: true
+          description: Start date
+        - name: endDate
+          in: query
+          type: string
+          required: true
+          description: End date
+        - name: crewId
+          in: query
+          type: string
+          required: false
+          description: Filter by crew
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: create-schedule-entry
+        method: POST
+        description: Schedule a job for a crew
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        body:
+          type: json
+          data:
+            jobId: '{{tools.jobId}}'
+            crewId: '{{tools.crewId}}'
+            scheduledDate: '{{tools.scheduledDate}}'
+    - name: crews
+      path: /crews
+      description: Crew management
+      operations:
+      - name: list-crews
+        method: GET
+        description: List all crews and members
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: invoices
+      path: /invoices
+      description: Invoice management
+      operations:
+      - name: list-invoices
+        method: GET
+        description: List invoices
+        inputParameters:
+        - name: status
+          in: query
+          type: string
+          required: false
+          description: Filter by invoice status
+        - name: customerId
+          in: query
+          type: string
+          required: false
+          description: Filter by customer
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: create-invoice
+        method: POST
+        description: Create a new invoice
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        body:
+          type: json
+          data:
+            customerId: '{{tools.customerId}}'
+            jobId: '{{tools.jobId}}'
+            dueDate: '{{tools.dueDate}}'
+    - name: equipment
+      path: /equipment
+      description: Equipment fleet management
+      operations:
+      - name: list-equipment
+        method: GET
+        description: List fleet equipment
+        inputParameters:
+        - name: status
+          in: query
+          type: string
+          required: false
+          description: Filter by equipment status
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: payments
+      path: /payments
+      description: Payment processing
+      operations:
+      - name: list-payments
+        method: GET
+        description: List payment transactions
+        inputParameters:
+        - name: status
+          in: query
+          type: string
+          required: false
+          description: Filter by payment status
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: process-payment
+        method: POST
+        description: Process a customer payment
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        body:
+          type: json
+          data:
+            invoiceId: '{{tools.invoiceId}}'
+            amount: '{{tools.amount}}'
+            paymentMethod: '{{tools.paymentMethod}}'
+  - type: http
+    namespace: intellidash
+    baseUri: https://api.intellidash.toro.com/v1
+    description: Toro IntelliDash irrigation and fleet management API
+    authentication:
+      type: apikey
+      key: X-API-Key
+      value: '{{INTELLIDASH_API_KEY}}'
+      placement: header
+    resources:
+    - name: irrigation-status
+      path: /irrigation/status
+      description: Irrigation system status
+      operations:
+      - name: get-irrigation-status
+        method: GET
+        description: Get current status of all irrigation systems
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: irrigation-zones
+      path: /irrigation/zones
+      description: Irrigation zone management
+      operations:
+      - name: list-irrigation-zones
+        method: GET
+        description: List all irrigation zones
+        inputParameters:
+        - name: status
+          in: query
+          type: string
+          required: false
+          description: Filter by zone status
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: irrigation-zone
+      path: /irrigation/zones/{zoneId}
+      description: Individual zone operations
+      operations:
+      - name: get-irrigation-zone
+        method: GET
+        description: Get a specific irrigation zone
+        inputParameters:
+        - name: zoneId
+          in: path
+          type: string
+          required: true
+          description: Zone identifier
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: start-zone-irrigation
+      path: /irrigation/zones/{zoneId}/start
+      description: Start irrigation for a zone
+      operations:
+      - name: start-irrigation
+        method: POST
+        description: Start manual irrigation for a zone
+        inputParameters:
+        - name: zoneId
+          in: path
+          type: string
+          required: true
+          description: Zone identifier
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        body:
+          type: json
+          data:
+            duration: '{{tools.duration}}'
+    - name: stop-zone-irrigation
+      path: /irrigation/zones/{zoneId}/stop
+      description: Stop irrigation for a zone
+      operations:
+      - name: stop-irrigation
+        method: POST
+        description: Stop active irrigation for a zone
+        inputParameters:
+        - name: zoneId
+          in: path
+          type: string
+          required: true
+          description: Zone identifier
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: equipment
+      path: /equipment
+      description: Fleet equipment tracking
+      operations:
+      - name: list-fleet-equipment
+        method: GET
+        description: List all fleet equipment with health data
+        inputParameters:
+        - name: status
+          in: query
+          type: string
+          required: false
+          description: Filter by equipment status
+        - name: type
+          in: query
+          type: string
+          required: false
+          description: Filter by equipment type
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: equipment-item
+      path: /equipment/{equipmentId}
+      description: Individual equipment details
+      operations:
+      - name: get-fleet-equipment
+        method: GET
+        description: Get equipment health and details
+        inputParameters:
+        - name: equipmentId
+          in: path
+          type: string
+          required: true
+          description: Equipment identifier
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: equipment-location
+      path: /equipment/{equipmentId}/location
+      description: Equipment GPS location
+      operations:
+      - name: get-equipment-location
+        method: GET
+        description: Get current GPS location of equipment
+        inputParameters:
+        - name: equipmentId
+          in: path
+          type: string
+          required: true
+          description: Equipment identifier
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: sensors
+      path: /sensors
+      description: Environmental and soil sensor monitoring
+      operations:
+      - name: list-sensors
+        method: GET
+        description: List all sensors and latest readings
+        inputParameters:
+        - name: type
+          in: query
+          type: string
+          required: false
+          description: Filter by sensor type
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: sensor-readings
+      path: /sensors/{sensorId}/readings
+      description: Historical sensor data
+      operations:
+      - name: get-sensor-readings
+        method: GET
+        description: Get historical sensor readings
+        inputParameters:
+        - name: sensorId
+          in: path
+          type: string
+          required: true
+          description: Sensor identifier
+        - name: startDate
+          in: query
+          type: string
+          required: true
+          description: Start of the time range
+        - name: endDate
+          in: query
+          type: string
+          required: true
+          description: End of the time range
+        - name: interval
+          in: query
+          type: string
+          required: false
+          description: Data interval (15min, 1hour, 1day)
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: water-usage-report
+      path: /reports/water-usage
+      description: Water usage reporting
+      operations:
+      - name: get-water-usage-report
+        method: GET
+        description: Get water usage summary report
+        inputParameters:
+        - name: startDate
+          in: query
+          type: string
+          required: true
+          description: Start date
+        - name: endDate
+          in: query
+          type: string
+          required: true
+          description: End date
+        - name: groupBy
+          in: query
+          type: string
+          required: false
+          description: Group results by day, week, month, or zone
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: equipment-health-report
+      path: /reports/equipment-health
+      description: Equipment health reporting
+      operations:
+      - name: get-equipment-health-report
+        method: GET
+        description: Get fleet equipment health summary
+        inputParameters:
+        - name: asOf
+          in: query
+          type: string
+          required: false
+          description: Report date
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
   exposes:
-    - type: rest
-      port: 8080
-      namespace: toro-landscape-api
-      description: "Unified REST API for landscape business operations management."
-      resources:
-        - path: /v1/customers
-          name: customers
-          description: "Customer account management"
-          operations:
-            - method: GET
-              name: list-customers
-              description: "List all customers"
-              call: "horizon360.list-customers"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-            - method: POST
-              name: create-customer
-              description: "Create a new customer"
-              call: "horizon360.create-customer"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-        - path: /v1/customers/{customerId}
-          name: customer
-          description: "Individual customer management"
-          operations:
-            - method: GET
-              name: get-customer
-              description: "Get a customer by ID"
-              call: "horizon360.get-customer"
-              with:
-                customerId: "rest.customerId"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-        - path: /v1/jobs
-          name: jobs
-          description: "Landscaping job management"
-          operations:
-            - method: GET
-              name: list-jobs
-              description: "List landscaping jobs"
-              call: "horizon360.list-jobs"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-            - method: POST
-              name: create-job
-              description: "Create a new landscaping job"
-              call: "horizon360.create-job"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-        - path: /v1/schedules
-          name: schedules
-          description: "Crew and job scheduling"
-          operations:
-            - method: GET
-              name: list-schedules
-              description: "List job schedules"
-              call: "horizon360.list-schedules"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-            - method: POST
-              name: create-schedule-entry
-              description: "Schedule a job for a crew"
-              call: "horizon360.create-schedule-entry"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-        - path: /v1/crews
-          name: crews
-          description: "Crew management"
-          operations:
-            - method: GET
-              name: list-crews
-              description: "List all crews"
-              call: "horizon360.list-crews"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-        - path: /v1/invoices
-          name: invoices
-          description: "Invoice management"
-          operations:
-            - method: GET
-              name: list-invoices
-              description: "List invoices"
-              call: "horizon360.list-invoices"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-            - method: POST
-              name: create-invoice
-              description: "Create a new invoice"
-              call: "horizon360.create-invoice"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-        - path: /v1/equipment
-          name: equipment
-          description: "Equipment fleet tracking"
-          operations:
-            - method: GET
-              name: list-equipment
-              description: "List landscaping equipment"
-              call: "horizon360.list-equipment"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-        - path: /v1/payments
-          name: payments
-          description: "Payment processing"
-          operations:
-            - method: GET
-              name: list-payments
-              description: "List payments"
-              call: "horizon360.list-payments"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-            - method: POST
-              name: process-payment
-              description: "Process a payment"
-              call: "horizon360.process-payment"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-
-    - type: mcp
-      port: 9090
-      namespace: toro-landscape-mcp
-      transport: http
-      description: "MCP server for AI-assisted landscape business operations management."
-      tools:
-        - name: list-customers
-          description: "List all landscape contractor customers"
-          hints:
-            readOnly: true
-            openWorld: true
-          call: "horizon360.list-customers"
-          outputParameters:
-            - type: object
-              mapping: "$."
-        - name: create-customer
-          description: "Create a new customer record for a landscape contractor"
-          hints:
-            readOnly: false
-          call: "horizon360.create-customer"
-          outputParameters:
-            - type: object
-              mapping: "$."
-        - name: get-customer
-          description: "Get details for a specific customer"
-          hints:
-            readOnly: true
-            idempotent: true
-          call: "horizon360.get-customer"
-          with:
-            customerId: "tools.customerId"
-          outputParameters:
-            - type: object
-              mapping: "$."
-        - name: list-jobs
-          description: "List landscaping jobs and work orders with optional status and date filters"
-          hints:
-            readOnly: true
-            openWorld: true
-          call: "horizon360.list-jobs"
-          outputParameters:
-            - type: object
-              mapping: "$."
-        - name: create-job
-          description: "Create a new landscaping job for a customer"
-          hints:
-            readOnly: false
-          call: "horizon360.create-job"
-          outputParameters:
-            - type: object
-              mapping: "$."
-        - name: list-schedules
-          description: "List crew and job schedules for a date range"
-          hints:
-            readOnly: true
-            openWorld: true
-          call: "horizon360.list-schedules"
-          outputParameters:
-            - type: object
-              mapping: "$."
-        - name: schedule-job
-          description: "Assign a job to a crew on a specific date"
-          hints:
-            readOnly: false
-          call: "horizon360.create-schedule-entry"
-          outputParameters:
-            - type: object
-              mapping: "$."
-        - name: list-crews
-          description: "List all crews and their members"
-          hints:
-            readOnly: true
-            openWorld: true
-          call: "horizon360.list-crews"
-          outputParameters:
-            - type: object
-              mapping: "$."
-        - name: list-invoices
-          description: "List customer invoices with optional status filter"
-          hints:
-            readOnly: true
-            openWorld: true
-          call: "horizon360.list-invoices"
-          outputParameters:
-            - type: object
-              mapping: "$."
-        - name: create-invoice
-          description: "Create a new invoice for a customer or completed job"
-          hints:
-            readOnly: false
-          call: "horizon360.create-invoice"
-          outputParameters:
-            - type: object
-              mapping: "$."
-        - name: list-equipment
-          description: "List all landscaping equipment in the fleet"
-          hints:
-            readOnly: true
-            openWorld: true
-          call: "horizon360.list-equipment"
-          outputParameters:
-            - type: object
-              mapping: "$."
-        - name: process-payment
-          description: "Process a customer payment for an invoice"
-          hints:
-            readOnly: false
-            destructive: false
-          call: "horizon360.process-payment"
-          outputParameters:
-            - type: object
-              mapping: "$."
+  - type: rest
+    port: 8080
+    namespace: toro-landscape-api
+    description: Unified REST API for landscape business operations management.
+    resources:
+    - path: /v1/customers
+      name: customers
+      description: Customer account management
+      operations:
+      - method: GET
+        name: list-customers
+        description: List all customers
+        call: horizon360.list-customers
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: create-customer
+        description: Create a new customer
+        call: horizon360.create-customer
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/customers/{customerId}
+      name: customer
+      description: Individual customer management
+      operations:
+      - method: GET
+        name: get-customer
+        description: Get a customer by ID
+        call: horizon360.get-customer
+        with:
+          customerId: rest.customerId
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/jobs
+      name: jobs
+      description: Landscaping job management
+      operations:
+      - method: GET
+        name: list-jobs
+        description: List landscaping jobs
+        call: horizon360.list-jobs
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: create-job
+        description: Create a new landscaping job
+        call: horizon360.create-job
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/schedules
+      name: schedules
+      description: Crew and job scheduling
+      operations:
+      - method: GET
+        name: list-schedules
+        description: List job schedules
+        call: horizon360.list-schedules
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: create-schedule-entry
+        description: Schedule a job for a crew
+        call: horizon360.create-schedule-entry
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/crews
+      name: crews
+      description: Crew management
+      operations:
+      - method: GET
+        name: list-crews
+        description: List all crews
+        call: horizon360.list-crews
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/invoices
+      name: invoices
+      description: Invoice management
+      operations:
+      - method: GET
+        name: list-invoices
+        description: List invoices
+        call: horizon360.list-invoices
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: create-invoice
+        description: Create a new invoice
+        call: horizon360.create-invoice
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/equipment
+      name: equipment
+      description: Equipment fleet tracking
+      operations:
+      - method: GET
+        name: list-equipment
+        description: List landscaping equipment
+        call: horizon360.list-equipment
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/payments
+      name: payments
+      description: Payment processing
+      operations:
+      - method: GET
+        name: list-payments
+        description: List payments
+        call: horizon360.list-payments
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: process-payment
+        description: Process a payment
+        call: horizon360.process-payment
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    port: 9090
+    namespace: toro-landscape-mcp
+    transport: http
+    description: MCP server for AI-assisted landscape business operations management.
+    tools:
+    - name: list-customers
+      description: List all landscape contractor customers
+      hints:
+        readOnly: true
+        openWorld: true
+      call: horizon360.list-customers
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: create-customer
+      description: Create a new customer record for a landscape contractor
+      hints:
+        readOnly: false
+      call: horizon360.create-customer
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-customer
+      description: Get details for a specific customer
+      hints:
+        readOnly: true
+        idempotent: true
+      call: horizon360.get-customer
+      with:
+        customerId: tools.customerId
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: list-jobs
+      description: List landscaping jobs and work orders with optional status and date filters
+      hints:
+        readOnly: true
+        openWorld: true
+      call: horizon360.list-jobs
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: create-job
+      description: Create a new landscaping job for a customer
+      hints:
+        readOnly: false
+      call: horizon360.create-job
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: list-schedules
+      description: List crew and job schedules for a date range
+      hints:
+        readOnly: true
+        openWorld: true
+      call: horizon360.list-schedules
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: schedule-job
+      description: Assign a job to a crew on a specific date
+      hints:
+        readOnly: false
+      call: horizon360.create-schedule-entry
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: list-crews
+      description: List all crews and their members
+      hints:
+        readOnly: true
+        openWorld: true
+      call: horizon360.list-crews
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: list-invoices
+      description: List customer invoices with optional status filter
+      hints:
+        readOnly: true
+        openWorld: true
+      call: horizon360.list-invoices
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: create-invoice
+      description: Create a new invoice for a customer or completed job
+      hints:
+        readOnly: false
+      call: horizon360.create-invoice
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: list-equipment
+      description: List all landscaping equipment in the fleet
+      hints:
+        readOnly: true
+        openWorld: true
+      call: horizon360.list-equipment
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: process-payment
+      description: Process a customer payment for an invoice
+      hints:
+        readOnly: false
+        destructive: false
+      call: horizon360.process-payment
+      outputParameters:
+      - type: object
+        mapping: $.
