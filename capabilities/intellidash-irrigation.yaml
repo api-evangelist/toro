@@ -1,0 +1,243 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Toro IntelliDash — Irrigation
+  description: 'Toro IntelliDash — Irrigation. 5 operations. Lead operation: Get Irrigation Status. Self-contained Naftiko
+    capability covering one Toro business surface.'
+  tags:
+  - Toro
+  - Irrigation
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    TORO_API_KEY: TORO_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: intellidash-irrigation
+    baseUri: https://api.intellidash.toro.com/v1
+    description: Toro IntelliDash — Irrigation business capability. Self-contained, no shared references.
+    resources:
+    - name: irrigation-status
+      path: /irrigation/status
+      operations:
+      - name: getirrigationstatus
+        method: GET
+        description: Get Irrigation Status
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: irrigation-zones
+      path: /irrigation/zones
+      operations:
+      - name: listirrigationzones
+        method: GET
+        description: List Irrigation Zones
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: status
+          in: query
+          type: string
+          description: Filter zones by status
+    - name: irrigation-zones-zoneId
+      path: /irrigation/zones/{zoneId}
+      operations:
+      - name: getirrigationzone
+        method: GET
+        description: Get Irrigation Zone
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: zoneId
+          in: path
+          type: string
+          required: true
+    - name: irrigation-zones-zoneId-start
+      path: /irrigation/zones/{zoneId}/start
+      operations:
+      - name: startirrigation
+        method: POST
+        description: Start Irrigation
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: zoneId
+          in: path
+          type: string
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: irrigation-zones-zoneId-stop
+      path: /irrigation/zones/{zoneId}/stop
+      operations:
+      - name: stopirrigation
+        method: POST
+        description: Stop Irrigation
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: zoneId
+          in: path
+          type: string
+          required: true
+    authentication:
+      type: apikey
+      key: X-API-Key
+      value: '{{env.TORO_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: intellidash-irrigation-rest
+    port: 8080
+    description: REST adapter for Toro IntelliDash — Irrigation. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/irrigation/status
+      name: irrigation-status
+      description: REST surface for irrigation-status.
+      operations:
+      - method: GET
+        name: getirrigationstatus
+        description: Get Irrigation Status
+        call: intellidash-irrigation.getirrigationstatus
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/irrigation/zones
+      name: irrigation-zones
+      description: REST surface for irrigation-zones.
+      operations:
+      - method: GET
+        name: listirrigationzones
+        description: List Irrigation Zones
+        call: intellidash-irrigation.listirrigationzones
+        with:
+          status: rest.status
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/irrigation/zones/{zoneid}
+      name: irrigation-zones-zoneid
+      description: REST surface for irrigation-zones-zoneId.
+      operations:
+      - method: GET
+        name: getirrigationzone
+        description: Get Irrigation Zone
+        call: intellidash-irrigation.getirrigationzone
+        with:
+          zoneId: rest.zoneId
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/irrigation/zones/{zoneid}/start
+      name: irrigation-zones-zoneid-start
+      description: REST surface for irrigation-zones-zoneId-start.
+      operations:
+      - method: POST
+        name: startirrigation
+        description: Start Irrigation
+        call: intellidash-irrigation.startirrigation
+        with:
+          zoneId: rest.zoneId
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/irrigation/zones/{zoneid}/stop
+      name: irrigation-zones-zoneid-stop
+      description: REST surface for irrigation-zones-zoneId-stop.
+      operations:
+      - method: POST
+        name: stopirrigation
+        description: Stop Irrigation
+        call: intellidash-irrigation.stopirrigation
+        with:
+          zoneId: rest.zoneId
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: intellidash-irrigation-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Toro IntelliDash — Irrigation. One tool per consumed operation, routed inline through this
+      capability's consumes block.
+    tools:
+    - name: get-irrigation-status
+      description: Get Irrigation Status
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: intellidash-irrigation.getirrigationstatus
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: list-irrigation-zones
+      description: List Irrigation Zones
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: intellidash-irrigation.listirrigationzones
+      with:
+        status: tools.status
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-irrigation-zone
+      description: Get Irrigation Zone
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: intellidash-irrigation.getirrigationzone
+      with:
+        zoneId: tools.zoneId
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: start-irrigation
+      description: Start Irrigation
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: intellidash-irrigation.startirrigation
+      with:
+        zoneId: tools.zoneId
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: stop-irrigation
+      description: Stop Irrigation
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: intellidash-irrigation.stopirrigation
+      with:
+        zoneId: tools.zoneId
+      outputParameters:
+      - type: object
+        mapping: $.
