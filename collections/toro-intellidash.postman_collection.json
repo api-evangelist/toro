@@ -1,0 +1,1876 @@
+{
+  "item": [
+    {
+      "id": "8a15d11e-36f4-4674-9a42-09dc7a03d78d",
+      "name": "Irrigation",
+      "description": {
+        "content": "Control and monitor irrigation systems",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "b118bbfc-206e-4383-b4f0-3b29819ea6e3",
+          "name": "Get Irrigation Status",
+          "request": {
+            "name": "Get Irrigation Status",
+            "description": {
+              "content": "Returns the current status of all irrigation systems and controllers.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "irrigation",
+                "status"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "c5adf981-a801-4017-a620-8ea409e93dfe",
+              "name": "Successful response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "irrigation",
+                    "status"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"systemStatus\": \"normal\",\n  \"activeZones\": 3515,\n  \"totalZones\": 7289,\n  \"weatherHold\": false,\n  \"lastUpdated\": \"1979-04-17T11:16:07.928Z\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6e8ba647-af10-44c0-aa53-2f77222058fc",
+              "name": "Authentication required",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "irrigation",
+                    "status"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "7e1ab036-651d-489c-8963-3c4554614f54",
+          "name": "List Irrigation Zones",
+          "request": {
+            "name": "List Irrigation Zones",
+            "description": {
+              "content": "Returns all defined irrigation zones and their current configuration.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "irrigation",
+                "zones"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "status",
+                  "value": "<string>",
+                  "description": "Filter zones by status"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "5cc43f8b-8ed7-4b3a-940e-1263fde3fc0c",
+              "name": "Successful response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "irrigation",
+                    "zones"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "status",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"id\": \"string\",\n      \"name\": \"string\",\n      \"description\": \"string\",\n      \"status\": \"inactive\",\n      \"wateringDurationMinutes\": 7329,\n      \"lastWateredAt\": \"2008-08-15T10:37:21.055Z\",\n      \"nextScheduledAt\": \"1978-10-10T14:38:47.679Z\",\n      \"soilMoisture\": 4968.954694991779,\n      \"flowRateGpm\": 5332.4607006582355\n    },\n    {\n      \"id\": \"string\",\n      \"name\": \"string\",\n      \"description\": \"string\",\n      \"status\": \"active\",\n      \"wateringDurationMinutes\": 4711,\n      \"lastWateredAt\": \"1951-07-03T14:04:13.477Z\",\n      \"nextScheduledAt\": \"2023-04-18T07:15:09.470Z\",\n      \"soilMoisture\": 4634.43684408755,\n      \"flowRateGpm\": 5218.2668356006525\n    }\n  ],\n  \"total\": 680\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "4d426366-8255-4b89-b129-d69ed45bf13d",
+          "name": "Get Irrigation Zone",
+          "request": {
+            "name": "Get Irrigation Zone",
+            "description": {
+              "content": "Returns details for a specific irrigation zone.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "irrigation",
+                "zones",
+                ":zoneId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "zoneId",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "f39abf3b-6348-445b-bdb7-880aeb83c331",
+              "name": "Successful response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "irrigation",
+                    "zones",
+                    ":zoneId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "zoneId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"string\",\n  \"name\": \"string\",\n  \"description\": \"string\",\n  \"status\": \"active\",\n  \"wateringDurationMinutes\": 1682,\n  \"lastWateredAt\": \"2011-12-04T12:47:37.111Z\",\n  \"nextScheduledAt\": \"1960-01-29T00:48:54.851Z\",\n  \"soilMoisture\": 970.9610845809668,\n  \"flowRateGpm\": 3818.680757035766\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "029f984f-fc26-46db-8508-9835e1ea9c0f",
+              "name": "Resource not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "irrigation",
+                    "zones",
+                    ":zoneId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "zoneId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "a68e3456-e8f8-4f57-afbc-ead5fa632f94",
+          "name": "Start Irrigation",
+          "request": {
+            "name": "Start Irrigation",
+            "description": {
+              "content": "Manually start irrigation for a specific zone.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "irrigation",
+                "zones",
+                ":zoneId",
+                "start"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "zoneId",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"duration\": \"<integer>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "fc9dbd93-0158-46d1-b2a1-e6ef0edec3f7",
+              "name": "Irrigation started",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "irrigation",
+                    "zones",
+                    ":zoneId",
+                    "start"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "zoneId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"duration\": \"<integer>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "ef558cb1-802f-4f7c-ad57-b2b752cfa449",
+          "name": "Stop Irrigation",
+          "request": {
+            "name": "Stop Irrigation",
+            "description": {
+              "content": "Stop active irrigation for a specific zone.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "irrigation",
+                "zones",
+                ":zoneId",
+                "stop"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "zoneId",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "method": "POST",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "03f4cf7e-0956-454a-a25a-a984324e2954",
+              "name": "Irrigation stopped",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "irrigation",
+                    "zones",
+                    ":zoneId",
+                    "stop"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "zoneId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "838eeb69-f372-4fd6-935a-6067923c8716",
+      "name": "Equipment",
+      "description": {
+        "content": "Fleet equipment tracking and health monitoring",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "09dd7582-29c4-49ee-8689-f0b8ab65ddf8",
+          "name": "List Fleet Equipment",
+          "request": {
+            "name": "List Fleet Equipment",
+            "description": {
+              "content": "Returns all equipment in the golf course fleet with health and location data.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "equipment"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "status",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "type",
+                  "value": "<string>",
+                  "description": "Filter by equipment type (mower, utility, irrigation, etc.)"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "3ce93371-4ef1-44db-a1fc-e5bde9efe512",
+              "name": "Successful response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "equipment"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "status",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "type",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"id\": \"string\",\n      \"name\": \"string\",\n      \"type\": \"string\",\n      \"model\": \"string\",\n      \"serialNumber\": \"string\",\n      \"status\": \"offline\",\n      \"engineHours\": 2853.964905759302,\n      \"lastServiceHours\": 51.822677586428334,\n      \"nextServiceHours\": 5626.713903335433,\n      \"batteryLevel\": 415,\n      \"fuelLevel\": 1190,\n      \"location\": {\n        \"latitude\": 7823.305923620779,\n        \"longitude\": 8127.087288742323,\n        \"altitude\": 5049.9228269175355\n      },\n      \"alerts\": [\n        {\n          \"type\": \"string\",\n          \"severity\": \"info\",\n          \"message\": \"string\",\n          \"timestamp\": \"2018-01-16T19:53:41.342Z\"\n        },\n        {\n          \"type\": \"string\",\n          \"severity\": \"warning\",\n          \"message\": \"string\",\n          \"timestamp\": \"2023-07-06T23:55:28.040Z\"\n        }\n      ]\n    },\n    {\n      \"id\": \"string\",\n      \"name\": \"string\",\n      \"type\": \"string\",\n      \"model\": \"string\",\n      \"serialNumber\": \"string\",\n      \"status\": \"offline\",\n      \"engineHours\": 2580.5335013778354,\n      \"lastServiceHours\": 1242.7778108069222,\n      \"nextServiceHours\": 1926.9571585520239,\n      \"batteryLevel\": 4212,\n      \"fuelLevel\": 4658,\n      \"location\": {\n        \"latitude\": 1761.8419206574854,\n        \"longitude\": 1291.8813595768675,\n        \"altitude\": 9110.830385064683\n      },\n      \"alerts\": [\n        {\n          \"type\": \"string\",\n          \"severity\": \"info\",\n          \"message\": \"string\",\n          \"timestamp\": \"1951-05-24T21:31:46.617Z\"\n        },\n        {\n          \"type\": \"string\",\n          \"severity\": \"info\",\n          \"message\": \"string\",\n          \"timestamp\": \"1964-10-03T00:21:09.634Z\"\n        }\n      ]\n    }\n  ],\n  \"total\": 9399\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "8c901c40-e969-40ae-8f33-6462deb4d094",
+          "name": "Get Fleet Equipment",
+          "request": {
+            "name": "Get Fleet Equipment",
+            "description": {
+              "content": "Returns detailed information and health data for a specific piece of equipment.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "equipment",
+                ":equipmentId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "equipmentId",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "6a21c848-d98f-4361-aa43-9e494d9f9894",
+              "name": "Successful response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "equipment",
+                    ":equipmentId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "equipmentId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"string\",\n  \"name\": \"string\",\n  \"type\": \"string\",\n  \"model\": \"string\",\n  \"serialNumber\": \"string\",\n  \"status\": \"offline\",\n  \"engineHours\": 6304.248464333809,\n  \"lastServiceHours\": 9167.351167062798,\n  \"nextServiceHours\": 2371.466149480338,\n  \"batteryLevel\": 6678,\n  \"fuelLevel\": 2504,\n  \"location\": {\n    \"latitude\": 6711.62407520369,\n    \"longitude\": 1283.1401494910444,\n    \"altitude\": 2917.4810720189826\n  },\n  \"alerts\": [\n    {\n      \"type\": \"string\",\n      \"severity\": \"warning\",\n      \"message\": \"string\",\n      \"timestamp\": \"1968-11-16T05:03:09.175Z\"\n    },\n    {\n      \"type\": \"string\",\n      \"severity\": \"warning\",\n      \"message\": \"string\",\n      \"timestamp\": \"1992-07-07T04:58:31.688Z\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "746c69f6-b2f8-4eb9-99df-c41630bcbc3b",
+              "name": "Resource not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "equipment",
+                    ":equipmentId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "equipmentId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "99d3f8bc-0c4e-411f-ac82-f1d3c9ea5e06",
+          "name": "Get Equipment Location",
+          "request": {
+            "name": "Get Equipment Location",
+            "description": {
+              "content": "Returns the current GPS location of a specific piece of equipment.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "equipment",
+                ":equipmentId",
+                "location"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "equipmentId",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "093688ef-2503-412d-aca5-88abc1789698",
+              "name": "Successful response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "equipment",
+                    ":equipmentId",
+                    "location"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "equipmentId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"equipmentId\": \"string\",\n  \"location\": {\n    \"latitude\": 3669.691308348574,\n    \"longitude\": 8927.802169158658,\n    \"altitude\": 264.91162482081165\n  },\n  \"speed\": 8380.166129769408,\n  \"heading\": 9357,\n  \"timestamp\": \"1960-04-06T07:40:24.864Z\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "461e4682-0265-4e96-858c-8a828fd5bc76",
+      "name": "Sensors",
+      "description": {
+        "content": "Environmental and soil sensor data",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "11eda849-8343-4692-98a1-1b19043734f2",
+          "name": "List Sensors",
+          "request": {
+            "name": "List Sensors",
+            "description": {
+              "content": "Returns all environmental and soil sensors and their latest readings.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "sensors"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "type",
+                  "value": "<string>",
+                  "description": "Filter by sensor type"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "da574494-0527-438f-9ffa-7d124698cf3a",
+              "name": "Successful response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "sensors"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "type",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"id\": \"string\",\n      \"name\": \"string\",\n      \"type\": \"temperature\",\n      \"location\": {\n        \"latitude\": 7577.686436158938,\n        \"longitude\": 1756.4128507810683,\n        \"altitude\": 9535.031649516242\n      },\n      \"status\": \"fault\",\n      \"lastReading\": {\n        \"timestamp\": \"1989-05-16T01:20:32.316Z\",\n        \"value\": 5461.297651914001,\n        \"unit\": \"string\"\n      }\n    },\n    {\n      \"id\": \"string\",\n      \"name\": \"string\",\n      \"type\": \"temperature\",\n      \"location\": {\n        \"latitude\": 9311.389133041357,\n        \"longitude\": 8563.750599372153,\n        \"altitude\": 6556.016453752729\n      },\n      \"status\": \"active\",\n      \"lastReading\": {\n        \"timestamp\": \"1969-02-16T01:58:54.424Z\",\n        \"value\": 7635.200930072174,\n        \"unit\": \"string\"\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "77a9577f-6a29-4f50-906a-707804eda86f",
+          "name": "Get Sensor Readings",
+          "request": {
+            "name": "Get Sensor Readings",
+            "description": {
+              "content": "Returns historical readings for a specific sensor.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "sensors",
+                ":sensorId",
+                "readings"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "startDate",
+                  "value": "<dateTime>",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "key": "endDate",
+                  "value": "<dateTime>",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "key": "interval",
+                  "value": "1hour"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "sensorId",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "60955f9a-5695-421c-8991-07909838ce43",
+              "name": "Successful response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "sensors",
+                    ":sensorId",
+                    "readings"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "startDate",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "key": "endDate",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "key": "interval",
+                      "value": "1hour"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "sensorId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"sensorId\": \"string\",\n  \"data\": [\n    {\n      \"timestamp\": \"1978-10-15T17:45:44.692Z\",\n      \"value\": 2678.448358150044,\n      \"unit\": \"string\"\n    },\n    {\n      \"timestamp\": \"2004-05-10T05:05:56.875Z\",\n      \"value\": 5388.771068654743,\n      \"unit\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "edac08b4-58e9-4d62-a8f0-009e44f7215d",
+      "name": "Reports",
+      "description": {
+        "content": "Agronomic and operational reports",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "27f918e8-da83-4c1f-8ed2-cf0f710687b5",
+          "name": "Get Water Usage Report",
+          "request": {
+            "name": "Get Water Usage Report",
+            "description": {
+              "content": "Returns a water usage summary report for a given date range.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "reports",
+                "water-usage"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "startDate",
+                  "value": "<date>",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "key": "endDate",
+                  "value": "<date>",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "key": "groupBy",
+                  "value": "day"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "f582fd19-5b89-4133-94c4-ebea2c511332",
+              "name": "Successful response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "reports",
+                    "water-usage"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "startDate",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "endDate",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "groupBy",
+                      "value": "day"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"startDate\": \"1959-09-12\",\n  \"endDate\": \"1950-10-24\",\n  \"totalGallons\": 884.7327788819737,\n  \"periods\": [\n    {\n      \"period\": \"string\",\n      \"gallons\": 1324.1088847990445\n    },\n    {\n      \"period\": \"string\",\n      \"gallons\": 8540.996966128252\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "4f0b914d-668e-47f6-ac74-5c51d2abb739",
+          "name": "Get Equipment Health Report",
+          "request": {
+            "name": "Get Equipment Health Report",
+            "description": {
+              "content": "Returns a fleet equipment health summary and maintenance status report.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "reports",
+                "equipment-health"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "asOf",
+                  "value": "<date>",
+                  "description": "Report date (defaults to today)"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "8f9d09d8-5c96-4a89-a528-a8dd68929221",
+              "name": "Successful response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "reports",
+                    "equipment-health"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "asOf",
+                      "value": "<date>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"asOf\": \"1977-01-12\",\n  \"totalEquipment\": 3010,\n  \"activeEquipment\": 6419,\n  \"equipmentInMaintenance\": 4222,\n  \"alerts\": [\n    {\n      \"equipmentId\": \"string\",\n      \"equipmentName\": \"string\",\n      \"alertType\": \"string\",\n      \"severity\": \"string\"\n    },\n    {\n      \"equipmentId\": \"string\",\n      \"equipmentName\": \"string\",\n      \"alertType\": \"string\",\n      \"severity\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "ef80f372-31a6-4939-b948-2bcdc9f579a0",
+      "name": "Zones",
+      "description": {
+        "content": "Irrigation zone management",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "22cbd95b-7176-46c4-b24b-3fb3581feb4e",
+          "name": "List Irrigation Zones",
+          "request": {
+            "name": "List Irrigation Zones",
+            "description": {
+              "content": "Returns all defined irrigation zones and their current configuration.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "irrigation",
+                "zones"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "status",
+                  "value": "<string>",
+                  "description": "Filter zones by status"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "d44351ad-a3f9-4e51-b881-966319526982",
+              "name": "Successful response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "irrigation",
+                    "zones"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "status",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"id\": \"string\",\n      \"name\": \"string\",\n      \"description\": \"string\",\n      \"status\": \"inactive\",\n      \"wateringDurationMinutes\": 6119,\n      \"lastWateredAt\": \"1989-07-14T00:18:43.896Z\",\n      \"nextScheduledAt\": \"1998-07-27T11:21:16.075Z\",\n      \"soilMoisture\": 5893.932205249804,\n      \"flowRateGpm\": 4709.530675849504\n    },\n    {\n      \"id\": \"string\",\n      \"name\": \"string\",\n      \"description\": \"string\",\n      \"status\": \"watering\",\n      \"wateringDurationMinutes\": 8209,\n      \"lastWateredAt\": \"1953-10-30T22:55:08.865Z\",\n      \"nextScheduledAt\": \"1950-11-05T23:40:30.223Z\",\n      \"soilMoisture\": 4058.2211804754033,\n      \"flowRateGpm\": 2819.55699824472\n    }\n  ],\n  \"total\": 895\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "6bf35a5e-1e6f-41c0-8842-248bb2582d96",
+          "name": "Get Irrigation Zone",
+          "request": {
+            "name": "Get Irrigation Zone",
+            "description": {
+              "content": "Returns details for a specific irrigation zone.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "irrigation",
+                "zones",
+                ":zoneId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "zoneId",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "0e2c93cc-4287-466e-b7da-e4588c0e0462",
+              "name": "Successful response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "irrigation",
+                    "zones",
+                    ":zoneId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "zoneId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"string\",\n  \"name\": \"string\",\n  \"description\": \"string\",\n  \"status\": \"active\",\n  \"wateringDurationMinutes\": 1682,\n  \"lastWateredAt\": \"2011-12-04T12:47:37.111Z\",\n  \"nextScheduledAt\": \"1960-01-29T00:48:54.851Z\",\n  \"soilMoisture\": 970.9610845809668,\n  \"flowRateGpm\": 3818.680757035766\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e2c2c7d0-a72b-47f7-846e-44162041f7e2",
+              "name": "Resource not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "irrigation",
+                    "zones",
+                    ":zoneId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "zoneId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "63340e2b-5787-43de-aaaa-0e1bd677f36a",
+          "name": "Start Irrigation",
+          "request": {
+            "name": "Start Irrigation",
+            "description": {
+              "content": "Manually start irrigation for a specific zone.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "irrigation",
+                "zones",
+                ":zoneId",
+                "start"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "zoneId",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"duration\": \"<integer>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "fa1221b5-9aaf-41cf-b5b6-45734f5a3e16",
+              "name": "Irrigation started",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "irrigation",
+                    "zones",
+                    ":zoneId",
+                    "start"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "zoneId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"duration\": \"<integer>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "3381df8b-a02a-49eb-a2db-3b4823a1456f",
+          "name": "Stop Irrigation",
+          "request": {
+            "name": "Stop Irrigation",
+            "description": {
+              "content": "Stop active irrigation for a specific zone.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "irrigation",
+                "zones",
+                ":zoneId",
+                "stop"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "zoneId",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "method": "POST",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "bb69bd8a-f76c-4d8a-b678-5a33d7792804",
+              "name": "Irrigation stopped",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "irrigation",
+                    "zones",
+                    ":zoneId",
+                    "stop"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "zoneId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.intellidash.toro.com/v1",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "X-API-Key"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "a03b6b8a-3d9a-4924-ad90-6ec5e5433fdf",
+    "name": "Toro IntelliDash",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Toro IntelliDash is an irrigation and fleet management platform for golf courses and sports facilities. The API provides access to real-time irrigation control, equipment fleet tracking, agronomic data, and operational monitoring for golf course superintendents and sports turf managers.\n\nContact Support:\n Name: Toro Company",
+      "type": "text/plain"
+    }
+  }
+}

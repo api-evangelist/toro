@@ -1,0 +1,550 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Toro Horizon360",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Customers",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Customers",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.horizon360.toro.com/v1/customers",
+            "params": [
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number for pagination"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Number of records per page"
+              },
+              {
+                "name": "search",
+                "value": "",
+                "type": "query",
+                "description": "Search customers by name, email, or phone"
+              }
+            ]
+          },
+          "docs": "Returns a paginated list of all customers for the account."
+        },
+        {
+          "info": {
+            "name": "Create Customer",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.horizon360.toro.com/v1/customers",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a new customer record."
+        },
+        {
+          "info": {
+            "name": "Get Customer",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.horizon360.toro.com/v1/customers/:customerId",
+            "params": [
+              {
+                "name": "customerId",
+                "value": "",
+                "type": "path",
+                "description": "Unique customer identifier"
+              }
+            ]
+          },
+          "docs": "Retrieve a specific customer by ID."
+        },
+        {
+          "info": {
+            "name": "Update Customer",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.horizon360.toro.com/v1/customers/:customerId",
+            "params": [
+              {
+                "name": "customerId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update an existing customer record."
+        },
+        {
+          "info": {
+            "name": "Delete Customer",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.horizon360.toro.com/v1/customers/:customerId",
+            "params": [
+              {
+                "name": "customerId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Delete a customer record."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Jobs",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Jobs",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.horizon360.toro.com/v1/jobs",
+            "params": [
+              {
+                "name": "status",
+                "value": "",
+                "type": "query",
+                "description": "Filter by job status"
+              },
+              {
+                "name": "customerId",
+                "value": "",
+                "type": "query",
+                "description": "Filter by customer ID"
+              },
+              {
+                "name": "startDate",
+                "value": "",
+                "type": "query",
+                "description": "Filter jobs on or after this date"
+              },
+              {
+                "name": "endDate",
+                "value": "",
+                "type": "query",
+                "description": "Filter jobs on or before this date"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Returns a paginated list of jobs and work orders."
+        },
+        {
+          "info": {
+            "name": "Create Job",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.horizon360.toro.com/v1/jobs",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a new landscaping job or work order."
+        },
+        {
+          "info": {
+            "name": "Get Job",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.horizon360.toro.com/v1/jobs/:jobId",
+            "params": [
+              {
+                "name": "jobId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Retrieve a specific job by ID."
+        },
+        {
+          "info": {
+            "name": "Update Job",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.horizon360.toro.com/v1/jobs/:jobId",
+            "params": [
+              {
+                "name": "jobId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update an existing job record."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Schedules",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Schedules",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.horizon360.toro.com/v1/schedules",
+            "params": [
+              {
+                "name": "startDate",
+                "value": "",
+                "type": "query",
+                "description": "Start of the date range"
+              },
+              {
+                "name": "endDate",
+                "value": "",
+                "type": "query",
+                "description": "End of the date range"
+              },
+              {
+                "name": "crewId",
+                "value": "",
+                "type": "query",
+                "description": "Filter by crew ID"
+              }
+            ]
+          },
+          "docs": "Returns scheduled jobs and crew assignments for a date range."
+        },
+        {
+          "info": {
+            "name": "Create Schedule Entry",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.horizon360.toro.com/v1/schedules",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Schedule a job for a specific crew and date."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Crews",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Crews",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.horizon360.toro.com/v1/crews"
+          },
+          "docs": "Returns a list of all crews and their members."
+        },
+        {
+          "info": {
+            "name": "Create Crew",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.horizon360.toro.com/v1/crews",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a new crew."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Invoices",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Invoices",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.horizon360.toro.com/v1/invoices",
+            "params": [
+              {
+                "name": "status",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "customerId",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Returns a paginated list of invoices."
+        },
+        {
+          "info": {
+            "name": "Create Invoice",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.horizon360.toro.com/v1/invoices",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a new invoice for a customer or job."
+        },
+        {
+          "info": {
+            "name": "Get Invoice",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.horizon360.toro.com/v1/invoices/:invoiceId",
+            "params": [
+              {
+                "name": "invoiceId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Retrieve a specific invoice by ID."
+        },
+        {
+          "info": {
+            "name": "Send Invoice",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.horizon360.toro.com/v1/invoices/:invoiceId/send",
+            "params": [
+              {
+                "name": "invoiceId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Send an invoice to the customer via email."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Equipment",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Equipment",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.horizon360.toro.com/v1/equipment",
+            "params": [
+              {
+                "name": "status",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "type",
+                "value": "",
+                "type": "query",
+                "description": "Filter by equipment type"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Returns a paginated list of equipment in the fleet."
+        },
+        {
+          "info": {
+            "name": "Add Equipment",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.horizon360.toro.com/v1/equipment",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Add a new piece of equipment to the fleet."
+        },
+        {
+          "info": {
+            "name": "Get Equipment",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.horizon360.toro.com/v1/equipment/:equipmentId",
+            "params": [
+              {
+                "name": "equipmentId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Retrieve details for a specific piece of equipment."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Payments",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Payments",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.horizon360.toro.com/v1/payments",
+            "params": [
+              {
+                "name": "status",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "customerId",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Returns a list of payment transactions."
+        },
+        {
+          "info": {
+            "name": "Process Payment",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.horizon360.toro.com/v1/payments",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Process a customer payment for an invoice."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

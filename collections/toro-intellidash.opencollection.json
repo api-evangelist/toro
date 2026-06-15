@@ -1,0 +1,305 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Toro IntelliDash",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-API-Key",
+      "value": "{{X-API-Key}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Irrigation",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Irrigation Status",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.intellidash.toro.com/v1/irrigation/status"
+          },
+          "docs": "Returns the current status of all irrigation systems and controllers."
+        },
+        {
+          "info": {
+            "name": "Start Irrigation",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.intellidash.toro.com/v1/irrigation/zones/:zoneId/start",
+            "params": [
+              {
+                "name": "zoneId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Manually start irrigation for a specific zone."
+        },
+        {
+          "info": {
+            "name": "Stop Irrigation",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.intellidash.toro.com/v1/irrigation/zones/:zoneId/stop",
+            "params": [
+              {
+                "name": "zoneId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Stop active irrigation for a specific zone."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Zones",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Irrigation Zones",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.intellidash.toro.com/v1/irrigation/zones",
+            "params": [
+              {
+                "name": "status",
+                "value": "",
+                "type": "query",
+                "description": "Filter zones by status"
+              }
+            ]
+          },
+          "docs": "Returns all defined irrigation zones and their current configuration."
+        },
+        {
+          "info": {
+            "name": "Get Irrigation Zone",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.intellidash.toro.com/v1/irrigation/zones/:zoneId",
+            "params": [
+              {
+                "name": "zoneId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Returns details for a specific irrigation zone."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Equipment",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Fleet Equipment",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.intellidash.toro.com/v1/equipment",
+            "params": [
+              {
+                "name": "status",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "type",
+                "value": "",
+                "type": "query",
+                "description": "Filter by equipment type (mower, utility, irrigation, etc.)"
+              }
+            ]
+          },
+          "docs": "Returns all equipment in the golf course fleet with health and location data."
+        },
+        {
+          "info": {
+            "name": "Get Fleet Equipment",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.intellidash.toro.com/v1/equipment/:equipmentId",
+            "params": [
+              {
+                "name": "equipmentId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Returns detailed information and health data for a specific piece of equipment."
+        },
+        {
+          "info": {
+            "name": "Get Equipment Location",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.intellidash.toro.com/v1/equipment/:equipmentId/location",
+            "params": [
+              {
+                "name": "equipmentId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Returns the current GPS location of a specific piece of equipment."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Sensors",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Sensors",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.intellidash.toro.com/v1/sensors",
+            "params": [
+              {
+                "name": "type",
+                "value": "",
+                "type": "query",
+                "description": "Filter by sensor type"
+              }
+            ]
+          },
+          "docs": "Returns all environmental and soil sensors and their latest readings."
+        },
+        {
+          "info": {
+            "name": "Get Sensor Readings",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.intellidash.toro.com/v1/sensors/:sensorId/readings",
+            "params": [
+              {
+                "name": "sensorId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "startDate",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "endDate",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "interval",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Returns historical readings for a specific sensor."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Reports",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Water Usage Report",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.intellidash.toro.com/v1/reports/water-usage",
+            "params": [
+              {
+                "name": "startDate",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "endDate",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "groupBy",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Returns a water usage summary report for a given date range."
+        },
+        {
+          "info": {
+            "name": "Get Equipment Health Report",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.intellidash.toro.com/v1/reports/equipment-health",
+            "params": [
+              {
+                "name": "asOf",
+                "value": "",
+                "type": "query",
+                "description": "Report date (defaults to today)"
+              }
+            ]
+          },
+          "docs": "Returns a fleet equipment health summary and maintenance status report."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
