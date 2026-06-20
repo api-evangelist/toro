@@ -10,7 +10,7 @@ info:
     name: Toro Company
     url: https://horizon360.toro.com/
   x-logo:
-    url: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    url: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
 servers:
   - url: https://api.horizon360.toro.com/v1
     description: Horizon360 Production API
