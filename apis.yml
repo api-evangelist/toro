@@ -53,6 +53,10 @@ apis:
       Toro myTurf Pro is a web-based equipment management solution for golf courses and sports fields that provides
       fleet tracking, maintenance scheduling, work orders, parts management, and equipment health monitoring.
 common:
+  - type: DomainSecurity
+    url: security/toro-domain-security.yml
+  - type: Authentication
+    url: authentication/toro-authentication.yml
   - type: Website
     url: https://www.thetorocompany.com/
   - type: Developer
