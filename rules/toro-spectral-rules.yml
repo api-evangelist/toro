@@ -1,81 +1,96 @@
+# toro — Spectral ruleset (strengthened)
+# Plain Spectral. Existing hand-authored rules preserved; measured rules added
+# from this provider's own OpenAPI conventions by strengthen_ruleset.py,
+# then self-validated against the spec.
+#
+# Provenance:
+#   - servers-https-only: 100% of servers already https (error)
+#   - servers-expected-domain: 2/2 servers on toro.com
+#   - path-params-casing: camel @ 100% (n=14)
+#   - query-params-casing: snake @ 60% (n=35)
+#   - operationid-casing: camel @ 100% (n=34)
+#   - schema-names-casing: pascal @ 100% (n=40)
+#   - schema-properties-casing: snake @ 60% (n=202)
+#   - security: global (root) — NOT emitting operation-security-required
+#   - error-schema-defined: Error
+#   - pagination params observed: ['limit', 'page']
+#   - merge: kept 10 existing, added 9 measured, upgraded 0
+#   - added: servers-https-only, servers-expected-domain, path-params-casing, query-params-casing, schema-names-casing, schema-properties-casing, security-schemes-defined, error-schema-defined, no-empty-descriptions
+extends:
+  - spectral:oas
 rules:
   toro-operation-id-camel-case:
     description: Operation IDs must use camelCase
     severity: warn
-    given: "$.paths[*][*].operationId"
+    given: $.paths[*][*].operationId
     then:
       function: pattern
       functionOptions:
-        match: "^[a-z][a-zA-Z0-9]*$"
-
+        match: ^[a-z][a-zA-Z0-9]*$
   toro-operation-summary-title-case:
     description: Operation summaries must use Title Case
     severity: warn
-    given: "$.paths[*][*].summary"
+    given: $.paths[*][*].summary
     then:
       function: pattern
       functionOptions:
-        match: "^[A-Z][a-zA-Z0-9 ]*$"
-
+        match: ^[A-Z][a-zA-Z0-9 ]*$
   toro-paths-kebab-case:
     description: API paths must use kebab-case for path segments
     severity: warn
-    given: "$.paths[*]~"
+    given: $.paths[*]~
     then:
       function: pattern
       functionOptions:
-        match: "^(/[a-z0-9-]+|/\\{[a-zA-Z0-9]+\\})*$"
-
+        match: ^(/[a-z0-9-]+|/\{[a-zA-Z0-9]+\})*$
   toro-must-have-tags:
     description: All operations must have at least one tag
     severity: error
-    given: "$.paths[*][get,post,put,patch,delete]"
+    given: $.paths[*][get,post,put,patch,delete]
     then:
       field: tags
       function: truthy
-
   toro-responses-must-have-description:
     description: All responses must have a description
     severity: error
-    given: "$.paths[*][*].responses[*]"
+    given: $.paths[*][*].responses[*]
     then:
       field: description
       function: truthy
-
   toro-must-have-200-or-201:
     description: All operations must define a success response (200 or 201)
     severity: error
-    given: "$.paths[*][get,post,put,patch,delete].responses"
+    given: $.paths[*][get,post,put,patch,delete].responses
     then:
       function: schema
       functionOptions:
         schema:
           anyOf:
-            - required: ["200"]
-            - required: ["201"]
-
+          - required:
+            - '200'
+          - required:
+            - '201'
   toro-parameters-must-have-description:
     description: All parameters must have descriptions
     severity: warn
-    given: "$.paths[*][*].parameters[*]"
+    given: $.paths[*][*].parameters[*]
     then:
       field: description
       function: truthy
-
   toro-request-body-content-type:
     description: Request bodies should use application/json content type
     severity: warn
-    given: "$.paths[*][post,put,patch].requestBody.content"
+    given: $.paths[*][post,put,patch].requestBody.content
     then:
       function: schema
       functionOptions:
         schema:
-          required: ["application/json"]
-
+          required:
+          - application/json
   toro-error-response-schema:
     description: Error responses (4xx, 5xx) should reference a schema
     severity: warn
-    given: "$.paths[*][*].responses[4xx,5xx]"
+    given: $.paths[*][*].responses[4xx,5xx]
     then:
       function: schema
       functionOptions:
@@ -83,11 +98,81 @@ rules:
           properties:
             content:
               type: object
-
   toro-list-operations-must-support-pagination:
     description: List operations should support pagination parameters
     severity: warn
-    given: "$.paths[*][get][?(@.operationId =~ /^list/)]"
+    given: $.paths[*][get][?(@.operationId =~ /^list/)]
     then:
       field: parameters
+      function: truthy
+  servers-https-only:
+    description: Server URLs must use HTTPS.
+    severity: error
+    given: $.servers[*].url
+    then:
+      function: pattern
+      functionOptions:
+        match: ^https://
+  servers-expected-domain:
+    description: Server URLs should be on the toro.com domain.
+    severity: warn
+    given: $.servers[*].url
+    then:
+      function: pattern
+      functionOptions:
+        match: toro\.com
+  path-params-casing:
+    description: Path parameters should be camelCase (the dominant convention in this API).
+    severity: warn
+    given: $.paths[*].parameters[?(@.in=='path')].name
+    then:
+      function: casing
+      functionOptions:
+        type: camel
+  query-params-casing:
+    description: Query parameters should be snake_case (the dominant convention in this API).
+    severity: warn
+    given: $.paths[*][get,post,put,patch,delete].parameters[?(@.in=='query')]
+    then:
+      field: name
+      function: casing
+      functionOptions:
+        type: snake
+  schema-names-casing:
+    description: Component schema names should be PascalCase (the dominant convention in this API).
+    severity: warn
+    given: $.components.schemas
+    then:
+      field: '@key'
+      function: casing
+      functionOptions:
+        type: pascal
+  schema-properties-casing:
+    description: Schema properties should be snake_case (the dominant convention in this API).
+    severity: info
+    given: $.components.schemas[*].properties
+    then:
+      field: '@key'
+      function: casing
+      functionOptions:
+        type: snake
+  security-schemes-defined:
+    description: Security schemes should be defined in components.
+    severity: warn
+    given: $.components
+    then:
+      field: securitySchemes
+      function: truthy
+  error-schema-defined:
+    description: A shared error schema (Error) should be defined for error payloads.
+    severity: warn
+    given: $.components.schemas
+    then:
+      field: Error
+      function: truthy
+  no-empty-descriptions:
+    description: Descriptions must not be empty strings.
+    severity: warn
+    given: $..description
+    then:
       function: truthy

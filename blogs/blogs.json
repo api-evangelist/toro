@@ -2,13 +2,11 @@
   "repo": "toro",
   "feeds": [
     {
-      "source": "https://newsroom.toro.com/",
-      "feed_url": "",
-      "saved": 0,
-      "method": "agent-scrape"
+      "source": "https://www.thetorocompany.com/smart-connected-products",
+      "error": "TimeoutError"
     }
   ],
-  "fetched": "2026-06-27T13:16:03Z",
+  "fetched": "2026-07-11T11:50:51Z",
   "post_count": 6,
   "agent_pulled": "2026-06-27"
 }
