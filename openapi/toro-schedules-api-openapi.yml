@@ -1,0 +1,126 @@
+openapi: 3.0.3
+info:
+  title: Toro Horizon360 Crews Schedules API
+  description: Toro Horizon360 is an all-in-one business management software for landscape contractors. The API provides endpoints for managing crews, schedules, jobs, customers, invoices, equipment, and payments for landscaping businesses.
+  version: 1.0.0
+  contact:
+    name: Toro Company
+    url: https://horizon360.toro.com/
+  x-logo:
+    url: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+servers:
+- url: https://api.horizon360.toro.com/v1
+  description: Horizon360 Production API
+security:
+- bearerAuth: []
+tags:
+- name: Schedules
+  description: Manage crew and job scheduling
+paths:
+  /schedules:
+    get:
+      operationId: listSchedules
+      summary: List Schedules
+      description: Returns scheduled jobs and crew assignments for a date range.
+      tags:
+      - Schedules
+      parameters:
+      - name: startDate
+        in: query
+        required: true
+        schema:
+          type: string
+          format: date
+        description: Start of the date range
+      - name: endDate
+        in: query
+        required: true
+        schema:
+          type: string
+          format: date
+        description: End of the date range
+      - name: crewId
+        in: query
+        schema:
+          type: string
+        description: Filter by crew ID
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ScheduleList'
+    post:
+      operationId: createScheduleEntry
+      summary: Create Schedule Entry
+      description: Schedule a job for a specific crew and date.
+      tags:
+      - Schedules
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ScheduleInput'
+      responses:
+        '201':
+          description: Schedule entry created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Schedule'
+components:
+  schemas:
+    ScheduleList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Schedule'
+    Schedule:
+      type: object
+      properties:
+        id:
+          type: string
+        jobId:
+          type: string
+        crewId:
+          type: string
+        scheduledDate:
+          type: string
+          format: date
+        startTime:
+          type: string
+          format: time
+        endTime:
+          type: string
+          format: time
+        status:
+          type: string
+    ScheduleInput:
+      type: object
+      required:
+      - jobId
+      - crewId
+      - scheduledDate
+      properties:
+        jobId:
+          type: string
+        crewId:
+          type: string
+        scheduledDate:
+          type: string
+          format: date
+        startTime:
+          type: string
+          format: time
+        endTime:
+          type: string
+          format: time
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

@@ -1,0 +1,102 @@
+openapi: 3.0.3
+info:
+  title: Toro Horizon360 Crews API
+  description: Toro Horizon360 is an all-in-one business management software for landscape contractors. The API provides endpoints for managing crews, schedules, jobs, customers, invoices, equipment, and payments for landscaping businesses.
+  version: 1.0.0
+  contact:
+    name: Toro Company
+    url: https://horizon360.toro.com/
+  x-logo:
+    url: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+servers:
+- url: https://api.horizon360.toro.com/v1
+  description: Horizon360 Production API
+security:
+- bearerAuth: []
+tags:
+- name: Crews
+  description: Manage crew members and assignments
+paths:
+  /crews:
+    get:
+      operationId: listCrews
+      summary: List Crews
+      description: Returns a list of all crews and their members.
+      tags:
+      - Crews
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CrewList'
+    post:
+      operationId: createCrew
+      summary: Create Crew
+      description: Create a new crew.
+      tags:
+      - Crews
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CrewInput'
+      responses:
+        '201':
+          description: Crew created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Crew'
+components:
+  schemas:
+    CrewMember:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        role:
+          type: string
+    CrewInput:
+      type: object
+      required:
+      - name
+      properties:
+        name:
+          type: string
+        memberIds:
+          type: array
+          items:
+            type: string
+    Crew:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        members:
+          type: array
+          items:
+            $ref: '#/components/schemas/CrewMember'
+        status:
+          type: string
+          enum:
+          - active
+          - inactive
+    CrewList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Crew'
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

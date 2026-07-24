@@ -1,0 +1,129 @@
+openapi: 3.0.3
+info:
+  title: Toro Horizon360 Crews Reports API
+  description: Toro Horizon360 is an all-in-one business management software for landscape contractors. The API provides endpoints for managing crews, schedules, jobs, customers, invoices, equipment, and payments for landscaping businesses.
+  version: 1.0.0
+  contact:
+    name: Toro Company
+    url: https://horizon360.toro.com/
+  x-logo:
+    url: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+servers:
+- url: https://api.horizon360.toro.com/v1
+  description: Horizon360 Production API
+security:
+- bearerAuth: []
+tags:
+- name: Reports
+  description: Agronomic and operational reports
+paths:
+  /reports/water-usage:
+    get:
+      operationId: getWaterUsageReport
+      summary: Get Water Usage Report
+      description: Returns a water usage summary report for a given date range.
+      tags:
+      - Reports
+      parameters:
+      - name: startDate
+        in: query
+        required: true
+        schema:
+          type: string
+          format: date
+      - name: endDate
+        in: query
+        required: true
+        schema:
+          type: string
+          format: date
+      - name: groupBy
+        in: query
+        schema:
+          type: string
+          enum:
+          - day
+          - week
+          - month
+          - zone
+          default: day
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WaterUsageReport'
+  /reports/equipment-health:
+    get:
+      operationId: getEquipmentHealthReport
+      summary: Get Equipment Health Report
+      description: Returns a fleet equipment health summary and maintenance status report.
+      tags:
+      - Reports
+      parameters:
+      - name: asOf
+        in: query
+        schema:
+          type: string
+          format: date
+        description: Report date (defaults to today)
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EquipmentHealthReport'
+components:
+  schemas:
+    EquipmentHealthReport:
+      type: object
+      properties:
+        asOf:
+          type: string
+          format: date
+        totalEquipment:
+          type: integer
+        activeEquipment:
+          type: integer
+        equipmentInMaintenance:
+          type: integer
+        alerts:
+          type: array
+          items:
+            type: object
+            properties:
+              equipmentId:
+                type: string
+              equipmentName:
+                type: string
+              alertType:
+                type: string
+              severity:
+                type: string
+    WaterUsageReport:
+      type: object
+      properties:
+        startDate:
+          type: string
+          format: date
+        endDate:
+          type: string
+          format: date
+        totalGallons:
+          type: number
+        periods:
+          type: array
+          items:
+            type: object
+            properties:
+              period:
+                type: string
+              gallons:
+                type: number
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

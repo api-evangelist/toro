@@ -1,0 +1,153 @@
+openapi: 3.0.3
+info:
+  title: Toro Horizon360 Crews Sensors API
+  description: Toro Horizon360 is an all-in-one business management software for landscape contractors. The API provides endpoints for managing crews, schedules, jobs, customers, invoices, equipment, and payments for landscaping businesses.
+  version: 1.0.0
+  contact:
+    name: Toro Company
+    url: https://horizon360.toro.com/
+  x-logo:
+    url: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+servers:
+- url: https://api.horizon360.toro.com/v1
+  description: Horizon360 Production API
+security:
+- bearerAuth: []
+tags:
+- name: Sensors
+  description: Environmental and soil sensor data
+paths:
+  /sensors:
+    get:
+      operationId: listSensors
+      summary: List Sensors
+      description: Returns all environmental and soil sensors and their latest readings.
+      tags:
+      - Sensors
+      parameters:
+      - name: type
+        in: query
+        schema:
+          type: string
+          enum:
+          - soil_moisture
+          - weather
+          - temperature
+          - light
+        description: Filter by sensor type
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SensorList'
+  /sensors/{sensorId}/readings:
+    get:
+      operationId: getSensorReadings
+      summary: Get Sensor Readings
+      description: Returns historical readings for a specific sensor.
+      tags:
+      - Sensors
+      parameters:
+      - name: sensorId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: startDate
+        in: query
+        required: true
+        schema:
+          type: string
+          format: date-time
+      - name: endDate
+        in: query
+        required: true
+        schema:
+          type: string
+          format: date-time
+      - name: interval
+        in: query
+        schema:
+          type: string
+          enum:
+          - 15min
+          - 1hour
+          - 1day
+          default: 1hour
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SensorReadingList'
+components:
+  schemas:
+    Sensor:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        type:
+          type: string
+          enum:
+          - soil_moisture
+          - weather
+          - temperature
+          - light
+        location:
+          $ref: '#/components/schemas/GeoLocation'
+        status:
+          type: string
+          enum:
+          - active
+          - offline
+          - fault
+        lastReading:
+          $ref: '#/components/schemas/SensorReading'
+    SensorReadingList:
+      type: object
+      properties:
+        sensorId:
+          type: string
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/SensorReading'
+    SensorList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Sensor'
+    GeoLocation:
+      type: object
+      properties:
+        latitude:
+          type: number
+          format: double
+        longitude:
+          type: number
+          format: double
+        altitude:
+          type: number
+    SensorReading:
+      type: object
+      properties:
+        timestamp:
+          type: string
+          format: date-time
+        value:
+          type: number
+        unit:
+          type: string
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

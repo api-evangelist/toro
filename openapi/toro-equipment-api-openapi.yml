@@ -1,0 +1,230 @@
+openapi: 3.0.3
+info:
+  title: Toro Horizon360 Crews Equipment API
+  description: Toro Horizon360 is an all-in-one business management software for landscape contractors. The API provides endpoints for managing crews, schedules, jobs, customers, invoices, equipment, and payments for landscaping businesses.
+  version: 1.0.0
+  contact:
+    name: Toro Company
+    url: https://horizon360.toro.com/
+  x-logo:
+    url: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+servers:
+- url: https://api.horizon360.toro.com/v1
+  description: Horizon360 Production API
+security:
+- bearerAuth: []
+tags:
+- name: Equipment
+  description: Track and manage landscaping equipment
+paths:
+  /equipment:
+    get:
+      operationId: listEquipment
+      summary: List Equipment
+      description: Returns a paginated list of equipment in the fleet.
+      tags:
+      - Equipment
+      parameters:
+      - name: status
+        in: query
+        schema:
+          type: string
+          enum:
+          - active
+          - maintenance
+          - retired
+      - name: type
+        in: query
+        schema:
+          type: string
+        description: Filter by equipment type
+      - name: page
+        in: query
+        schema:
+          type: integer
+          default: 1
+      - name: limit
+        in: query
+        schema:
+          type: integer
+          default: 25
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EquipmentList'
+    post:
+      operationId: addEquipment
+      summary: Add Equipment
+      description: Add a new piece of equipment to the fleet.
+      tags:
+      - Equipment
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EquipmentInput'
+      responses:
+        '201':
+          description: Equipment added
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Equipment'
+  /equipment/{equipmentId}:
+    get:
+      operationId: getEquipment
+      summary: Get Equipment
+      description: Retrieve details for a specific piece of equipment.
+      tags:
+      - Equipment
+      parameters:
+      - name: equipmentId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Equipment'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /equipment/{equipmentId}/location:
+    get:
+      operationId: getEquipmentLocation
+      summary: Get Equipment Location
+      description: Returns the current GPS location of a specific piece of equipment.
+      tags:
+      - Equipment
+      parameters:
+      - name: equipmentId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EquipmentLocation'
+components:
+  schemas:
+    EquipmentList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Equipment'
+        total:
+          type: integer
+        page:
+          type: integer
+        limit:
+          type: integer
+    EquipmentLocation:
+      type: object
+      properties:
+        equipmentId:
+          type: string
+        location:
+          $ref: '#/components/schemas/GeoLocation'
+        speed:
+          type: number
+          description: Current speed in mph
+        heading:
+          type: integer
+          description: Heading in degrees
+        timestamp:
+          type: string
+          format: date-time
+    EquipmentInput:
+      type: object
+      required:
+      - name
+      - type
+      properties:
+        name:
+          type: string
+        type:
+          type: string
+        brand:
+          type: string
+        model:
+          type: string
+        serialNumber:
+          type: string
+        purchaseDate:
+          type: string
+          format: date
+    Error:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+    GeoLocation:
+      type: object
+      properties:
+        latitude:
+          type: number
+          format: double
+        longitude:
+          type: number
+          format: double
+        altitude:
+          type: number
+    Equipment:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        type:
+          type: string
+        brand:
+          type: string
+        model:
+          type: string
+        serialNumber:
+          type: string
+        status:
+          type: string
+          enum:
+          - active
+          - maintenance
+          - retired
+        purchaseDate:
+          type: string
+          format: date
+        lastServiceDate:
+          type: string
+          format: date
+        nextServiceDate:
+          type: string
+          format: date
+        hoursUsed:
+          type: number
+  responses:
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

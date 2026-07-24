@@ -1,0 +1,167 @@
+openapi: 3.0.3
+info:
+  title: Toro Horizon360 Crews Zones API
+  description: Toro Horizon360 is an all-in-one business management software for landscape contractors. The API provides endpoints for managing crews, schedules, jobs, customers, invoices, equipment, and payments for landscaping businesses.
+  version: 1.0.0
+  contact:
+    name: Toro Company
+    url: https://horizon360.toro.com/
+  x-logo:
+    url: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+servers:
+- url: https://api.horizon360.toro.com/v1
+  description: Horizon360 Production API
+security:
+- bearerAuth: []
+tags:
+- name: Zones
+  description: Irrigation zone management
+paths:
+  /irrigation/zones:
+    get:
+      operationId: listIrrigationZones
+      summary: List Irrigation Zones
+      description: Returns all defined irrigation zones and their current configuration.
+      tags:
+      - Zones
+      parameters:
+      - name: status
+        in: query
+        schema:
+          type: string
+          enum:
+          - active
+          - inactive
+          - watering
+        description: Filter zones by status
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ZoneList'
+  /irrigation/zones/{zoneId}:
+    get:
+      operationId: getIrrigationZone
+      summary: Get Irrigation Zone
+      description: Returns details for a specific irrigation zone.
+      tags:
+      - Zones
+      parameters:
+      - name: zoneId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Zone'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /irrigation/zones/{zoneId}/start:
+    post:
+      operationId: startIrrigation
+      summary: Start Irrigation
+      description: Manually start irrigation for a specific zone.
+      tags:
+      - Zones
+      parameters:
+      - name: zoneId
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                duration:
+                  type: integer
+                  description: Duration in minutes
+                  minimum: 1
+                  maximum: 120
+      responses:
+        '200':
+          description: Irrigation started
+  /irrigation/zones/{zoneId}/stop:
+    post:
+      operationId: stopIrrigation
+      summary: Stop Irrigation
+      description: Stop active irrigation for a specific zone.
+      tags:
+      - Zones
+      parameters:
+      - name: zoneId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Irrigation stopped
+components:
+  responses:
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  schemas:
+    ZoneList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Zone'
+        total:
+          type: integer
+    Error:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+    Zone:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        status:
+          type: string
+          enum:
+          - active
+          - inactive
+          - watering
+        wateringDurationMinutes:
+          type: integer
+        lastWateredAt:
+          type: string
+          format: date-time
+        nextScheduledAt:
+          type: string
+          format: date-time
+        soilMoisture:
+          type: number
+          description: Soil moisture percentage
+        flowRateGpm:
+          type: number
+          description: Flow rate in gallons per minute
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

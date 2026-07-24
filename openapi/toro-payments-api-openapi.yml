@@ -1,0 +1,151 @@
+openapi: 3.0.3
+info:
+  title: Toro Horizon360 Crews Payments API
+  description: Toro Horizon360 is an all-in-one business management software for landscape contractors. The API provides endpoints for managing crews, schedules, jobs, customers, invoices, equipment, and payments for landscaping businesses.
+  version: 1.0.0
+  contact:
+    name: Toro Company
+    url: https://horizon360.toro.com/
+  x-logo:
+    url: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+servers:
+- url: https://api.horizon360.toro.com/v1
+  description: Horizon360 Production API
+security:
+- bearerAuth: []
+tags:
+- name: Payments
+  description: Process and manage customer payments
+paths:
+  /payments:
+    get:
+      operationId: listPayments
+      summary: List Payments
+      description: Returns a list of payment transactions.
+      tags:
+      - Payments
+      parameters:
+      - name: status
+        in: query
+        schema:
+          type: string
+          enum:
+          - pending
+          - completed
+          - failed
+          - refunded
+      - name: customerId
+        in: query
+        schema:
+          type: string
+      - name: page
+        in: query
+        schema:
+          type: integer
+          default: 1
+      - name: limit
+        in: query
+        schema:
+          type: integer
+          default: 25
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaymentList'
+    post:
+      operationId: processPayment
+      summary: Process Payment
+      description: Process a customer payment for an invoice.
+      tags:
+      - Payments
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PaymentInput'
+      responses:
+        '201':
+          description: Payment processed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Payment'
+components:
+  schemas:
+    Payment:
+      type: object
+      properties:
+        id:
+          type: string
+        invoiceId:
+          type: string
+        customerId:
+          type: string
+        amount:
+          type: number
+          format: float
+        currency:
+          type: string
+          default: USD
+        status:
+          type: string
+          enum:
+          - pending
+          - completed
+          - failed
+          - refunded
+        paymentMethod:
+          type: string
+          enum:
+          - credit_card
+          - ach
+          - check
+          - cash
+        transactionId:
+          type: string
+        processedAt:
+          type: string
+          format: date-time
+    PaymentList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Payment'
+        total:
+          type: integer
+        page:
+          type: integer
+        limit:
+          type: integer
+    PaymentInput:
+      type: object
+      required:
+      - invoiceId
+      - amount
+      - paymentMethod
+      properties:
+        invoiceId:
+          type: string
+        amount:
+          type: number
+          format: float
+        paymentMethod:
+          type: string
+          enum:
+          - credit_card
+          - ach
+          - check
+          - cash
+        paymentToken:
+          type: string
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
