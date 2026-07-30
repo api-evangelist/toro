@@ -1,57 +1,165 @@
 aid: toro
 url: https://raw.githubusercontent.com/api-evangelist/toro/refs/heads/main/apis.yml
 apis:
-  - aid: toro:horizon360
-    name: Toro Horizon360
-    tags:
-      - Landscaping
-      - Business Management
-      - Equipment
-      - Scheduling
-      - Invoicing
-    humanURL: https://horizon360.toro.com/
-    properties:
-      - url: https://horizon360.toro.com/
-        type: Documentation
-      - url: openapi/toro-horizon360-openapi.yml
-        type: OpenAPI
-    description: >-
-      Toro Horizon360 is an all-in-one business management software for landscape contractors that enables crew
-      scheduling, job tracking, invoicing, payment processing, customer relationship management, and equipment tracking.
-      The platform integrates with EVO Payments for secure cloud-based payment processing.
-  - aid: toro:intellidash
-    name: Toro IntelliDash
-    tags:
-      - Irrigation
-      - Golf
-      - Fleet Management
-      - Smart Equipment
-      - Monitoring
-    humanURL: https://www.toro.com/en/product/IntelliDash
-    properties:
-      - url: https://www.toro.com/en/product/IntelliDash
-        type: Documentation
-      - url: openapi/toro-intellidash-openapi.yml
-        type: OpenAPI
-    description: >-
-      Toro IntelliDash is an irrigation and fleet management platform for golf course superintendents to monitor,
-      manage, track and maintain operations from a single dashboard. It integrates data from Lynx Central Control,
-      myTurf Pro, ezLocator, taskTracker, Playbooks, Turf Guard sensors, and IntelliDash Alliance partners.
-  - aid: toro:myturf
-    name: Toro myTurf
-    tags:
-      - Equipment
-      - Maintenance
-      - Fleet
-      - Golf
-      - Turf Management
-    humanURL: https://www.toro.com/en/professional-contractor
-    properties:
-      - url: https://www.toro.com/en/professional-contractor
-        type: Documentation
-    description: >-
-      Toro myTurf Pro is a web-based equipment management solution for golf courses and sports fields that provides
-      fleet tracking, maintenance scheduling, work orders, parts management, and equipment health monitoring.
+- aid: toro:myturf
+  name: Toro myTurf
+  tags:
+  - Equipment
+  - Maintenance
+  - Fleet
+  - Golf
+  - Turf Management
+  humanURL: https://www.toro.com/en/professional-contractor
+  properties:
+  - url: https://www.toro.com/en/professional-contractor
+    type: Documentation
+  description: >-
+    Toro myTurf Pro is a web-based equipment management solution for golf courses and sports fields that
+    provides fleet tracking, maintenance scheduling, work orders, parts management, and equipment health
+    monitoring.
+- aid: toro:toro-crews-api
+  name: Toro Crews API
+  description: Manage crew members and assignments
+  humanURL: https://horizon360.toro.com/
+  tags:
+  - Crews
+  properties:
+  - type: OpenAPI
+    url: openapi/toro-crews-api-openapi.yml
+  - type: Documentation
+    url: https://horizon360.toro.com/
+  - type: Documentation
+    url: https://www.toro.com/en/product/IntelliDash
+- aid: toro:toro-customers-api
+  name: Toro Customers API
+  description: Manage customer accounts and contacts
+  humanURL: https://horizon360.toro.com/
+  tags:
+  - Customers
+  properties:
+  - type: OpenAPI
+    url: openapi/toro-customers-api-openapi.yml
+  - type: Documentation
+    url: https://horizon360.toro.com/
+  - type: Documentation
+    url: https://www.toro.com/en/product/IntelliDash
+- aid: toro:toro-equipment-api
+  name: Toro Equipment API
+  description: Track and manage landscaping equipment
+  humanURL: https://horizon360.toro.com/
+  tags:
+  - Equipment
+  properties:
+  - type: OpenAPI
+    url: openapi/toro-equipment-api-openapi.yml
+  - type: Documentation
+    url: https://horizon360.toro.com/
+  - type: Documentation
+    url: https://www.toro.com/en/product/IntelliDash
+- aid: toro:toro-invoices-api
+  name: Toro Invoices API
+  description: Generate and manage customer invoices
+  humanURL: https://horizon360.toro.com/
+  tags:
+  - Invoices
+  properties:
+  - type: OpenAPI
+    url: openapi/toro-invoices-api-openapi.yml
+  - type: Documentation
+    url: https://horizon360.toro.com/
+  - type: Documentation
+    url: https://www.toro.com/en/product/IntelliDash
+- aid: toro:toro-irrigation-api
+  name: Toro Irrigation API
+  description: Control and monitor irrigation systems
+  humanURL: https://horizon360.toro.com/
+  tags:
+  - Irrigation
+  properties:
+  - type: OpenAPI
+    url: openapi/toro-irrigation-api-openapi.yml
+  - type: Documentation
+    url: https://horizon360.toro.com/
+  - type: Documentation
+    url: https://www.toro.com/en/product/IntelliDash
+- aid: toro:toro-jobs-api
+  name: Toro Jobs API
+  description: Create and track landscaping jobs and work orders
+  humanURL: https://horizon360.toro.com/
+  tags:
+  - Jobs
+  properties:
+  - type: OpenAPI
+    url: openapi/toro-jobs-api-openapi.yml
+  - type: Documentation
+    url: https://horizon360.toro.com/
+  - type: Documentation
+    url: https://www.toro.com/en/product/IntelliDash
+- aid: toro:toro-payments-api
+  name: Toro Payments API
+  description: Process and manage customer payments
+  humanURL: https://horizon360.toro.com/
+  tags:
+  - Payments
+  properties:
+  - type: OpenAPI
+    url: openapi/toro-payments-api-openapi.yml
+  - type: Documentation
+    url: https://horizon360.toro.com/
+  - type: Documentation
+    url: https://www.toro.com/en/product/IntelliDash
+- aid: toro:toro-reports-api
+  name: Toro Reports API
+  description: Agronomic and operational reports
+  humanURL: https://horizon360.toro.com/
+  tags:
+  - Reports
+  properties:
+  - type: OpenAPI
+    url: openapi/toro-reports-api-openapi.yml
+  - type: Documentation
+    url: https://horizon360.toro.com/
+  - type: Documentation
+    url: https://www.toro.com/en/product/IntelliDash
+- aid: toro:toro-schedules-api
+  name: Toro Schedules API
+  description: Manage crew and job scheduling
+  humanURL: https://horizon360.toro.com/
+  tags:
+  - Schedules
+  properties:
+  - type: OpenAPI
+    url: openapi/toro-schedules-api-openapi.yml
+  - type: Documentation
+    url: https://horizon360.toro.com/
+  - type: Documentation
+    url: https://www.toro.com/en/product/IntelliDash
+- aid: toro:toro-sensors-api
+  name: Toro Sensors API
+  description: Environmental and soil sensor data
+  humanURL: https://horizon360.toro.com/
+  tags:
+  - Sensors
+  properties:
+  - type: OpenAPI
+    url: openapi/toro-sensors-api-openapi.yml
+  - type: Documentation
+    url: https://horizon360.toro.com/
+  - type: Documentation
+    url: https://www.toro.com/en/product/IntelliDash
+- aid: toro:toro-zones-api
+  name: Toro Zones API
+  description: Irrigation zone management
+  humanURL: https://horizon360.toro.com/
+  tags:
+  - Zones
+  properties:
+  - type: OpenAPI
+    url: openapi/toro-zones-api-openapi.yml
+  - type: Documentation
+    url: https://horizon360.toro.com/
+  - type: Documentation
+    url: https://www.toro.com/en/product/IntelliDash
 common:
   - type: AgenticAccess
     url: agentic-access/toro-agentic-access.yml
@@ -84,7 +192,20 @@ tags:
   - Turf Management
   - Fortune 1000
 type: Index
-image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+accessModel:
+  pricing: paid
+  onboarding: self-serve
+  trial: true
+  try_now: true
+  public: false
+  label: Paid (free trial) · Self-serve signup
+  confidence: high
+  source:
+  - plans
+  - authentication
+  generated: '2026-07-22'
+  method: derived
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/toro.png
 access: 3rd-Party
 created: '2025-02-25'
 modified: '2026-05-19'
