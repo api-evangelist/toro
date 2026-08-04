@@ -1,0 +1,34 @@
+{
+  "provider": "toro",
+  "sources": [
+    "toro-crews-api-openapi.yml",
+    "toro-customers-api-openapi.yml",
+    "toro-equipment-api-openapi.yml",
+    "toro-invoices-api-openapi.yml",
+    "toro-irrigation-api-openapi.yml",
+    "toro-jobs-api-openapi.yml",
+    "toro-payments-api-openapi.yml",
+    "toro-reports-api-openapi.yml",
+    "toro-schedules-api-openapi.yml",
+    "toro-sensors-api-openapi.yml",
+    "toro-zones-api-openapi.yml"
+  ],
+  "outputs": [
+    "toro-crews-api-openapi.yml",
+    "toro-customers-api-openapi.yml",
+    "toro-equipment-api-openapi.yml",
+    "toro-invoices-api-openapi.yml",
+    "toro-irrigation-api-openapi.yml",
+    "toro-jobs-api-openapi.yml",
+    "toro-payments-api-openapi.yml",
+    "toro-reports-api-openapi.yml",
+    "toro-schedules-api-openapi.yml",
+    "toro-sensors-api-openapi.yml",
+    "toro-zones-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}
