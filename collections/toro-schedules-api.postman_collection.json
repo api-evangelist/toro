@@ -1,0 +1,250 @@
+{
+  "item": [
+    {
+      "id": "fa1672a0-345c-47c7-9bd1-a9cc0f802594",
+      "name": "Schedules",
+      "description": {
+        "content": "Manage crew and job scheduling",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "40b1681c-a950-420e-9e15-3ceb232b46c1",
+          "name": "List Schedules",
+          "request": {
+            "name": "List Schedules",
+            "description": {
+              "content": "Returns scheduled jobs and crew assignments for a date range.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "schedules"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "startDate",
+                  "value": "<date>",
+                  "description": "(Required) Start of the date range"
+                },
+                {
+                  "disabled": false,
+                  "key": "endDate",
+                  "value": "<date>",
+                  "description": "(Required) End of the date range"
+                },
+                {
+                  "disabled": false,
+                  "key": "crewId",
+                  "value": "<string>",
+                  "description": "Filter by crew ID"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "1090f3da-a855-498c-bcbb-ca33ba093445",
+              "name": "Successful response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "schedules"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "startDate",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "endDate",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "crewId",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"id\": \"string\",\n      \"jobId\": \"string\",\n      \"crewId\": \"string\",\n      \"scheduledDate\": \"1995-03-01\",\n      \"startTime\": \"20:20:40.210Z\",\n      \"endTime\": \"08:38:20.671Z\",\n      \"status\": \"string\"\n    },\n    {\n      \"id\": \"string\",\n      \"jobId\": \"string\",\n      \"crewId\": \"string\",\n      \"scheduledDate\": \"2016-09-27\",\n      \"startTime\": \"10:28:18.868Z\",\n      \"endTime\": \"01:06:19.865Z\",\n      \"status\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "b092c38f-d866-4334-b1bc-21b24ddc1999",
+          "name": "Create Schedule Entry",
+          "request": {
+            "name": "Create Schedule Entry",
+            "description": {
+              "content": "Schedule a job for a specific crew and date.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "schedules"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"jobId\": \"<string>\",\n  \"crewId\": \"<string>\",\n  \"scheduledDate\": \"<date>\",\n  \"startTime\": \"<time>\",\n  \"endTime\": \"<time>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "f8c0a741-d37f-486d-8817-eca9670ccecd",
+              "name": "Schedule entry created",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "schedules"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"jobId\": \"<string>\",\n  \"crewId\": \"<string>\",\n  \"scheduledDate\": \"<date>\",\n  \"startTime\": \"<time>\",\n  \"endTime\": \"<time>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"string\",\n  \"jobId\": \"string\",\n  \"crewId\": \"string\",\n  \"scheduledDate\": \"1986-10-05\",\n  \"startTime\": \"20:49:32.029Z\",\n  \"endTime\": \"06:22:33.243Z\",\n  \"status\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.horizon360.toro.com/v1",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "4af36df3-9508-48ed-9114-fe95f7eba868",
+    "name": "Toro Horizon360 Crews Schedules API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Toro Horizon360 is an all-in-one business management software for landscape contractors. The API provides endpoints for managing crews, schedules, jobs, customers, invoices, equipment, and payments for landscaping businesses.\n\nContact Support:\n Name: Toro Company",
+      "type": "text/plain"
+    }
+  }
+}

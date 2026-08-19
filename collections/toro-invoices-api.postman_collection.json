@@ -1,0 +1,492 @@
+{
+  "item": [
+    {
+      "id": "068ea40b-8c7f-4414-87f5-f7b3e2377168",
+      "name": "Invoices",
+      "description": {
+        "content": "Generate and manage customer invoices",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "9458031e-882a-4ff0-b9c1-1bfbbe903899",
+          "name": "List Invoices",
+          "request": {
+            "name": "List Invoices",
+            "description": {
+              "content": "Returns a paginated list of invoices.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "invoices"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "status",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "customerId",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "25"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "7ca8c3cb-78a8-4a6d-bc1a-8a73fc3c18a7",
+              "name": "Successful response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "invoices"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "status",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "customerId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "25"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"id\": \"string\",\n      \"invoiceNumber\": \"string\",\n      \"customerId\": \"string\",\n      \"jobId\": \"string\",\n      \"status\": \"void\",\n      \"lineItems\": [\n        {\n          \"description\": \"string\",\n          \"quantity\": 5795.238981763125,\n          \"unitPrice\": 5311.475344492327,\n          \"total\": 8881.379594265927\n        },\n        {\n          \"description\": \"string\",\n          \"quantity\": 7632.548098726469,\n          \"unitPrice\": 8361.944121541228,\n          \"total\": 1966.2694806125535\n        }\n      ],\n      \"subtotal\": 9949.050294668514,\n      \"tax\": 9041.8521704393,\n      \"total\": 6157.7498708960975,\n      \"dueDate\": \"1986-04-06\",\n      \"createdAt\": \"1977-12-05T20:01:22.119Z\"\n    },\n    {\n      \"id\": \"string\",\n      \"invoiceNumber\": \"string\",\n      \"customerId\": \"string\",\n      \"jobId\": \"string\",\n      \"status\": \"sent\",\n      \"lineItems\": [\n        {\n          \"description\": \"string\",\n          \"quantity\": 1659.4055670679131,\n          \"unitPrice\": 2526.5347063474896,\n          \"total\": 4711.698812780707\n        },\n        {\n          \"description\": \"string\",\n          \"quantity\": 6095.702170073163,\n          \"unitPrice\": 5610.088587008706,\n          \"total\": 2345.765042300335\n        }\n      ],\n      \"subtotal\": 4280.1893658889,\n      \"tax\": 8769.439781119527,\n      \"total\": 387.1913289321716,\n      \"dueDate\": \"1958-03-21\",\n      \"createdAt\": \"1966-06-05T17:27:20.117Z\"\n    }\n  ],\n  \"total\": 6565,\n  \"page\": 3176,\n  \"limit\": 9076\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "093f61a7-b45c-464d-970e-4ff2b0e7aed5",
+          "name": "Create Invoice",
+          "request": {
+            "name": "Create Invoice",
+            "description": {
+              "content": "Create a new invoice for a customer or job.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "invoices"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"customerId\": \"<string>\",\n  \"jobId\": \"<string>\",\n  \"lineItems\": [\n    {\n      \"description\": \"<string>\",\n      \"quantity\": \"<number>\",\n      \"unitPrice\": \"<float>\",\n      \"total\": \"<float>\"\n    },\n    {\n      \"description\": \"<string>\",\n      \"quantity\": \"<number>\",\n      \"unitPrice\": \"<float>\",\n      \"total\": \"<float>\"\n    }\n  ],\n  \"dueDate\": \"<date>\",\n  \"notes\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "166b74ba-a0ad-4640-af26-7806e7c71c27",
+              "name": "Invoice created",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "invoices"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"customerId\": \"<string>\",\n  \"jobId\": \"<string>\",\n  \"lineItems\": [\n    {\n      \"description\": \"<string>\",\n      \"quantity\": \"<number>\",\n      \"unitPrice\": \"<float>\",\n      \"total\": \"<float>\"\n    },\n    {\n      \"description\": \"<string>\",\n      \"quantity\": \"<number>\",\n      \"unitPrice\": \"<float>\",\n      \"total\": \"<float>\"\n    }\n  ],\n  \"dueDate\": \"<date>\",\n  \"notes\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"string\",\n  \"invoiceNumber\": \"string\",\n  \"customerId\": \"string\",\n  \"jobId\": \"string\",\n  \"status\": \"paid\",\n  \"lineItems\": [\n    {\n      \"description\": \"<string>\",\n      \"quantity\": \"<number>\",\n      \"unitPrice\": \"<float>\",\n      \"total\": \"<float>\"\n    },\n    {\n      \"description\": \"<string>\",\n      \"quantity\": \"<number>\",\n      \"unitPrice\": \"<float>\",\n      \"total\": \"<float>\"\n    }\n  ],\n  \"subtotal\": 842.0739658675824,\n  \"tax\": 5182.755327913566,\n  \"total\": 9787.800333492796,\n  \"dueDate\": \"2011-03-09\",\n  \"createdAt\": \"2006-09-09T12:20:35.753Z\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "fcf85a37-a028-4aa8-99e4-812f1ba55450",
+          "name": "Get Invoice",
+          "request": {
+            "name": "Get Invoice",
+            "description": {
+              "content": "Retrieve a specific invoice by ID.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "invoices",
+                ":invoiceId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "invoiceId",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "72598bdc-ee89-4061-8c90-b2699a9f8875",
+              "name": "Successful response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "invoices",
+                    ":invoiceId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "invoiceId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"string\",\n  \"invoiceNumber\": \"string\",\n  \"customerId\": \"string\",\n  \"jobId\": \"string\",\n  \"status\": \"paid\",\n  \"lineItems\": [\n    {\n      \"description\": \"<string>\",\n      \"quantity\": \"<number>\",\n      \"unitPrice\": \"<float>\",\n      \"total\": \"<float>\"\n    },\n    {\n      \"description\": \"<string>\",\n      \"quantity\": \"<number>\",\n      \"unitPrice\": \"<float>\",\n      \"total\": \"<float>\"\n    }\n  ],\n  \"subtotal\": 842.0739658675824,\n  \"tax\": 5182.755327913566,\n  \"total\": 9787.800333492796,\n  \"dueDate\": \"2011-03-09\",\n  \"createdAt\": \"2006-09-09T12:20:35.753Z\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9a438aac-ad47-41f6-987a-458aa05a398f",
+              "name": "Resource not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "invoices",
+                    ":invoiceId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "invoiceId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "ff39c988-45b8-4f4a-a9b2-00175649e315",
+          "name": "Send Invoice",
+          "request": {
+            "name": "Send Invoice",
+            "description": {
+              "content": "Send an invoice to the customer via email.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "invoices",
+                ":invoiceId",
+                "send"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "invoiceId",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "method": "POST",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "58746cc6-c570-4751-812c-fb96167e95ae",
+              "name": "Invoice sent successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "invoices",
+                    ":invoiceId",
+                    "send"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "invoiceId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.horizon360.toro.com/v1",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "24e07457-a501-4a43-9abf-21784fcda36e",
+    "name": "Toro Horizon360 Crews Invoices API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Toro Horizon360 is an all-in-one business management software for landscape contractors. The API provides endpoints for managing crews, schedules, jobs, customers, invoices, equipment, and payments for landscaping businesses.\n\nContact Support:\n Name: Toro Company",
+      "type": "text/plain"
+    }
+  }
+}

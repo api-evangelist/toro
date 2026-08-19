@@ -1,0 +1,244 @@
+{
+  "item": [
+    {
+      "id": "28646d4d-32b8-4fd7-9bf5-f1739579d736",
+      "name": "Reports",
+      "description": {
+        "content": "Agronomic and operational reports",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "508a2b3e-0515-45a7-99f4-88d3f45e50a2",
+          "name": "Get Water Usage Report",
+          "request": {
+            "name": "Get Water Usage Report",
+            "description": {
+              "content": "Returns a water usage summary report for a given date range.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "reports",
+                "water-usage"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "startDate",
+                  "value": "<date>",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "key": "endDate",
+                  "value": "<date>",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "key": "groupBy",
+                  "value": "day"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "70444c74-4117-4aca-85c0-c8a195446427",
+              "name": "Successful response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "reports",
+                    "water-usage"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "startDate",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "endDate",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "groupBy",
+                      "value": "day"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"startDate\": \"1971-02-20\",\n  \"endDate\": \"2004-03-01\",\n  \"totalGallons\": 3709.4933709941715,\n  \"periods\": [\n    {\n      \"period\": \"string\",\n      \"gallons\": 8207.514310893603\n    },\n    {\n      \"period\": \"string\",\n      \"gallons\": 9987.053648570172\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "3f7b2a47-43bf-49f6-91b1-bbd15079e714",
+          "name": "Get Equipment Health Report",
+          "request": {
+            "name": "Get Equipment Health Report",
+            "description": {
+              "content": "Returns a fleet equipment health summary and maintenance status report.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "reports",
+                "equipment-health"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "asOf",
+                  "value": "<date>",
+                  "description": "Report date (defaults to today)"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "5cabfce4-3cc5-4060-ae28-1345f017631c",
+              "name": "Successful response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "reports",
+                    "equipment-health"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "asOf",
+                      "value": "<date>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"asOf\": \"1994-08-28\",\n  \"totalEquipment\": 8081,\n  \"activeEquipment\": 3602,\n  \"equipmentInMaintenance\": 6655,\n  \"alerts\": [\n    {\n      \"equipmentId\": \"string\",\n      \"equipmentName\": \"string\",\n      \"alertType\": \"string\",\n      \"severity\": \"string\"\n    },\n    {\n      \"equipmentId\": \"string\",\n      \"equipmentName\": \"string\",\n      \"alertType\": \"string\",\n      \"severity\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.horizon360.toro.com/v1",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "534b1a6f-d848-4714-8469-a74e29096593",
+    "name": "Toro Horizon360 Crews Reports API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Toro Horizon360 is an all-in-one business management software for landscape contractors. The API provides endpoints for managing crews, schedules, jobs, customers, invoices, equipment, and payments for landscaping businesses.\n\nContact Support:\n Name: Toro Company",
+      "type": "text/plain"
+    }
+  }
+}

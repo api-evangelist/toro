@@ -1,0 +1,50 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Toro Horizon360 Crews API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Crews",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Crews",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.horizon360.toro.com/v1/crews"
+          },
+          "docs": "Returns a list of all crews and their members."
+        },
+        {
+          "info": {
+            "name": "Create Crew",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.horizon360.toro.com/v1/crews",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a new crew."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

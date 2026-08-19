@@ -1,0 +1,70 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Toro Horizon360 Crews Schedules API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Schedules",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Schedules",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.horizon360.toro.com/v1/schedules",
+            "params": [
+              {
+                "name": "startDate",
+                "value": "",
+                "type": "query",
+                "description": "Start of the date range"
+              },
+              {
+                "name": "endDate",
+                "value": "",
+                "type": "query",
+                "description": "End of the date range"
+              },
+              {
+                "name": "crewId",
+                "value": "",
+                "type": "query",
+                "description": "Filter by crew ID"
+              }
+            ]
+          },
+          "docs": "Returns scheduled jobs and crew assignments for a date range."
+        },
+        {
+          "info": {
+            "name": "Create Schedule Entry",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.horizon360.toro.com/v1/schedules",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Schedule a job for a specific crew and date."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

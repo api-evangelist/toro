@@ -1,0 +1,76 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Toro Horizon360 Crews Sensors API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Sensors",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Sensors",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.horizon360.toro.com/v1/sensors",
+            "params": [
+              {
+                "name": "type",
+                "value": "",
+                "type": "query",
+                "description": "Filter by sensor type"
+              }
+            ]
+          },
+          "docs": "Returns all environmental and soil sensors and their latest readings."
+        },
+        {
+          "info": {
+            "name": "Get Sensor Readings",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.horizon360.toro.com/v1/sensors/:sensorId/readings",
+            "params": [
+              {
+                "name": "sensorId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "startDate",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "endDate",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "interval",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Returns historical readings for a specific sensor."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

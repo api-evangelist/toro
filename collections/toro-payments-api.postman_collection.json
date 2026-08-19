@@ -1,0 +1,256 @@
+{
+  "item": [
+    {
+      "id": "55fc5994-8dcc-4837-83d1-609051821b24",
+      "name": "Payments",
+      "description": {
+        "content": "Process and manage customer payments",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "2f191d67-7853-40dd-af1b-7693c14b14b9",
+          "name": "List Payments",
+          "request": {
+            "name": "List Payments",
+            "description": {
+              "content": "Returns a list of payment transactions.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "payments"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "status",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "customerId",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "25"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "3cb670b9-ae84-43ae-b491-dd761a9c550b",
+              "name": "Successful response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "payments"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "status",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "customerId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "25"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"id\": \"string\",\n      \"invoiceId\": \"string\",\n      \"customerId\": \"string\",\n      \"amount\": 6128.782157161085,\n      \"currency\": \"USD\",\n      \"status\": \"failed\",\n      \"paymentMethod\": \"credit_card\",\n      \"transactionId\": \"string\",\n      \"processedAt\": \"1948-11-21T06:58:35.105Z\"\n    },\n    {\n      \"id\": \"string\",\n      \"invoiceId\": \"string\",\n      \"customerId\": \"string\",\n      \"amount\": 3728.697723195696,\n      \"currency\": \"USD\",\n      \"status\": \"refunded\",\n      \"paymentMethod\": \"check\",\n      \"transactionId\": \"string\",\n      \"processedAt\": \"1954-09-20T15:55:05.138Z\"\n    }\n  ],\n  \"total\": 583,\n  \"page\": 3263,\n  \"limit\": 6011\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "43b3df09-3112-4720-b065-57262f42ec95",
+          "name": "Process Payment",
+          "request": {
+            "name": "Process Payment",
+            "description": {
+              "content": "Process a customer payment for an invoice.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "payments"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"invoiceId\": \"<string>\",\n  \"amount\": \"<float>\",\n  \"paymentMethod\": \"<string>\",\n  \"paymentToken\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "3ff0d3c6-7afd-4b95-a63b-ef6e9207a71d",
+              "name": "Payment processed",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "payments"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"invoiceId\": \"<string>\",\n  \"amount\": \"<float>\",\n  \"paymentMethod\": \"<string>\",\n  \"paymentToken\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"string\",\n  \"invoiceId\": \"string\",\n  \"customerId\": \"string\",\n  \"amount\": 7297.191570903582,\n  \"currency\": \"USD\",\n  \"status\": \"failed\",\n  \"paymentMethod\": \"ach\",\n  \"transactionId\": \"string\",\n  \"processedAt\": \"1980-10-30T12:47:50.001Z\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.horizon360.toro.com/v1",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "07ac2890-5424-43e9-9ed6-d589a8e523ac",
+    "name": "Toro Horizon360 Crews Payments API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Toro Horizon360 is an all-in-one business management software for landscape contractors. The API provides endpoints for managing crews, schedules, jobs, customers, invoices, equipment, and payments for landscaping businesses.\n\nContact Support:\n Name: Toro Company",
+      "type": "text/plain"
+    }
+  }
+}

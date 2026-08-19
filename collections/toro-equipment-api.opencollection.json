@@ -1,0 +1,109 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Toro Horizon360 Crews Equipment API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Equipment",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Equipment",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.horizon360.toro.com/v1/equipment",
+            "params": [
+              {
+                "name": "status",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "type",
+                "value": "",
+                "type": "query",
+                "description": "Filter by equipment type"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Returns a paginated list of equipment in the fleet."
+        },
+        {
+          "info": {
+            "name": "Add Equipment",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.horizon360.toro.com/v1/equipment",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Add a new piece of equipment to the fleet."
+        },
+        {
+          "info": {
+            "name": "Get Equipment",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.horizon360.toro.com/v1/equipment/:equipmentId",
+            "params": [
+              {
+                "name": "equipmentId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Retrieve details for a specific piece of equipment."
+        },
+        {
+          "info": {
+            "name": "Get Equipment Location",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.horizon360.toro.com/v1/equipment/:equipmentId/location",
+            "params": [
+              {
+                "name": "equipmentId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Returns the current GPS location of a specific piece of equipment."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

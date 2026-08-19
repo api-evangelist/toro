@@ -1,0 +1,112 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Toro Horizon360 Crews Irrigation API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Irrigation",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Irrigation Status",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.horizon360.toro.com/v1/irrigation/status"
+          },
+          "docs": "Returns the current status of all irrigation systems and controllers."
+        },
+        {
+          "info": {
+            "name": "List Irrigation Zones",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.horizon360.toro.com/v1/irrigation/zones",
+            "params": [
+              {
+                "name": "status",
+                "value": "",
+                "type": "query",
+                "description": "Filter zones by status"
+              }
+            ]
+          },
+          "docs": "Returns all defined irrigation zones and their current configuration."
+        },
+        {
+          "info": {
+            "name": "Get Irrigation Zone",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.horizon360.toro.com/v1/irrigation/zones/:zoneId",
+            "params": [
+              {
+                "name": "zoneId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Returns details for a specific irrigation zone."
+        },
+        {
+          "info": {
+            "name": "Start Irrigation",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.horizon360.toro.com/v1/irrigation/zones/:zoneId/start",
+            "params": [
+              {
+                "name": "zoneId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Manually start irrigation for a specific zone."
+        },
+        {
+          "info": {
+            "name": "Stop Irrigation",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.horizon360.toro.com/v1/irrigation/zones/:zoneId/stop",
+            "params": [
+              {
+                "name": "zoneId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Stop active irrigation for a specific zone."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

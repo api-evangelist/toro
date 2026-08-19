@@ -1,0 +1,260 @@
+{
+  "item": [
+    {
+      "id": "878330cd-457b-4b93-bcd5-28a3a22df9b1",
+      "name": "Sensors",
+      "description": {
+        "content": "Environmental and soil sensor data",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "a8f079f8-77e8-4843-b1ef-aa664fbddd18",
+          "name": "List Sensors",
+          "request": {
+            "name": "List Sensors",
+            "description": {
+              "content": "Returns all environmental and soil sensors and their latest readings.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "sensors"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "type",
+                  "value": "<string>",
+                  "description": "Filter by sensor type"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "b85e65c9-81b8-48f0-9ac1-c18290e86afe",
+              "name": "Successful response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "sensors"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "type",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"id\": \"string\",\n      \"name\": \"string\",\n      \"type\": \"light\",\n      \"location\": {\n        \"latitude\": 7565.11051183661,\n        \"longitude\": 8698.757017675438,\n        \"altitude\": 9647.203925617969\n      },\n      \"status\": \"active\",\n      \"lastReading\": {\n        \"timestamp\": \"2003-12-03T09:30:22.505Z\",\n        \"value\": 9426.58622040387,\n        \"unit\": \"string\"\n      }\n    },\n    {\n      \"id\": \"string\",\n      \"name\": \"string\",\n      \"type\": \"light\",\n      \"location\": {\n        \"latitude\": 5084.724816666835,\n        \"longitude\": 8244.94206933828,\n        \"altitude\": 6755.436329816227\n      },\n      \"status\": \"fault\",\n      \"lastReading\": {\n        \"timestamp\": \"2009-11-18T22:54:04.097Z\",\n        \"value\": 1513.4230856267704,\n        \"unit\": \"string\"\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "6e7bef32-7d24-4410-a072-f4b85b32a252",
+          "name": "Get Sensor Readings",
+          "request": {
+            "name": "Get Sensor Readings",
+            "description": {
+              "content": "Returns historical readings for a specific sensor.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "sensors",
+                ":sensorId",
+                "readings"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "startDate",
+                  "value": "<dateTime>",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "key": "endDate",
+                  "value": "<dateTime>",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "key": "interval",
+                  "value": "1hour"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "sensorId",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "355cb5d4-2545-4071-9d13-12e158818dd8",
+              "name": "Successful response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "sensors",
+                    ":sensorId",
+                    "readings"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "startDate",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "key": "endDate",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "key": "interval",
+                      "value": "1hour"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "sensorId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"sensorId\": \"string\",\n  \"data\": [\n    {\n      \"timestamp\": \"1964-08-24T06:15:53.331Z\",\n      \"value\": 3341.726050704408,\n      \"unit\": \"string\"\n    },\n    {\n      \"timestamp\": \"1961-04-24T09:13:30.746Z\",\n      \"value\": 5032.54403604655,\n      \"unit\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.horizon360.toro.com/v1",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "2ef3caa3-62bd-4354-9829-70b07d6fcf26",
+    "name": "Toro Horizon360 Crews Sensors API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Toro Horizon360 is an all-in-one business management software for landscape contractors. The API provides endpoints for managing crews, schedules, jobs, customers, invoices, equipment, and payments for landscaping businesses.\n\nContact Support:\n Name: Toro Company",
+      "type": "text/plain"
+    }
+  }
+}

@@ -1,0 +1,71 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Toro Horizon360 Crews Reports API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Reports",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Water Usage Report",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.horizon360.toro.com/v1/reports/water-usage",
+            "params": [
+              {
+                "name": "startDate",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "endDate",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "groupBy",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Returns a water usage summary report for a given date range."
+        },
+        {
+          "info": {
+            "name": "Get Equipment Health Report",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.horizon360.toro.com/v1/reports/equipment-health",
+            "params": [
+              {
+                "name": "asOf",
+                "value": "",
+                "type": "query",
+                "description": "Report date (defaults to today)"
+              }
+            ]
+          },
+          "docs": "Returns a fleet equipment health summary and maintenance status report."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
