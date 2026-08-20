@@ -87,6 +87,8 @@ apis:
   description: Create and track landscaping jobs and work orders
   humanURL: https://horizon360.toro.com/
   tags:
+  - Job
+  tags_raw:
   - Jobs
   properties:
   - type: OpenAPI
