@@ -1,6 +1,6 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: Toro Horizon360 Crews Payments API
+  title: Toro Horizon360 Payments API
   description: Toro Horizon360 is an all-in-one business management software for landscape contractors. The API provides endpoints for managing crews, schedules, jobs, customers, invoices, equipment, and payments for landscaping businesses.
   version: 1.0.0
   contact:
@@ -110,19 +110,6 @@ components:
         processedAt:
           type: string
           format: date-time
-    PaymentList:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/Payment'
-        total:
-          type: integer
-        page:
-          type: integer
-        limit:
-          type: integer
     PaymentInput:
       type: object
       required:
@@ -144,6 +131,19 @@ components:
           - cash
         paymentToken:
           type: string
+    PaymentList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Payment'
+        total:
+          type: integer
+        page:
+          type: integer
+        limit:
+          type: integer
   securitySchemes:
     bearerAuth:
       type: http

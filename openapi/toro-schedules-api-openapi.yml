@@ -1,6 +1,6 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: Toro Horizon360 Crews Schedules API
+  title: Toro Horizon360 Schedules API
   description: Toro Horizon360 is an all-in-one business management software for landscape contractors. The API provides endpoints for managing crews, schedules, jobs, customers, invoices, equipment, and payments for landscaping businesses.
   version: 1.0.0
   contact:
@@ -72,13 +72,6 @@ paths:
                 $ref: '#/components/schemas/Schedule'
 components:
   schemas:
-    ScheduleList:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/Schedule'
     Schedule:
       type: object
       properties:
@@ -99,6 +92,13 @@ components:
           format: time
         status:
           type: string
+    ScheduleList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Schedule'
     ScheduleInput:
       type: object
       required:

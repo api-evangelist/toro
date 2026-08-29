@@ -1,18 +1,16 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: Toro Horizon360 Crews Zones API
-  description: Toro Horizon360 is an all-in-one business management software for landscape contractors. The API provides endpoints for managing crews, schedules, jobs, customers, invoices, equipment, and payments for landscaping businesses.
+  title: Toro IntelliDash Zones API
+  description: Toro IntelliDash is an irrigation and fleet management platform for golf courses and sports facilities. The API provides access to real-time irrigation control, equipment fleet tracking, agronomic data, and operational monitoring for golf course superintendents and sports turf managers.
   version: 1.0.0
   contact:
     name: Toro Company
-    url: https://horizon360.toro.com/
-  x-logo:
-    url: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+    url: https://www.toro.com/en/product/IntelliDash
 servers:
-- url: https://api.horizon360.toro.com/v1
-  description: Horizon360 Production API
+- url: https://api.intellidash.toro.com/v1
+  description: IntelliDash Production API
 security:
-- bearerAuth: []
+- apiKeyAuth: []
 tags:
 - name: Zones
   description: Irrigation zone management
@@ -124,13 +122,6 @@ components:
             $ref: '#/components/schemas/Zone'
         total:
           type: integer
-    Error:
-      type: object
-      properties:
-        code:
-          type: string
-        message:
-          type: string
     Zone:
       type: object
       properties:
@@ -160,8 +151,15 @@ components:
         flowRateGpm:
           type: number
           description: Flow rate in gallons per minute
+    Error:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
   securitySchemes:
-    bearerAuth:
-      type: http
-      scheme: bearer
-      bearerFormat: JWT
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key

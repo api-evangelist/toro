@@ -1,4 +1,4 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
   title: Toro Horizon360 Crews API
   description: Toro Horizon360 is an all-in-one business management software for landscape contractors. The API provides endpoints for managing crews, schedules, jobs, customers, invoices, equipment, and payments for landscaping businesses.
@@ -52,6 +52,13 @@ paths:
                 $ref: '#/components/schemas/Crew'
 components:
   schemas:
+    CrewList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Crew'
     CrewMember:
       type: object
       properties:
@@ -61,17 +68,6 @@ components:
           type: string
         role:
           type: string
-    CrewInput:
-      type: object
-      required:
-      - name
-      properties:
-        name:
-          type: string
-        memberIds:
-          type: array
-          items:
-            type: string
     Crew:
       type: object
       properties:
@@ -88,13 +84,17 @@ components:
           enum:
           - active
           - inactive
-    CrewList:
+    CrewInput:
       type: object
+      required:
+      - name
       properties:
-        data:
+        name:
+          type: string
+        memberIds:
           type: array
           items:
-            $ref: '#/components/schemas/Crew'
+            type: string
   securitySchemes:
     bearerAuth:
       type: http

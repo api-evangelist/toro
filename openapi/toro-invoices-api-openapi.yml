@@ -1,6 +1,6 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: Toro Horizon360 Crews Invoices API
+  title: Toro Horizon360 Invoices API
   description: Toro Horizon360 is an all-in-one business management software for landscape contractors. The API provides endpoints for managing crews, schedules, jobs, customers, invoices, equipment, and payments for landscaping businesses.
   version: 1.0.0
   contact:
@@ -114,20 +114,14 @@ paths:
         '200':
           description: Invoice sent successfully
 components:
+  responses:
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   schemas:
-    InvoiceList:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/Invoice'
-        total:
-          type: integer
-        page:
-          type: integer
-        limit:
-          type: integer
     LineItem:
       type: object
       properties:
@@ -141,6 +135,13 @@ components:
         total:
           type: number
           format: float
+    Error:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
     Invoice:
       type: object
       properties:
@@ -179,13 +180,19 @@ components:
         createdAt:
           type: string
           format: date-time
-    Error:
+    InvoiceList:
       type: object
       properties:
-        code:
-          type: string
-        message:
-          type: string
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Invoice'
+        total:
+          type: integer
+        page:
+          type: integer
+        limit:
+          type: integer
     InvoiceInput:
       type: object
       required:
@@ -204,13 +211,6 @@ components:
           format: date
         notes:
           type: string
-  responses:
-    NotFound:
-      description: Resource not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   securitySchemes:
     bearerAuth:
       type: http

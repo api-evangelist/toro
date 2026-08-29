@@ -1,34 +1,42 @@
 {
   "provider": "toro",
   "sources": [
-    "toro-crews-api-openapi.yml",
-    "toro-customers-api-openapi.yml",
-    "toro-equipment-api-openapi.yml",
-    "toro-invoices-api-openapi.yml",
-    "toro-irrigation-api-openapi.yml",
-    "toro-jobs-api-openapi.yml",
-    "toro-payments-api-openapi.yml",
-    "toro-reports-api-openapi.yml",
-    "toro-schedules-api-openapi.yml",
-    "toro-sensors-api-openapi.yml",
-    "toro-zones-api-openapi.yml"
+    "_original/toro-horizon360-openapi.yml",
+    "_original/toro-intellidash-openapi.yml"
   ],
   "outputs": [
     "toro-crews-api-openapi.yml",
     "toro-customers-api-openapi.yml",
     "toro-equipment-api-openapi.yml",
     "toro-invoices-api-openapi.yml",
-    "toro-irrigation-api-openapi.yml",
     "toro-jobs-api-openapi.yml",
     "toro-payments-api-openapi.yml",
-    "toro-reports-api-openapi.yml",
     "toro-schedules-api-openapi.yml",
+    "toro-irrigation-api-openapi.yml",
+    "toro-reports-api-openapi.yml",
     "toro-sensors-api-openapi.yml",
     "toro-zones-api-openapi.yml"
   ],
   "archived": [],
   "errors": [],
   "warnings": [],
-  "notes": [],
-  "skipped": []
+  "notes": [
+    "sourced from openapi/_original/ (2 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "toro-horizon360-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
+    "toro-intellidash-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
+    "tag 'Equipment' spans 2 source specs (toro-horizon360-openapi.yml, toro-intellidash-openapi.yml): per-path servers applied"
+  ],
+  "skipped": [
+    "toro-crews-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "toro-customers-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "toro-equipment-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "toro-invoices-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "toro-irrigation-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "toro-jobs-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "toro-payments-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "toro-reports-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "toro-schedules-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "toro-sensors-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "toro-zones-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }
