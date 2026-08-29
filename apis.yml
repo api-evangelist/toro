@@ -163,6 +163,9 @@ apis:
   - type: Documentation
     url: https://www.toro.com/en/product/IntelliDash
 common:
+  - type: CapabilityMap
+    url: capabilities/toro-capability-edges.yml
+    name: Toro Business Capability Map
   - type: AgenticAccess
     url: agentic-access/toro-agentic-access.yml
   - type: DomainSecurity
