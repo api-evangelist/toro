@@ -128,6 +128,8 @@ apis:
   description: Manage crew and job scheduling
   humanURL: https://horizon360.toro.com/
   tags:
+  - Schedule
+  tags_raw:
   - Schedules
   properties:
   - type: OpenAPI
