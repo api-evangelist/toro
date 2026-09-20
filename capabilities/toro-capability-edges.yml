@@ -11,7 +11,7 @@ capability_model:
   attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
     CC BY 4.0
   notice: NOTICE
-edge_count: 3
+edge_count: 4
 edges:
 - tag: Customers
   spec_file: toro-customers-api-openapi.yml
@@ -43,3 +43,13 @@ edges:
   reason: Registry of fleet/equipment records with location tracking for turf and landscape operations
     — physical asset information and fleet tracking. Sub-capability between asset information and performance,
     so moderate confidence.
+- tag: Irrigation
+  spec_file: toro-irrigation-api-openapi.yml
+  capability_id: BC-3500.60
+  capability_id_l1: BC-3500
+  capability_name: Irrigation Operations
+  confidence: 0.7
+  evidence: POST /irrigation/zones/{zoneId}/start startIrrigation; GET /irrigation/status
+  reason: Real-time control and status of irrigation zones is day-to-day irrigation scheduling and application.
+    Confidence moderated because the managed surface is turf/golf course rather than a crop field.
+  recovered_from: vertical-agriculture-food-production-edges.json
