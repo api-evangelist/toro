@@ -114,14 +114,20 @@ paths:
         '200':
           description: Invoice sent successfully
 components:
-  responses:
-    NotFound:
-      description: Resource not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   schemas:
+    InvoiceList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Invoice'
+        total:
+          type: integer
+        page:
+          type: integer
+        limit:
+          type: integer
     LineItem:
       type: object
       properties:
@@ -180,19 +186,6 @@ components:
         createdAt:
           type: string
           format: date-time
-    InvoiceList:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/Invoice'
-        total:
-          type: integer
-        page:
-          type: integer
-        limit:
-          type: integer
     InvoiceInput:
       type: object
       required:
@@ -211,6 +204,13 @@ components:
           format: date
         notes:
           type: string
+  responses:
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   securitySchemes:
     bearerAuth:
       type: http

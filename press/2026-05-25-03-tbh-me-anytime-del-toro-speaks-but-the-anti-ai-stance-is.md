@@ -1,7 +1,9 @@
 ---
 title: tbh me anytime del Toro speaks, but the anti-ai stance is * ...
 url: https://www.facebook.com/groups/1404116417142065/posts/1817161845837518/
-date: '2026-05-25'
+published: ''
+date_basis: harvested
+harvested: '2026-05-25'
 query: '"Toro" press release artificial intelligence'
 position: 3
 source: serpapi-google

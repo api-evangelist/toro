@@ -1,7 +1,9 @@
 ---
 title: Tornado Infrastructure Equipment Securityholders Approve ...
 url: https://www.palmbeachdailynews.com/press-release/story/14829/tornado-infrastructure-equipment-securityholders-approve-arrangement-with-the-toro-company/
-date: '2026-05-25'
+published: ''
+date_basis: harvested
+harvested: '2026-05-25'
 query: '"Toro" press release artificial intelligence'
 position: 1
 source: serpapi-google

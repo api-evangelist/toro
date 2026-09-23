@@ -24,7 +24,8 @@
     "sourced from openapi/_original/ (2 archived document(s)); previously refined output at the top level was skipped rather than re-split",
     "toro-horizon360-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
     "toro-intellidash-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
-    "tag 'Equipment' spans 2 source specs (toro-horizon360-openapi.yml, toro-intellidash-openapi.yml): per-path servers applied"
+    "tag 'Equipment' spans 2 source specs (toro-horizon360-openapi.yml, toro-intellidash-openapi.yml): per-path servers applied",
+    "apis.yml register: already-registered"
   ],
   "skipped": [
     "toro-crews-api-openapi.yml: previously refined output, superseded by openapi/_original/",

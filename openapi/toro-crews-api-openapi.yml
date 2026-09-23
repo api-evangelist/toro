@@ -52,22 +52,17 @@ paths:
                 $ref: '#/components/schemas/Crew'
 components:
   schemas:
-    CrewList:
+    CrewInput:
       type: object
+      required:
+      - name
       properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/Crew'
-    CrewMember:
-      type: object
-      properties:
-        id:
-          type: string
         name:
           type: string
-        role:
-          type: string
+        memberIds:
+          type: array
+          items:
+            type: string
     Crew:
       type: object
       properties:
@@ -84,17 +79,22 @@ components:
           enum:
           - active
           - inactive
-    CrewInput:
+    CrewList:
       type: object
-      required:
-      - name
       properties:
-        name:
-          type: string
-        memberIds:
+        data:
           type: array
           items:
-            type: string
+            $ref: '#/components/schemas/Crew'
+    CrewMember:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        role:
+          type: string
   securitySchemes:
     bearerAuth:
       type: http

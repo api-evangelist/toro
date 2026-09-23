@@ -72,33 +72,6 @@ paths:
                 $ref: '#/components/schemas/Schedule'
 components:
   schemas:
-    Schedule:
-      type: object
-      properties:
-        id:
-          type: string
-        jobId:
-          type: string
-        crewId:
-          type: string
-        scheduledDate:
-          type: string
-          format: date
-        startTime:
-          type: string
-          format: time
-        endTime:
-          type: string
-          format: time
-        status:
-          type: string
-    ScheduleList:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/Schedule'
     ScheduleInput:
       type: object
       required:
@@ -119,6 +92,33 @@ components:
         endTime:
           type: string
           format: time
+    ScheduleList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Schedule'
+    Schedule:
+      type: object
+      properties:
+        id:
+          type: string
+        jobId:
+          type: string
+        crewId:
+          type: string
+        scheduledDate:
+          type: string
+          format: date
+        startTime:
+          type: string
+          format: time
+        endTime:
+          type: string
+          format: time
+        status:
+          type: string
   securitySchemes:
     bearerAuth:
       type: http
