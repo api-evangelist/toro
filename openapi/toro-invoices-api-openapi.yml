@@ -115,19 +115,24 @@ paths:
           description: Invoice sent successfully
 components:
   schemas:
-    InvoiceList:
+    InvoiceInput:
       type: object
+      required:
+      - customerId
       properties:
-        data:
+        customerId:
+          type: string
+        jobId:
+          type: string
+        lineItems:
           type: array
           items:
-            $ref: '#/components/schemas/Invoice'
-        total:
-          type: integer
-        page:
-          type: integer
-        limit:
-          type: integer
+            $ref: '#/components/schemas/LineItem'
+        dueDate:
+          type: string
+          format: date
+        notes:
+          type: string
     LineItem:
       type: object
       properties:
@@ -141,13 +146,19 @@ components:
         total:
           type: number
           format: float
-    Error:
+    InvoiceList:
       type: object
       properties:
-        code:
-          type: string
-        message:
-          type: string
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Invoice'
+        total:
+          type: integer
+        page:
+          type: integer
+        limit:
+          type: integer
     Invoice:
       type: object
       properties:
@@ -186,23 +197,12 @@ components:
         createdAt:
           type: string
           format: date-time
-    InvoiceInput:
+    Error:
       type: object
-      required:
-      - customerId
       properties:
-        customerId:
+        code:
           type: string
-        jobId:
-          type: string
-        lineItems:
-          type: array
-          items:
-            $ref: '#/components/schemas/LineItem'
-        dueDate:
-          type: string
-          format: date
-        notes:
+        message:
           type: string
   responses:
     NotFound:

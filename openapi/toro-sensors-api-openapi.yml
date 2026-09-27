@@ -83,6 +83,24 @@ paths:
                 $ref: '#/components/schemas/SensorReadingList'
 components:
   schemas:
+    SensorList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Sensor'
+    GeoLocation:
+      type: object
+      properties:
+        latitude:
+          type: number
+          format: double
+        longitude:
+          type: number
+          format: double
+        altitude:
+          type: number
     Sensor:
       type: object
       properties:
@@ -107,17 +125,6 @@ components:
           - fault
         lastReading:
           $ref: '#/components/schemas/SensorReading'
-    GeoLocation:
-      type: object
-      properties:
-        latitude:
-          type: number
-          format: double
-        longitude:
-          type: number
-          format: double
-        altitude:
-          type: number
     SensorReadingList:
       type: object
       properties:
@@ -127,13 +134,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/SensorReading'
-    SensorList:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/Sensor'
     SensorReading:
       type: object
       properties:

@@ -106,13 +106,15 @@ paths:
           description: Irrigation stopped
 components:
   schemas:
-    Error:
+    ZoneList:
       type: object
       properties:
-        code:
-          type: string
-        message:
-          type: string
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Zone'
+        total:
+          type: integer
     Zone:
       type: object
       properties:
@@ -142,15 +144,13 @@ components:
         flowRateGpm:
           type: number
           description: Flow rate in gallons per minute
-    ZoneList:
+    Error:
       type: object
       properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/Zone'
-        total:
-          type: integer
+        code:
+          type: string
+        message:
+          type: string
   responses:
     NotFound:
       description: Resource not found

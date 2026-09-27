@@ -132,25 +132,6 @@ paths:
       description: IntelliDash Production API
 components:
   schemas:
-    EquipmentInput:
-      type: object
-      required:
-      - name
-      - type
-      properties:
-        name:
-          type: string
-        type:
-          type: string
-        brand:
-          type: string
-        model:
-          type: string
-        serialNumber:
-          type: string
-        purchaseDate:
-          type: string
-          format: date
     EquipmentList:
       type: object
       properties:
@@ -164,13 +145,6 @@ components:
           type: integer
         limit:
           type: integer
-    Error:
-      type: object
-      properties:
-        code:
-          type: string
-        message:
-          type: string
     Equipment:
       type: object
       properties:
@@ -203,19 +177,65 @@ components:
           format: date
         hoursUsed:
           type: number
-    Alert:
+    EquipmentInput:
       type: object
+      required:
+      - name
+      - type
       properties:
+        name:
+          type: string
         type:
           type: string
-        severity:
+        brand:
           type: string
-          enum:
-          - info
-          - warning
-          - critical
+        model:
+          type: string
+        serialNumber:
+          type: string
+        purchaseDate:
+          type: string
+          format: date
+    Error:
+      type: object
+      properties:
+        code:
+          type: string
         message:
           type: string
+    GeoLocation:
+      type: object
+      properties:
+        latitude:
+          type: number
+          format: double
+        longitude:
+          type: number
+          format: double
+        altitude:
+          type: number
+    FleetEquipmentList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/FleetEquipment'
+        total:
+          type: integer
+    EquipmentLocation:
+      type: object
+      properties:
+        equipmentId:
+          type: string
+        location:
+          $ref: '#/components/schemas/GeoLocation'
+        speed:
+          type: number
+          description: Current speed in mph
+        heading:
+          type: integer
+          description: Heading in degrees
         timestamp:
           type: string
           format: date-time
@@ -256,39 +276,19 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Alert'
-    FleetEquipmentList:
+    Alert:
       type: object
       properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/FleetEquipment'
-        total:
-          type: integer
-    GeoLocation:
-      type: object
-      properties:
-        latitude:
-          type: number
-          format: double
-        longitude:
-          type: number
-          format: double
-        altitude:
-          type: number
-    EquipmentLocation:
-      type: object
-      properties:
-        equipmentId:
+        type:
           type: string
-        location:
-          $ref: '#/components/schemas/GeoLocation'
-        speed:
-          type: number
-          description: Current speed in mph
-        heading:
-          type: integer
-          description: Heading in degrees
+        severity:
+          type: string
+          enum:
+          - info
+          - warning
+          - critical
+        message:
+          type: string
         timestamp:
           type: string
           format: date-time

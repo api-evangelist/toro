@@ -52,17 +52,6 @@ paths:
                 $ref: '#/components/schemas/Crew'
 components:
   schemas:
-    CrewInput:
-      type: object
-      required:
-      - name
-      properties:
-        name:
-          type: string
-        memberIds:
-          type: array
-          items:
-            type: string
     Crew:
       type: object
       properties:
@@ -95,6 +84,17 @@ components:
           type: string
         role:
           type: string
+    CrewInput:
+      type: object
+      required:
+      - name
+      properties:
+        name:
+          type: string
+        memberIds:
+          type: array
+          items:
+            type: string
   securitySchemes:
     bearerAuth:
       type: http
