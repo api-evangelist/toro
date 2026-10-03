@@ -101,6 +101,25 @@ components:
           format: double
         altitude:
           type: number
+    SensorReading:
+      type: object
+      properties:
+        timestamp:
+          type: string
+          format: date-time
+        value:
+          type: number
+        unit:
+          type: string
+    SensorReadingList:
+      type: object
+      properties:
+        sensorId:
+          type: string
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/SensorReading'
     Sensor:
       type: object
       properties:
@@ -125,25 +144,6 @@ components:
           - fault
         lastReading:
           $ref: '#/components/schemas/SensorReading'
-    SensorReadingList:
-      type: object
-      properties:
-        sensorId:
-          type: string
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/SensorReading'
-    SensorReading:
-      type: object
-      properties:
-        timestamp:
-          type: string
-          format: date-time
-        value:
-          type: number
-        unit:
-          type: string
   securitySchemes:
     apiKeyAuth:
       type: apiKey

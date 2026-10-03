@@ -76,19 +76,6 @@ paths:
                 $ref: '#/components/schemas/Payment'
 components:
   schemas:
-    PaymentList:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/Payment'
-        total:
-          type: integer
-        page:
-          type: integer
-        limit:
-          type: integer
     PaymentInput:
       type: object
       required:
@@ -144,6 +131,19 @@ components:
         processedAt:
           type: string
           format: date-time
+    PaymentList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Payment'
+        total:
+          type: integer
+        page:
+          type: integer
+        limit:
+          type: integer
   securitySchemes:
     bearerAuth:
       type: http

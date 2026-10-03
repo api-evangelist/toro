@@ -122,6 +122,13 @@ paths:
           description: Irrigation stopped
 components:
   schemas:
+    Error:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
     ZoneList:
       type: object
       properties:
@@ -131,6 +138,25 @@ components:
             $ref: '#/components/schemas/Zone'
         total:
           type: integer
+    IrrigationStatus:
+      type: object
+      properties:
+        systemStatus:
+          type: string
+          enum:
+          - normal
+          - watering
+          - suspended
+          - fault
+        activeZones:
+          type: integer
+        totalZones:
+          type: integer
+        weatherHold:
+          type: boolean
+        lastUpdated:
+          type: string
+          format: date-time
     Zone:
       type: object
       properties:
@@ -160,32 +186,6 @@ components:
         flowRateGpm:
           type: number
           description: Flow rate in gallons per minute
-    IrrigationStatus:
-      type: object
-      properties:
-        systemStatus:
-          type: string
-          enum:
-          - normal
-          - watering
-          - suspended
-          - fault
-        activeZones:
-          type: integer
-        totalZones:
-          type: integer
-        weatherHold:
-          type: boolean
-        lastUpdated:
-          type: string
-          format: date-time
-    Error:
-      type: object
-      properties:
-        code:
-          type: string
-        message:
-          type: string
   responses:
     Unauthorized:
       description: Authentication required

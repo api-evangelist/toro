@@ -72,13 +72,6 @@ paths:
                 $ref: '#/components/schemas/Schedule'
 components:
   schemas:
-    ScheduleList:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/Schedule'
     Schedule:
       type: object
       properties:
@@ -99,6 +92,13 @@ components:
           format: time
         status:
           type: string
+    ScheduleList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Schedule'
     ScheduleInput:
       type: object
       required:

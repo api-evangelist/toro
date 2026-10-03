@@ -132,19 +132,6 @@ paths:
       description: IntelliDash Production API
 components:
   schemas:
-    EquipmentList:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/Equipment'
-        total:
-          type: integer
-        page:
-          type: integer
-        limit:
-          type: integer
     Equipment:
       type: object
       properties:
@@ -177,6 +164,19 @@ components:
           format: date
         hoursUsed:
           type: number
+    EquipmentList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Equipment'
+        total:
+          type: integer
+        page:
+          type: integer
+        limit:
+          type: integer
     EquipmentInput:
       type: object
       required:
@@ -214,6 +214,22 @@ components:
           format: double
         altitude:
           type: number
+    Alert:
+      type: object
+      properties:
+        type:
+          type: string
+        severity:
+          type: string
+          enum:
+          - info
+          - warning
+          - critical
+        message:
+          type: string
+        timestamp:
+          type: string
+          format: date-time
     FleetEquipmentList:
       type: object
       properties:
@@ -223,22 +239,6 @@ components:
             $ref: '#/components/schemas/FleetEquipment'
         total:
           type: integer
-    EquipmentLocation:
-      type: object
-      properties:
-        equipmentId:
-          type: string
-        location:
-          $ref: '#/components/schemas/GeoLocation'
-        speed:
-          type: number
-          description: Current speed in mph
-        heading:
-          type: integer
-          description: Heading in degrees
-        timestamp:
-          type: string
-          format: date-time
     FleetEquipment:
       type: object
       properties:
@@ -276,19 +276,19 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Alert'
-    Alert:
+    EquipmentLocation:
       type: object
       properties:
-        type:
+        equipmentId:
           type: string
-        severity:
-          type: string
-          enum:
-          - info
-          - warning
-          - critical
-        message:
-          type: string
+        location:
+          $ref: '#/components/schemas/GeoLocation'
+        speed:
+          type: number
+          description: Current speed in mph
+        heading:
+          type: integer
+          description: Heading in degrees
         timestamp:
           type: string
           format: date-time

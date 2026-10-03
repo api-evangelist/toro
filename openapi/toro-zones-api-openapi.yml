@@ -106,15 +106,6 @@ paths:
           description: Irrigation stopped
 components:
   schemas:
-    ZoneList:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/Zone'
-        total:
-          type: integer
     Zone:
       type: object
       properties:
@@ -151,6 +142,15 @@ components:
           type: string
         message:
           type: string
+    ZoneList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Zone'
+        total:
+          type: integer
   responses:
     NotFound:
       description: Resource not found

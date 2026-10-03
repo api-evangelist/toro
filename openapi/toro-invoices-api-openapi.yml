@@ -115,6 +115,39 @@ paths:
           description: Invoice sent successfully
 components:
   schemas:
+    InvoiceList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Invoice'
+        total:
+          type: integer
+        page:
+          type: integer
+        limit:
+          type: integer
+    Error:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+    LineItem:
+      type: object
+      properties:
+        description:
+          type: string
+        quantity:
+          type: number
+        unitPrice:
+          type: number
+          format: float
+        total:
+          type: number
+          format: float
     InvoiceInput:
       type: object
       required:
@@ -133,32 +166,6 @@ components:
           format: date
         notes:
           type: string
-    LineItem:
-      type: object
-      properties:
-        description:
-          type: string
-        quantity:
-          type: number
-        unitPrice:
-          type: number
-          format: float
-        total:
-          type: number
-          format: float
-    InvoiceList:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/Invoice'
-        total:
-          type: integer
-        page:
-          type: integer
-        limit:
-          type: integer
     Invoice:
       type: object
       properties:
@@ -197,13 +204,6 @@ components:
         createdAt:
           type: string
           format: date-time
-    Error:
-      type: object
-      properties:
-        code:
-          type: string
-        message:
-          type: string
   responses:
     NotFound:
       description: Resource not found

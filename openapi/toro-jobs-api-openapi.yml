@@ -138,6 +138,52 @@ paths:
                 $ref: '#/components/schemas/Job'
 components:
   schemas:
+    Address:
+      type: object
+      properties:
+        street:
+          type: string
+        city:
+          type: string
+        state:
+          type: string
+        zip:
+          type: string
+        country:
+          type: string
+    Error:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+    JobInput:
+      type: object
+      required:
+      - customerId
+      - title
+      - jobType
+      properties:
+        customerId:
+          type: string
+        title:
+          type: string
+        description:
+          type: string
+        jobType:
+          type: string
+        serviceAddress:
+          $ref: '#/components/schemas/Address'
+        estimatedHours:
+          type: number
+        scheduledDate:
+          type: string
+          format: date
+        crewId:
+          type: string
+        notes:
+          type: string
     Job:
       type: object
       properties:
@@ -178,45 +224,6 @@ components:
         createdAt:
           type: string
           format: date-time
-    Address:
-      type: object
-      properties:
-        street:
-          type: string
-        city:
-          type: string
-        state:
-          type: string
-        zip:
-          type: string
-        country:
-          type: string
-    JobInput:
-      type: object
-      required:
-      - customerId
-      - title
-      - jobType
-      properties:
-        customerId:
-          type: string
-        title:
-          type: string
-        description:
-          type: string
-        jobType:
-          type: string
-        serviceAddress:
-          $ref: '#/components/schemas/Address'
-        estimatedHours:
-          type: number
-        scheduledDate:
-          type: string
-          format: date
-        crewId:
-          type: string
-        notes:
-          type: string
     JobList:
       type: object
       properties:
@@ -230,13 +237,6 @@ components:
           type: integer
         limit:
           type: integer
-    Error:
-      type: object
-      properties:
-        code:
-          type: string
-        message:
-          type: string
   responses:
     NotFound:
       description: Resource not found
