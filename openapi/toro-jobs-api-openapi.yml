@@ -138,6 +138,19 @@ paths:
                 $ref: '#/components/schemas/Job'
 components:
   schemas:
+    JobList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Job'
+        total:
+          type: integer
+        page:
+          type: integer
+        limit:
+          type: integer
     Address:
       type: object
       properties:
@@ -150,39 +163,6 @@ components:
         zip:
           type: string
         country:
-          type: string
-    Error:
-      type: object
-      properties:
-        code:
-          type: string
-        message:
-          type: string
-    JobInput:
-      type: object
-      required:
-      - customerId
-      - title
-      - jobType
-      properties:
-        customerId:
-          type: string
-        title:
-          type: string
-        description:
-          type: string
-        jobType:
-          type: string
-        serviceAddress:
-          $ref: '#/components/schemas/Address'
-        estimatedHours:
-          type: number
-        scheduledDate:
-          type: string
-          format: date
-        crewId:
-          type: string
-        notes:
           type: string
     Job:
       type: object
@@ -224,19 +204,39 @@ components:
         createdAt:
           type: string
           format: date-time
-    JobList:
+    JobInput:
+      type: object
+      required:
+      - customerId
+      - title
+      - jobType
+      properties:
+        customerId:
+          type: string
+        title:
+          type: string
+        description:
+          type: string
+        jobType:
+          type: string
+        serviceAddress:
+          $ref: '#/components/schemas/Address'
+        estimatedHours:
+          type: number
+        scheduledDate:
+          type: string
+          format: date
+        crewId:
+          type: string
+        notes:
+          type: string
+    Error:
       type: object
       properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/Job'
-        total:
-          type: integer
-        page:
-          type: integer
-        limit:
-          type: integer
+        code:
+          type: string
+        message:
+          type: string
   responses:
     NotFound:
       description: Resource not found

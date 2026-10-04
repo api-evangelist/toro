@@ -128,26 +128,6 @@ components:
           type: integer
         limit:
           type: integer
-    Error:
-      type: object
-      properties:
-        code:
-          type: string
-        message:
-          type: string
-    LineItem:
-      type: object
-      properties:
-        description:
-          type: string
-        quantity:
-          type: number
-        unitPrice:
-          type: number
-          format: float
-        total:
-          type: number
-          format: float
     InvoiceInput:
       type: object
       required:
@@ -204,6 +184,26 @@ components:
         createdAt:
           type: string
           format: date-time
+    LineItem:
+      type: object
+      properties:
+        description:
+          type: string
+        quantity:
+          type: number
+        unitPrice:
+          type: number
+          format: float
+        total:
+          type: number
+          format: float
+    Error:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
   responses:
     NotFound:
       description: Resource not found

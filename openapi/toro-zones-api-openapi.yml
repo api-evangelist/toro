@@ -105,7 +105,30 @@ paths:
         '200':
           description: Irrigation stopped
 components:
+  responses:
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   schemas:
+    Error:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+    ZoneList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Zone'
+        total:
+          type: integer
     Zone:
       type: object
       properties:
@@ -135,29 +158,6 @@ components:
         flowRateGpm:
           type: number
           description: Flow rate in gallons per minute
-    Error:
-      type: object
-      properties:
-        code:
-          type: string
-        message:
-          type: string
-    ZoneList:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/Zone'
-        total:
-          type: integer
-  responses:
-    NotFound:
-      description: Resource not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   securitySchemes:
     apiKeyAuth:
       type: apiKey

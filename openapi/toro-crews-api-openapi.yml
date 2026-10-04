@@ -68,13 +68,6 @@ components:
           enum:
           - active
           - inactive
-    CrewList:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/Crew'
     CrewInput:
       type: object
       required:
@@ -95,6 +88,13 @@ components:
           type: string
         role:
           type: string
+    CrewList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Crew'
   securitySchemes:
     bearerAuth:
       type: http

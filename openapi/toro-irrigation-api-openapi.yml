@@ -121,23 +121,20 @@ paths:
         '200':
           description: Irrigation stopped
 components:
+  responses:
+    Unauthorized:
+      description: Authentication required
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   schemas:
-    Error:
-      type: object
-      properties:
-        code:
-          type: string
-        message:
-          type: string
-    ZoneList:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/Zone'
-        total:
-          type: integer
     IrrigationStatus:
       type: object
       properties:
@@ -157,6 +154,15 @@ components:
         lastUpdated:
           type: string
           format: date-time
+    ZoneList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Zone'
+        total:
+          type: integer
     Zone:
       type: object
       properties:
@@ -186,19 +192,13 @@ components:
         flowRateGpm:
           type: number
           description: Flow rate in gallons per minute
-  responses:
-    Unauthorized:
-      description: Authentication required
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    NotFound:
-      description: Resource not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
+    Error:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
   securitySchemes:
     apiKeyAuth:
       type: apiKey

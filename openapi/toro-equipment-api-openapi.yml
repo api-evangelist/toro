@@ -132,38 +132,6 @@ paths:
       description: IntelliDash Production API
 components:
   schemas:
-    Equipment:
-      type: object
-      properties:
-        id:
-          type: string
-        name:
-          type: string
-        type:
-          type: string
-        brand:
-          type: string
-        model:
-          type: string
-        serialNumber:
-          type: string
-        status:
-          type: string
-          enum:
-          - active
-          - maintenance
-          - retired
-        purchaseDate:
-          type: string
-          format: date
-        lastServiceDate:
-          type: string
-          format: date
-        nextServiceDate:
-          type: string
-          format: date
-        hoursUsed:
-          type: number
     EquipmentList:
       type: object
       properties:
@@ -196,6 +164,38 @@ components:
         purchaseDate:
           type: string
           format: date
+    Equipment:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        type:
+          type: string
+        brand:
+          type: string
+        model:
+          type: string
+        serialNumber:
+          type: string
+        status:
+          type: string
+          enum:
+          - active
+          - maintenance
+          - retired
+        purchaseDate:
+          type: string
+          format: date
+        lastServiceDate:
+          type: string
+          format: date
+        nextServiceDate:
+          type: string
+          format: date
+        hoursUsed:
+          type: number
     Error:
       type: object
       properties:
@@ -203,17 +203,6 @@ components:
           type: string
         message:
           type: string
-    GeoLocation:
-      type: object
-      properties:
-        latitude:
-          type: number
-          format: double
-        longitude:
-          type: number
-          format: double
-        altitude:
-          type: number
     Alert:
       type: object
       properties:
@@ -227,6 +216,22 @@ components:
           - critical
         message:
           type: string
+        timestamp:
+          type: string
+          format: date-time
+    EquipmentLocation:
+      type: object
+      properties:
+        equipmentId:
+          type: string
+        location:
+          $ref: '#/components/schemas/GeoLocation'
+        speed:
+          type: number
+          description: Current speed in mph
+        heading:
+          type: integer
+          description: Heading in degrees
         timestamp:
           type: string
           format: date-time
@@ -276,22 +281,17 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Alert'
-    EquipmentLocation:
+    GeoLocation:
       type: object
       properties:
-        equipmentId:
-          type: string
-        location:
-          $ref: '#/components/schemas/GeoLocation'
-        speed:
+        latitude:
           type: number
-          description: Current speed in mph
-        heading:
-          type: integer
-          description: Heading in degrees
-        timestamp:
-          type: string
-          format: date-time
+          format: double
+        longitude:
+          type: number
+          format: double
+        altitude:
+          type: number
   responses:
     NotFound:
       description: Resource not found
