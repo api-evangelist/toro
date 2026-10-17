@@ -137,7 +137,21 @@ paths:
               schema:
                 $ref: '#/components/schemas/Job'
 components:
+  responses:
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   schemas:
+    Error:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
     JobList:
       type: object
       properties:
@@ -151,18 +165,31 @@ components:
           type: integer
         limit:
           type: integer
-    Address:
+    JobInput:
       type: object
+      required:
+      - customerId
+      - title
+      - jobType
       properties:
-        street:
+        customerId:
           type: string
-        city:
+        title:
           type: string
-        state:
+        description:
           type: string
-        zip:
+        jobType:
           type: string
-        country:
+        serviceAddress:
+          $ref: '#/components/schemas/Address'
+        estimatedHours:
+          type: number
+        scheduledDate:
+          type: string
+          format: date
+        crewId:
+          type: string
+        notes:
           type: string
     Job:
       type: object
@@ -204,46 +231,19 @@ components:
         createdAt:
           type: string
           format: date-time
-    JobInput:
-      type: object
-      required:
-      - customerId
-      - title
-      - jobType
-      properties:
-        customerId:
-          type: string
-        title:
-          type: string
-        description:
-          type: string
-        jobType:
-          type: string
-        serviceAddress:
-          $ref: '#/components/schemas/Address'
-        estimatedHours:
-          type: number
-        scheduledDate:
-          type: string
-          format: date
-        crewId:
-          type: string
-        notes:
-          type: string
-    Error:
+    Address:
       type: object
       properties:
-        code:
+        street:
           type: string
-        message:
+        city:
           type: string
-  responses:
-    NotFound:
-      description: Resource not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
+        state:
+          type: string
+        zip:
+          type: string
+        country:
+          type: string
   securitySchemes:
     bearerAuth:
       type: http

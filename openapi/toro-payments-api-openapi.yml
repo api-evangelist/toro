@@ -76,6 +76,27 @@ paths:
                 $ref: '#/components/schemas/Payment'
 components:
   schemas:
+    PaymentInput:
+      type: object
+      required:
+      - invoiceId
+      - amount
+      - paymentMethod
+      properties:
+        invoiceId:
+          type: string
+        amount:
+          type: number
+          format: float
+        paymentMethod:
+          type: string
+          enum:
+          - credit_card
+          - ach
+          - check
+          - cash
+        paymentToken:
+          type: string
     Payment:
       type: object
       properties:
@@ -110,27 +131,6 @@ components:
         processedAt:
           type: string
           format: date-time
-    PaymentInput:
-      type: object
-      required:
-      - invoiceId
-      - amount
-      - paymentMethod
-      properties:
-        invoiceId:
-          type: string
-        amount:
-          type: number
-          format: float
-        paymentMethod:
-          type: string
-          enum:
-          - credit_card
-          - ach
-          - check
-          - cash
-        paymentToken:
-          type: string
     PaymentList:
       type: object
       properties:

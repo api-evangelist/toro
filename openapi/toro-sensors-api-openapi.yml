@@ -83,32 +83,6 @@ paths:
                 $ref: '#/components/schemas/SensorReadingList'
 components:
   schemas:
-    SensorReadingList:
-      type: object
-      properties:
-        sensorId:
-          type: string
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/SensorReading'
-    SensorList:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/Sensor'
-    SensorReading:
-      type: object
-      properties:
-        timestamp:
-          type: string
-          format: date-time
-        value:
-          type: number
-        unit:
-          type: string
     Sensor:
       type: object
       properties:
@@ -144,6 +118,32 @@ components:
           format: double
         altitude:
           type: number
+    SensorReadingList:
+      type: object
+      properties:
+        sensorId:
+          type: string
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/SensorReading'
+    SensorList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Sensor'
+    SensorReading:
+      type: object
+      properties:
+        timestamp:
+          type: string
+          format: date-time
+        value:
+          type: number
+        unit:
+          type: string
   securitySchemes:
     apiKeyAuth:
       type: apiKey

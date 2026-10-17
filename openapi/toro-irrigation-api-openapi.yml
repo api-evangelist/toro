@@ -121,48 +121,14 @@ paths:
         '200':
           description: Irrigation stopped
 components:
-  responses:
-    Unauthorized:
-      description: Authentication required
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    NotFound:
-      description: Resource not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   schemas:
-    IrrigationStatus:
+    Error:
       type: object
       properties:
-        systemStatus:
+        code:
           type: string
-          enum:
-          - normal
-          - watering
-          - suspended
-          - fault
-        activeZones:
-          type: integer
-        totalZones:
-          type: integer
-        weatherHold:
-          type: boolean
-        lastUpdated:
+        message:
           type: string
-          format: date-time
-    ZoneList:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/Zone'
-        total:
-          type: integer
     Zone:
       type: object
       properties:
@@ -192,13 +158,47 @@ components:
         flowRateGpm:
           type: number
           description: Flow rate in gallons per minute
-    Error:
+    ZoneList:
       type: object
       properties:
-        code:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Zone'
+        total:
+          type: integer
+    IrrigationStatus:
+      type: object
+      properties:
+        systemStatus:
           type: string
-        message:
+          enum:
+          - normal
+          - watering
+          - suspended
+          - fault
+        activeZones:
+          type: integer
+        totalZones:
+          type: integer
+        weatherHold:
+          type: boolean
+        lastUpdated:
           type: string
+          format: date-time
+  responses:
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Authentication required
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   securitySchemes:
     apiKeyAuth:
       type: apiKey

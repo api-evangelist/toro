@@ -68,6 +68,15 @@ components:
           enum:
           - active
           - inactive
+    CrewMember:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        role:
+          type: string
     CrewInput:
       type: object
       required:
@@ -79,15 +88,6 @@ components:
           type: array
           items:
             type: string
-    CrewMember:
-      type: object
-      properties:
-        id:
-          type: string
-        name:
-          type: string
-        role:
-          type: string
     CrewList:
       type: object
       properties:
